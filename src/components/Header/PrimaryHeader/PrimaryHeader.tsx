@@ -1,29 +1,24 @@
-import { Image, StatusBar, View } from 'react-native'
-import React, { Children } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { useTheme } from '../../../../theme/ThemeProvider';
-import { useStyles } from './DashboardHeader.styles';
-import { ImageSource } from '../../../../constants/assets/Images';
-import { default as Text } from '../../../../components/Text/MSText'
-import Searchbar from '../../../../components/Searchbar/MSSearchbar';
-
+import { Image, StatusBar, StyleSheet, View } from 'react-native'
+import React from 'react'
+import { useTheme } from '../../../theme/ThemeProvider';
+import { useStyles } from './PrimaryHeader.styles';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { ImageSource } from '../../../constants/assets/Images';
+import { default as Text } from '../../../components/Text/MSText'
 
 interface props {
     address: string,
 }
 
-const DashboardHeader = ({ address }: props) => {
+const PrimaryHeader = ({ address }: props) => {
     const { colors } = useTheme();
     const styles = useStyles(colors);
-    // const navigation = useNavigation();
-    const renderLeftIcon = () => {
-        return <Image source={ImageSource.search} />
-    }
     return (
         <SafeAreaView edges={['top']} style={styles.container}>
             <StatusBar translucent backgroundColor={'transparent'} barStyle={'light-content'} />
             <View style={styles.section1}>
                 <View style={[styles.section1, styles.flex1]}>
+                    <Image source={ImageSource.leftArrow} style={styles.leftArrow} />
                     <Image source={ImageSource.location} style={styles.location} />
                     <Text varient='medium' fontSize={16} style={styles.addressTxt}>{address}</Text>
                     <Image source={ImageSource.downArrow} style={styles.downArrow} />
@@ -31,10 +26,9 @@ const DashboardHeader = ({ address }: props) => {
                 <Image source={ImageSource.profile} style={styles.profile} />
 
             </View>
-            <Searchbar placeholder='Search' renderLeftIcon={renderLeftIcon} />
         </SafeAreaView>
     )
 }
 
-export default DashboardHeader
+export default PrimaryHeader
 

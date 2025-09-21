@@ -1,11 +1,21 @@
 import { StyleSheet } from 'react-native';
-import { ColorsType } from '../../../../constants/Ui/colors/colors.types';
+import { ColorsType } from '../../../constants/Ui/colors/colors.types';
+
 
 export const useStyles = (colors: ColorsType) => StyleSheet.create({
     container: {
-        backgroundColor: colors.background_secondary,
+        backgroundColor: colors.background_primary,
         padding: 16,
-        gap: 16
+        gap: 16,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+
+        elevation: 4,
     },
     section1: {
         flexDirection: 'row',
@@ -23,8 +33,11 @@ export const useStyles = (colors: ColorsType) => StyleSheet.create({
         width: 14,
         height: 18
     },
+    leftArrow: {
+        marginRight: 12
+    },
     addressTxt: {
-        color: colors.primaryCtaText,
+        color: colors.contentPrimary,
         lineHeight: 16,
         marginLeft: 9,
         marginRight: 3
@@ -32,4 +45,4 @@ export const useStyles = (colors: ColorsType) => StyleSheet.create({
     flex1: {
         flex: 1
     }
-});
+})

@@ -15,4 +15,8 @@ export const ImageSource = {
     right: require('../../../assets/images/Dashboard/right.png'),
     search: require('../../../assets/images/Dashboard/search.png'),
     walletInactive: require('../../../assets/images/Dashboard/walletInactive.png'),
+    category1: require('../../../assets/images/Dashboard/category1.png'),
+    offer: require('../../../assets/images/Dashboard/offer.png'),
+    leftArrow: require('../../../assets/images/Dashboard/leftArrow.png'),
+    bannerProduct1: require('../../../assets/images/Dashboard/bannerProduct1.png')
 }

@@ -28,7 +28,7 @@ export type ColorsType = {
 
     // borders
     border_1: string
-    // border_2: string
+    border_active: string
     // border_3: string
     // border_4: string
     // border_5: string
@@ -39,7 +39,7 @@ export type ColorsType = {
     tertiaryIconColor: string
 
     // searchbar
-    // searchbar: string
+    searchbar: string
 
     // primary-modal-backdrop-color
     // modalOverlay: string

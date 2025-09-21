@@ -18,7 +18,7 @@ export const lightColors: ColorsType = {
     // texts
     contentPrimary: '#2A2A2A',
     contentSecondary: '#414141',
-    contentTertiary: '#5A5A5A',
+    contentTertiary: '#87848A',
     contentQuaternary: '#00000080',
     contentQuinary: '#A9A9A9',
     contentDisabled: '#B8B8B8',
@@ -28,7 +28,7 @@ export const lightColors: ColorsType = {
 
     // borders
     border_1: '#E2D6DA',
-    // border_2: '#DFDFDF',
+    border_active: '#D7B7E6',
     // border_3: '#E9EEF2',
     // border_4: '#A9A9A9',
     // border_5: '#DCE4EA',
@@ -40,7 +40,7 @@ export const lightColors: ColorsType = {
     tertiaryIconColor: '#7B7B7B',
 
     // // searchbar
-    // searchbar: '#F7F4FA',
+    searchbar: '#FFFF',
 
     // primary Modal Backdrop Color
     // modalOverlay: '#00000080',
@@ -68,9 +68,9 @@ export const darkColors: ColorsType = {
     // texts
     contentPrimary: '#2A2A2A',
     contentSecondary: '#414141',
-    contentTertiary: '#5A5A5A',
+    contentTertiary: '#87848A',
     contentQuaternary: '#00000080',
-    contentQuinary: '#A9A9A9',
+    contentQuinary: '#D9D9D9',
     contentDisabled: '#B8B8B8',
     subtitle: '#A0A0A0',
     primaryCtaText: '#FFFFFF',
@@ -78,7 +78,7 @@ export const darkColors: ColorsType = {
 
     // borders
     border_1: '#E2D6DA',
-    // border_2: '#DFDFDF',
+    border_active: '#D7B7E6',
     // border_3: '#E9EEF2',
     // border_4: '#A9A9A9',
     // border_5: '#DCE4EA',
@@ -90,7 +90,7 @@ export const darkColors: ColorsType = {
     tertiaryIconColor: '#7B7B7B',
 
     // // searchbar
-    // searchbar: '#F7F4FA',
+    searchbar: '#FFF',
 
     // primary Modal Backdrop Color
     // modalOverlay: '#00000080',
