@@ -1,0 +1,18 @@
+export const ImageSource = {
+    banner: require('../../../assets/images/Dashboard/banner.png'),
+    cartInactive: require('../../../assets/images/Dashboard/cartInactive.png'),
+    categoryInactive: require('../../../assets/images/Dashboard/categoryInactive.png'),
+    discountWhite: require('../../../assets/images/Dashboard/discountWhite.png'),
+    downArrow: require('../../../assets/images/Dashboard/downArrow.png'),
+    homeActive: require('../../../assets/images/Dashboard/homeActive.png'),
+    item1: require('../../../assets/images/Dashboard/item1.png'),
+    item2: require('../../../assets/images/Dashboard/item2.png'),
+    location: require('../../../assets/images/Dashboard/location.png'),
+    minusWhite: require('../../../assets/images/Dashboard/minusWhite.png'),
+    plusActive: require('../../../assets/images/Dashboard/plusActive.png'),
+    plusWhite: require('../../../assets/images/Dashboard/plusWhite.png'),
+    profile: require('../../../assets/images/Dashboard/profile.png'),
+    right: require('../../../assets/images/Dashboard/right.png'),
+    search: require('../../../assets/images/Dashboard/search.png'),
+    walletInactive: require('../../../assets/images/Dashboard/walletInactive.png'),
+}
