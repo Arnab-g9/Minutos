@@ -3,7 +3,7 @@ import { ColorsType } from './colors.types';
 export const lightColors: ColorsType = {
     // backgrounds
     background_primary: '#FFFFFF',
-    background_secondary: 'rgba(53, 3, 92, 1)',
+    background_secondary: '#dc2726',
     bckground_tertiary: '#F7ECFA',
     background_Quaternary: '#F41262',
     background_Quinary: '#F4F1F7',
@@ -58,7 +58,7 @@ export const lightColors: ColorsType = {
 export const darkColors: ColorsType = {
     // backgrounds
     background_primary: '#FFFFFF',
-    background_secondary: 'rgba(53, 3, 92, 1)',
+    background_secondary: '#dc2726',
     bckground_tertiary: '#F7ECFA',
     background_Quaternary: '#F41262',
     background_Quinary: '#F4F1F7',
@@ -104,7 +104,7 @@ export const darkColors: ColorsType = {
 
     // new color
     // mapPickupMarker: '#F48F60',
-     dropdown_primary: '#F3F3F3',
+    dropdown_primary: '#F3F3F3',
 };
 
 

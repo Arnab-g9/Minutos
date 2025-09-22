@@ -6,6 +6,16 @@ export const useStyles = (colors: ColorsType) => StyleSheet.create({
         flexGrow: 1,
         backgroundColor: colors.background_primary
     },
+    bannerConatiner: {
+        paddingHorizontal: 16,
+        overflow: 'hidden',
+        marginTop: 16,
+    },
+    banner: {
+        resizeMode: 'cover',
+        width: '100%',
+        borderRadius: 12,
+    },
     lblBtnContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',

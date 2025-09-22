@@ -18,9 +18,11 @@ interface props {
     mode?: 'horizontal-stack' | 'vertical-stack' | 'parallax',
     renderItem: CarouselRenderItem<IItem>,
     showDots?: boolean
+    autoPlay?: boolean
+    autoPlayInterval?: number
 }
 
-function Carousal({ data, showPagination = true, loop, mode = 'parallax', renderItem, showDots = false }: props) {
+function Carousal({ data, showPagination = true, loop, mode = 'parallax', renderItem, showDots = false, autoPlay = false, autoPlayInterval = 1000 }: props) {
     const ref = React.useRef<ICarouselInstance>(null);
     const progress = useSharedValue<number>(0);
     const { colors } = useTheme();
@@ -45,6 +47,8 @@ function Carousal({ data, showPagination = true, loop, mode = 'parallax', render
                     progress.value = absoluteProgress;
                 }}
                 renderItem={renderItem}
+                autoPlay={autoPlay}
+                autoPlayInterval={autoPlayInterval}
             />
             {showDots && (
                 <Pagination.Basic

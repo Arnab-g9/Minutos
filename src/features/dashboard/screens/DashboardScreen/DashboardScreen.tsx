@@ -13,9 +13,11 @@ import { productData } from '../../mock/ProductMockData'
 import { CategoryMockData } from '../../mock/CategoryMockData'
 
 const data = [
-    { id: 1, image: ImageSource.banner },
-    { id: 2, image: ImageSource.banner },
-    { id: 3, image: ImageSource.banner },
+    { id: 1, image: ImageSource.carousel1 },
+    { id: 2, image: ImageSource.carousel2 },
+    { id: 3, image: ImageSource.carousel3 },
+    { id: 4, image: ImageSource.carousel4 },
+    { id: 5, image: ImageSource.carousel5 },
 ];
 
 const { width: screenWidth } = Dimensions.get("window");
@@ -34,13 +36,21 @@ const DashboardScreen = () => {
     return (
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
             <Label label='Zappping Delivery in 14 mins' />
+
+            <View style={styles.bannerConatiner}>
+                <Image source={ImageSource.banner1} style={styles.banner} />
+            </View>
+
+
             <Carousal data={data} showPagination={true} loop={true} mode={'parallax'} renderItem={
                 ({ item }) => (
                     <View style={[styles.card, { width: screenWidth, height: carouselHeight }]}>
                         <Image source={item.image} style={styles.image} resizeMode="cover" />
                     </View>
                 )
-            } />
+            } autoPlay autoPlayInterval={2000} />
+
+
             {/* label and button container */}
             <View style={styles.lblBtnContainer}>
                 <Text varient='semiBold' fontSize={18}>

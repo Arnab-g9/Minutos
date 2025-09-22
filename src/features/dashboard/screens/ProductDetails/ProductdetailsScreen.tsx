@@ -2,7 +2,6 @@ import {
   Dimensions,
   Image,
   ScrollView,
-  StyleSheet,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -74,7 +73,7 @@ const ProductdetailsScreen = () => {
     });
   }, [navigation]);
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom: 50}}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 50 }}>
       <View style={styles.carousalContainer}>
         <Carousal
           data={data}
@@ -175,7 +174,7 @@ const ProductdetailsScreen = () => {
             <Text style={styles.infoTitle} varient="medium">
               MANUFACTURER ADDRESS
             </Text>
-            <Text style={[styles.infoVal, {lineHeight: 22}]}>
+            <Text style={[styles.infoVal, { lineHeight: 22 }]}>
               Tata Food Zone, Polt No 5/B, Phase 2, IDA, Cherlapally - 50005.{' '}
             </Text>
           </View>
@@ -184,13 +183,13 @@ const ProductdetailsScreen = () => {
 
       <View style={styles.titleAndfrequentBaughtProductsContainer}>
         <Text varient='semiBold' fontSize={18} style={styles.frequentBaughtSectionTitle}>Frequently Bought Together</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.frequentBaughtProductsContainer}
-            >
-                {
-                    productData.map((product, index) => <ProductCard product={product} key={index.toString()} />)
-                }
-            </ScrollView>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.frequentBaughtProductsContainer}
+        >
+          {
+            productData.map((product, index) => <ProductCard product={product} key={index.toString()} />)
+          }
+        </ScrollView>
       </View>
     </ScrollView>
   );

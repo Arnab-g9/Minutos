@@ -1,5 +1,13 @@
 export const ImageSource = {
     banner: require('../../../assets/images/Dashboard/banner.png'),
+    banner1: require('../../../assets/images/Dashboard/banner1.png'),
+
+    carousel1: require('../../../assets/images/Dashboard/carousel1.jpg'),
+    carousel2: require('../../../assets/images/Dashboard/carousel2.jpg'),
+    carousel3: require('../../../assets/images/Dashboard/carousel3.jpg'),
+    carousel4: require('../../../assets/images/Dashboard/carousel4.jpg'),
+    carousel5: require('../../../assets/images/Dashboard/carousel5.png'),
+
     cartInactive: require('../../../assets/images/Dashboard/cartInactive.png'),
     categoryInactive: require('../../../assets/images/Dashboard/categoryInactive.png'),
     discountWhite: require('../../../assets/images/Dashboard/discountWhite.png'),
@@ -22,5 +30,5 @@ export const ImageSource = {
 
     // cart Section
     leftArrowWhite: require('../../../assets/images/Cart/leftArrow.png'),
-    cross:  require('../../../assets/images/Cart/cross.png'),
+    cross: require('../../../assets/images/Cart/cross.png'),
 }
