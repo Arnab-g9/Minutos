@@ -5,6 +5,7 @@ export type ColorsType = {
     bckground_tertiary: string,
     background_Quaternary: string,
     background_Quinary: string,
+    background_LightGreen: string,
 
 
     // common
@@ -25,11 +26,12 @@ export type ColorsType = {
     subtitle: string
     primaryCtaText: string
     textFade: string,
+    secondaryCtaText: string
 
     // borders
     border_1: string
     border_active: string
-    // border_3: string
+    border_2: string
     // border_4: string
     // border_5: string
 
@@ -45,5 +47,6 @@ export type ColorsType = {
     // modalOverlay: string
 
     // map markers
-    // mapPickupMarker: string
+    // mapPickupMarker: string,
+     dropdown_primary: string,
 }

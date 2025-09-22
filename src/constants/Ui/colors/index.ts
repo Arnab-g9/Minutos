@@ -6,7 +6,8 @@ export const lightColors: ColorsType = {
     background_secondary: 'rgba(53, 3, 92, 1)',
     bckground_tertiary: '#F7ECFA',
     background_Quaternary: '#F41262',
-    background_Quinary: '#EDEDED',
+    background_Quinary: '#F4F1F7',
+    background_LightGreen: '#D8F5E3',
 
 
     // common
@@ -19,17 +20,18 @@ export const lightColors: ColorsType = {
     contentPrimary: '#2A2A2A',
     contentSecondary: '#414141',
     contentTertiary: '#87848A',
-    contentQuaternary: '#00000080',
+    contentQuaternary: '#FC0965',
     contentQuinary: '#A9A9A9',
     contentDisabled: '#B8B8B8',
     subtitle: '#A0A0A0',
     primaryCtaText: '#FFFFFF',
     textFade: '#CACACA',
+    secondaryCtaText: '#99267C',
 
     // borders
     border_1: '#E2D6DA',
     border_active: '#D7B7E6',
-    // border_3: '#E9EEF2',
+    border_2: '#EDEDED',
     // border_4: '#A9A9A9',
     // border_5: '#DCE4EA',
 
@@ -47,6 +49,9 @@ export const lightColors: ColorsType = {
 
     // new color
     // mapPickupMarker: '#F48F60',
+
+    // dropdown
+    dropdown_primary: '#F3F3F3',
 };
 
 
@@ -56,7 +61,8 @@ export const darkColors: ColorsType = {
     background_secondary: 'rgba(53, 3, 92, 1)',
     bckground_tertiary: '#F7ECFA',
     background_Quaternary: '#F41262',
-    background_Quinary: '#EDEDED',
+    background_Quinary: '#F4F1F7',
+    background_LightGreen: '#D8F5E3',
 
 
     // common
@@ -69,17 +75,18 @@ export const darkColors: ColorsType = {
     contentPrimary: '#2A2A2A',
     contentSecondary: '#414141',
     contentTertiary: '#87848A',
-    contentQuaternary: '#00000080',
+    contentQuaternary: '#FC0965',
     contentQuinary: '#D9D9D9',
     contentDisabled: '#B8B8B8',
     subtitle: '#A0A0A0',
     primaryCtaText: '#FFFFFF',
     textFade: '#CACACA',
+    secondaryCtaText: '#99267C',
 
     // borders
     border_1: '#E2D6DA',
     border_active: '#D7B7E6',
-    // border_3: '#E9EEF2',
+    border_2: '#EDEDED',
     // border_4: '#A9A9A9',
     // border_5: '#DCE4EA',
 
@@ -97,6 +104,7 @@ export const darkColors: ColorsType = {
 
     // new color
     // mapPickupMarker: '#F48F60',
+     dropdown_primary: '#F3F3F3',
 };
 
 

@@ -65,4 +65,5 @@ export const useStyles = (colors: ColorsType) => StyleSheet.create({
         height: "100%",
         resizeMode: "cover", // maintains aspect ratio, crops excess
     },
+
 })

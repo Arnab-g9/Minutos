@@ -18,5 +18,9 @@ export const ImageSource = {
     category1: require('../../../assets/images/Dashboard/category1.png'),
     offer: require('../../../assets/images/Dashboard/offer.png'),
     leftArrow: require('../../../assets/images/Dashboard/leftArrow.png'),
-    bannerProduct1: require('../../../assets/images/Dashboard/bannerProduct1.png')
+    bannerProduct1: require('../../../assets/images/Dashboard/bannerProduct1.png'),
+
+    // cart Section
+    leftArrowWhite: require('../../../assets/images/Cart/leftArrow.png'),
+    cross:  require('../../../assets/images/Cart/cross.png'),
 }

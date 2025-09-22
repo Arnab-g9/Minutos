@@ -76,5 +76,5 @@ export const useStyles = (colors: ColorsType) => StyleSheet.create({
     },
     offerText: {
         color: colors.primaryCtaText
-    }
+    },
 })

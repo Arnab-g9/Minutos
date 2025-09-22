@@ -19,6 +19,9 @@ const ProductCard = ({ product }: props) => {
     const handlePressCard = () => {
         navigation.navigate(ScreenNames.PRODUCT_DETAILS as never);
     }
+    const onPressAddIcon = ()=>{
+        navigation.navigate(ScreenNames.CART_SCREEN as never);
+    }
     return (
         <TouchableOpacity style={styles.container} activeOpacity={0.8} onPress={handlePressCard}>
             <View style={styles.imgContainer}>
@@ -41,7 +44,7 @@ const ProductCard = ({ product }: props) => {
                     <Text style={styles.crossPrice}>{product.discount ? `₹${product.price}` : null}</Text>
                     <Text style={styles.price} varient='semiBold'>{product.discount ? `₹${product.discountPrice}` : `₹${product.price}`}</Text>
                 </View>
-                <TouchableOpacity style={styles.addBtn}>
+                <TouchableOpacity style={styles.addBtn} onPress={onPressAddIcon}>
                     <Image source={ImageSource.plusActive} style={styles.addIcon} />
                 </TouchableOpacity>
             </View>
