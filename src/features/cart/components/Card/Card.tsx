@@ -4,6 +4,9 @@ import { useTheme } from '../../../../theme/ThemeProvider';
 import { useStyles } from './Card.styles';
 import { ImageSource } from '../../../../constants/assets/Images';
 import { default as Text } from '../../../../components/Text/MSText';
+import DownArrowIcon from 'react-native-vector-icons/Entypo';
+import CrossIcon from 'react-native-vector-icons/Entypo';
+
 
 const Card = () => {
   const { colors } = useTheme();
@@ -24,24 +27,26 @@ const Card = () => {
             </Text>
           </View>
         </View>
-        <Image source={ImageSource.cross} />
+        {/* <Image source={ImageSource.cross} /> */}
+        <CrossIcon name={'cross'} size={20} color={colors.contentPrimary} />
       </View>
       <View style={styles.dropDownAndCounterContainer}>
         <TouchableOpacity style={styles.dropDown}>
           <Text>500 g</Text>
-          <Image source={ImageSource.downArrow}/>
+          {/* <Image source={ImageSource.downArrow}/> */}
+          <DownArrowIcon name={'chevron-small-down'} size={20} color={colors.primary} />
         </TouchableOpacity>
 
         <View style={styles.counter}>
-            <TouchableOpacity style={[styles.btn, styles.leftRadius]} onPress={()=>setCount(count>0 ? count-1:0 )} activeOpacity={0.8}>
-                <Image source={ImageSource.minusWhite}/>
-            </TouchableOpacity>
-            <View style={styles.countValueContainer}>
-                <Text>{count}</Text>
-            </View>
-            <TouchableOpacity style={[styles.btn, styles.rightRadius]} onPress={()=>setCount(count<10 ? count+1:count )} activeOpacity={0.8}>
-                <Image source={ImageSource.plusWhite}/>
-            </TouchableOpacity>
+          <TouchableOpacity style={[styles.btn, styles.leftRadius]} onPress={() => setCount(count > 0 ? count - 1 : 0)} activeOpacity={0.8}>
+            <Image source={ImageSource.minusWhite} />
+          </TouchableOpacity>
+          <View style={styles.countValueContainer}>
+            <Text>{count}</Text>
+          </View>
+          <TouchableOpacity style={[styles.btn, styles.rightRadius]} onPress={() => setCount(count < 10 ? count + 1 : count)} activeOpacity={0.8}>
+            <Image source={ImageSource.plusWhite} />
+          </TouchableOpacity>
         </View>
       </View>
     </View>

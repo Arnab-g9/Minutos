@@ -1,14 +1,21 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useTheme } from '../../../../theme/ThemeProvider';
 import { useStyles } from './CartScreen.styles';
-import DashboardHeader from '../../../dashboard/components/DashboardHeader/DashboardHeader';
 import { useNavigation } from '@react-navigation/native';
 import Header from '../../components/Header/Header';
 import Label from '../../components/Label/Label';
 import { ImageSource } from '../../../../constants/assets/Images';
 import Card from '../../components/Card/Card';
 import ConfermationModal from '../../../../components/Modal/ConfermationModal/ConfermationModal';
+import { default as Text } from '../../../../components/Text/MSText';
+import LocationIcon from 'react-native-vector-icons/Ionicons'
 
 interface ICartItem {
   id: number;
@@ -18,72 +25,81 @@ interface ICartItem {
   discountPrice: number;
 }
 
-  const cartdata:ICartItem[] = [
-    {
-      id: 1,
-      image: ImageSource.item1,
-      weight: ['500g', '1kg', '1.5kg', '2kg'],
-      price: 25,
-      discountPrice: 24,
-    },
-    {
-      id: 2,
-      image: ImageSource.item1,
-      weight: ['500g', '1kg', '1.5kg', '2kg'],
-      price: 25,
-      discountPrice: 24,
-    },{
-      id: 3,
-      image: ImageSource.item1,
-      weight: ['500g', '1kg', '1.5kg', '2kg'],
-      price: 25,
-      discountPrice: 24,
-    },{
-      id: 4,
-      image: ImageSource.item1,
-      weight: ['500g', '1kg', '1.5kg', '2kg'],
-      price: 25,
-      discountPrice: 24,
-    },{
-      id: 5,
-      image: ImageSource.item1,
-      weight: ['500g', '1kg', '1.5kg', '2kg'],
-      price: 25,
-      discountPrice: 24,
-    },{
-      id: 6,
-      image: ImageSource.item1,
-      weight: ['500g', '1kg', '1.5kg', '2kg'],
-      price: 25,
-      discountPrice: 24,
-    },{
-      id: 7,
-      image: ImageSource.item1,
-      weight: ['500g', '1kg', '1.5kg', '2kg'],
-      price: 25,
-      discountPrice: 24,
-    },
-  ];
+const cartdata: ICartItem[] = [
+  {
+    id: 1,
+    image: ImageSource.item1,
+    weight: ['500g', '1kg', '1.5kg', '2kg'],
+    price: 25,
+    discountPrice: 24,
+  },
+  {
+    id: 2,
+    image: ImageSource.item1,
+    weight: ['500g', '1kg', '1.5kg', '2kg'],
+    price: 25,
+    discountPrice: 24,
+  },
+  {
+    id: 3,
+    image: ImageSource.item1,
+    weight: ['500g', '1kg', '1.5kg', '2kg'],
+    price: 25,
+    discountPrice: 24,
+  },
+  {
+    id: 4,
+    image: ImageSource.item1,
+    weight: ['500g', '1kg', '1.5kg', '2kg'],
+    price: 25,
+    discountPrice: 24,
+  },
+  {
+    id: 5,
+    image: ImageSource.item1,
+    weight: ['500g', '1kg', '1.5kg', '2kg'],
+    price: 25,
+    discountPrice: 24,
+  },
+  {
+    id: 6,
+    image: ImageSource.item1,
+    weight: ['500g', '1kg', '1.5kg', '2kg'],
+    price: 25,
+    discountPrice: 24,
+  },
+  {
+    id: 7,
+    image: ImageSource.item1,
+    weight: ['500g', '1kg', '1.5kg', '2kg'],
+    price: 25,
+    discountPrice: 24,
+  },
+];
 
 const CartScreen = () => {
   const { colors } = useTheme();
   const styles = useStyles(colors);
   const navigation = useNavigation();
 
-  const [showConfermationModal, setShowConfermationModal] = useState<boolean>(false);
-  const handlePressBtn = ()=>{
+  const [showConfermationModal, setShowConfermationModal] =
+    useState<boolean>(false);
+  const handlePressBtn = () => {
     setShowConfermationModal(true);
-  }
-  const onDismissConfermationModal = ()=>{
-    setShowConfermationModal(false)
-  }
+  };
+  const onDismissConfermationModal = () => {
+    setShowConfermationModal(false);
+  };
 
-  console.log("this is the state of onconfirm click ===>", showConfermationModal)
+  console.log(
+    'this is the state of onconfirm click ===>',
+    showConfermationModal,
+  );
 
   useEffect(() => {
     const renderHeader = () => (
       <>
-        <Header onPressBtn={handlePressBtn}  />
+        <Header onPressBtn={handlePressBtn} title='Cart (12)' isCart />
         <Label />
       </>
     );
@@ -93,19 +109,60 @@ const CartScreen = () => {
     });
   }, [navigation]);
 
-
+  console.log('this is confermationModal ==>', showConfermationModal);
 
   return (
-    <ScrollView
-      style={styles.container}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.contentContainer}
-    >
-        {
-            cartdata.map((product, index)=><Card />)
-        }
-        <ConfermationModal visible={showConfermationModal} onConfirm={onDismissConfermationModal} onDecline={onDismissConfermationModal} />
-    </ScrollView>
+    <View style={styles.cartContainer}>
+      <View style={{ flex: 1 }}>
+        <ScrollView
+          style={styles.container}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.contentContainer}
+        >
+          {cartdata.map((product, index) => (
+            <Card />
+          ))}
+          <ConfermationModal
+            visible={showConfermationModal}
+            onConfirm={onDismissConfermationModal}
+            onDecline={onDismissConfermationModal}
+          />
+        </ScrollView>
+      </View>
+      <View style={styles.slotAddressAndButtonContainer}>
+        <View style={styles.slotContainer}>
+          <View style={styles.titleAndSubTitleContainer}>
+            <Text varient="medium" fontSize={16} style={styles.title}>
+              {' '}
+              Delivering to you in 15 mins!{' '}
+            </Text>
+            <Text fontSize={12} style={styles.subTitle}>
+              Delivery time has slightly increase due to heavy rains.{' '}
+            </Text>
+          </View>
+          <TouchableOpacity style={styles.slotBtn}>
+            <Text fontSize={16} varient="medium" style={styles.slotBtnTxt}>
+              Change Slot
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.addressContainer}>
+          <Text>
+            HOME <Text>- 4202, T 4, Sultan Bagh...</Text>
+          </Text>
+          <View style={styles.changeAddressBtn}>
+            {/* <Image source={ImageSource.location} /> */}
+            <LocationIcon name={'location-outline'} size={20} color={colors.primary} />
+            <Text>CHANGE ADDRESS</Text>
+          </View>
+        </View>
+        <View style={styles.payBtnConatiner}>
+          <TouchableOpacity style={styles.payBtn}>
+            <Text varient='semiBold' fontSize={16} style={styles.payBtnTxt}>CONTINUE TO PAY ₹921</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
   );
 };
 

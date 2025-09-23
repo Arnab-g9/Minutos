@@ -20,7 +20,7 @@ export const useStyles = (colors: ColorsType) => StyleSheet.create({
         lineHeight: 14
     },
     per100:{
-         color: colors.primaryLight,
+         color: colors.contentGreen,
          lineHeight: 14,
          marginTop: 6
     },

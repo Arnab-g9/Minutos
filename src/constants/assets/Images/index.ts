@@ -1,7 +1,7 @@
 export const ImageSource = {
     banner: require('../../../assets/images/Dashboard/banner.png'),
     banner1: require('../../../assets/images/Dashboard/banner1.png'),
-
+    banner2: require('../../../assets/images/Dashboard/banner2.png'),
     carousel1: require('../../../assets/images/Dashboard/carousel1.jpg'),
     carousel2: require('../../../assets/images/Dashboard/carousel2.jpg'),
     carousel3: require('../../../assets/images/Dashboard/carousel3.jpg'),

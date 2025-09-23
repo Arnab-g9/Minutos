@@ -42,24 +42,26 @@ export const useStyles = (colors: ColorsType) => StyleSheet.create({
         marginTop: 9
     },
     addBtn: {
-        height: 32,
-        width: 32,
+        paddingHorizontal: 8,
+        paddingVertical:2,
         borderRadius: 8,
         backgroundColor: colors.background_primary,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 2,
+            height: 1,
         },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
+        shadowOpacity: 0.1,
+        shadowRadius: 2.84,
+        elevation: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        flexDirection: 'row',
+        gap: 10
     },
     addIcon: {
-        width: 16,
-        height: 16
+        width: 12,
+        height: 12
     },
     crossPrice: {
         textDecorationLine: 'line-through',
@@ -67,7 +69,7 @@ export const useStyles = (colors: ColorsType) => StyleSheet.create({
         fontSize: 12,
     },
     price: {
-        color: colors.primary
+        // color: colors.primary
     },
     offerTextContainer: {
         position: 'absolute',
@@ -77,4 +79,7 @@ export const useStyles = (colors: ColorsType) => StyleSheet.create({
     offerText: {
         color: colors.primaryCtaText
     },
+    addBtnTxt:{
+        color: colors.primary
+    }
 })

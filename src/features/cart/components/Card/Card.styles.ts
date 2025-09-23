@@ -21,7 +21,7 @@ export const useStyles = (colors: ColorsType) =>
     },
     actualPrice:{
         textDecorationLine: 'line-through',
-        color: colors.contentQuaternary
+        color: colors.contentQuinary
     },
     dropDownAndCounterContainer:{
         flexDirection: 'row',
@@ -43,7 +43,7 @@ export const useStyles = (colors: ColorsType) =>
         height: 32,
     },
     btn:{
-        backgroundColor: colors.background_Quaternary,
+        backgroundColor: colors.primary,
         flex:1,
         justifyContent: 'center',
         alignItems: 'center',

@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { Appearance, StatusBar, StatusBarStyle } from 'react-native';
 import { darkColors, lightColors } from '../constants/Ui/colors';
+import SystemNavigationBar from 'react-native-system-navigation-bar';
 const ThemeMode = {
     light: 'light',
     dark: 'dark',
@@ -31,6 +32,10 @@ const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
     const colors = mode === 'light' ? lightColors : darkColors;
     const statusBarStyle: StatusBarStyle = mode === 'light' ? 'dark-content' : 'light-content';
+
+    useEffect(() => {
+        SystemNavigationBar.setNavigationColor(colors.primary);
+    }, [colors.primary])
 
     return (
         <ThemeContext.Provider value={{ mode, colors, toggleTheme }}>

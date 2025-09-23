@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import { Dimensions, Image, StyleSheet } from 'react-native';
 import { ColorsType } from '../../../../constants/Ui/colors/colors.types';
 
 export const useStyles = (colors: ColorsType) => StyleSheet.create({
@@ -9,11 +9,17 @@ export const useStyles = (colors: ColorsType) => StyleSheet.create({
     bannerConatiner: {
         paddingHorizontal: 16,
         overflow: 'hidden',
-        marginTop: 16,
+        borderRadius: 12,
+        height: 'auto',
+        marginVertical: 16,
     },
     banner: {
-        resizeMode: 'cover',
+        height: '100%',
         width: '100%',
+        resizeMode: 'contain',
+        borderRadius: 12,
+    },
+    banner2: {
         borderRadius: 12,
     },
     lblBtnContainer: {
@@ -43,10 +49,10 @@ export const useStyles = (colors: ColorsType) => StyleSheet.create({
         paddingHorizontal: 16
     },
     productContainer: {
-        marginTop: 20
+        // marginTop: 20
     },
     marginTop: {
-        marginTop: 26
+        marginVertical: 20
     },
     gridContainer: {
         flexDirection: 'row',

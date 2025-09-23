@@ -6,6 +6,8 @@ import { useTheme } from "../../theme/ThemeProvider";
 
 const { width: screenWidth } = Dimensions.get("window");
 
+console.log("This is width ===>", screenWidth)
+
 interface IItem {
     id: number,
     image: any,
@@ -40,8 +42,8 @@ function Carousal({ data, showPagination = true, loop, mode = 'parallax', render
                 mode={mode}
                 pagingEnabled={showPagination}
                 modeConfig={{
-                    parallaxScrollingScale: 0.85, // side items same height
-                    parallaxScrollingOffset: 90,
+                    parallaxScrollingScale: 0.80, // side items same height
+                    parallaxScrollingOffset: 95,
                 }}
                 onProgressChange={(_, absoluteProgress) => {
                     progress.value = absoluteProgress;
@@ -77,7 +79,7 @@ const styles = StyleSheet.create({
         flex: 1,         // 👈 fills parent
         width: "100%",
         height: "100%",
-        resizeMode: "cover", // maintains aspect ratio, crops excess
+        resizeMode: "cover", // maintains aspect ratio, crops excess,
     },
     text: {
         fontSize: 24,

@@ -22,16 +22,16 @@ const ConfermationModal = ({
       statusBarTranslucent
     >
       <View style={styles.modalBackground}>
-        <View style={{height: 164, width: 285, backgroundColor: colors.contentQuaternary, borderRadius: 16  }}>
+        <View style={{height: 164, width: 285, backgroundColor: colors.primary, borderRadius: 16  }}>
           <View style={styles.loaderContainer}>
            <View style={{width: 246, height: 48, paddingHorizontal: 30}}>
              <Text varient='medium' fontSize={16} style={{textAlign: 'center', lineHeight: 24}}>Are you sure of clearing your cart ?</Text>
            </View>
             <View style={styles.btnContainer}>
-              <TouchableOpacity style={{width:112, height: 42, borderWidth:1, borderRadius:12, borderColor: colors.contentQuaternary, justifyContent: 'center', alignItems: 'center' }} onPress={onDecline}>
+              <TouchableOpacity style={{width:112, height: 42, borderWidth:1, borderRadius:12, borderColor: colors.primary, justifyContent: 'center', alignItems: 'center' }} onPress={onDecline}>
                 <Text>No</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={{width:112, height: 42, borderRadius:12, backgroundColor: colors.contentQuaternary, justifyContent: 'center', alignItems: 'center' }} onPress={onDecline}>
+              <TouchableOpacity style={{width:112, height: 42, borderRadius:12, backgroundColor: colors.primary, justifyContent: 'center', alignItems: 'center' }} onPress={onDecline}>
                 <Text style={{color: colors.primaryCtaText}}>Yes, clear</Text>
               </TouchableOpacity>
             </View>

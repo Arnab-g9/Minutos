@@ -17,6 +17,7 @@ import ProductWeightCard from '../../components/ProductWeightCard/ProductWeightC
 import { productData } from '../../mock/ProductMockData';
 import ProductCard from '../../components/ProductCard/ProductCard';
 const { width: screenWidth } = Dimensions.get('window');
+import Cart from 'react-native-vector-icons/Feather';
 
 const data = [
   { id: 1, image: ImageSource.bannerProduct1 },
@@ -126,8 +127,9 @@ const ProductdetailsScreen = () => {
         </View>
 
         <TouchableOpacity style={styles.addBtn}>
-          <Text varient="medium" fontSize={20} style={styles.btnTxt}>
-            ADD
+          <Cart name={'shopping-cart'} size={20} color={colors.primaryCtaText}/>
+          <Text varient="medium" fontSize={16} style={styles.btnTxt}>
+            Add to Cart
           </Text>
         </TouchableOpacity>
       </View>

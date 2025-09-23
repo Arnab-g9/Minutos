@@ -22,6 +22,7 @@ export type ColorsType = {
     contentTertiary: string,
     contentQuaternary: string,
     contentQuinary: string,
+    contentGreen: string,
     contentDisabled: string,
     subtitle: string
     primaryCtaText: string
@@ -34,6 +35,9 @@ export type ColorsType = {
     border_2: string
     // border_4: string
     // border_5: string
+
+    // button
+      disabledPrimaryButton: string
 
     // icons
     primaryIconColor: string

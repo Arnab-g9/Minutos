@@ -30,9 +30,7 @@ export const useStyles = (colors: ColorsType) =>
       height: 42,
       justifyContent: 'center',
       alignItems: 'center',
-      borderWidth: 2,
-      borderColor: colors.border_1,
-      backgroundColor: colors.contentQuaternary,
+      backgroundColor: colors.background_primary,
       borderRadius: 12,
     },
     title: {

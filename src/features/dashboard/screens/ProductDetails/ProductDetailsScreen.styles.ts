@@ -49,19 +49,23 @@ export const useStyles = (colors: ColorsType) =>
       textDecorationLine: 'line-through',
     },
     offerPrice: {
-      color: colors.secondaryCtaText,
+      color: colors.contentPrimary,
       lineHeight: 24,
     },
     offerText: {
       lineHeight: 16,
-      color: colors.contentQuaternary,
+      color: colors.contentGreen,
     },
     addBtn: {
-      width: 80,
-      height: 32,
+      flexDirection: 'row',
+      gap: 10,
+      // width: 80,
+      paddingHorizontal: 15,
+      paddingVertical: 8,
+      // height: 32,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: colors.contentQuaternary,
+      backgroundColor: colors.primary,
       borderRadius: 8,
     },
     btnTxt: {
@@ -97,7 +101,7 @@ export const useStyles = (colors: ColorsType) =>
       gap: 2,
     },
     expdate: {
-      color: colors.secondaryCtaText,
+      color: colors.primary,
       lineHeight: 14,
     },
     dateTitle: {

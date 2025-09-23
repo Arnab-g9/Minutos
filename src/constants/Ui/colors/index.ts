@@ -4,14 +4,14 @@ export const lightColors: ColorsType = {
     // backgrounds
     background_primary: '#FFFFFF',
     background_secondary: '#dc2726',
-    bckground_tertiary: '#F7ECFA',
+    bckground_tertiary: '#fff2f3',
     background_Quaternary: '#F41262',
     background_Quinary: '#F4F1F7',
     background_LightGreen: '#D8F5E3',
 
 
     // common
-    primary: '#F41262',
+    primary: '#dd2727',
     primaryDark: '#D7176C',
     primaryLight: '#95267C',
 
@@ -22,6 +22,7 @@ export const lightColors: ColorsType = {
     contentTertiary: '#87848A',
     contentQuaternary: '#FC0965',
     contentQuinary: '#A9A9A9',
+    contentGreen: '#36ab5a',
     contentDisabled: '#B8B8B8',
     subtitle: '#A0A0A0',
     primaryCtaText: '#FFFFFF',
@@ -34,6 +35,9 @@ export const lightColors: ColorsType = {
     border_2: '#EDEDED',
     // border_4: '#A9A9A9',
     // border_5: '#DCE4EA',
+
+    // buttons
+    disabledPrimaryButton: '#565656',
 
 
     // icons
@@ -59,14 +63,14 @@ export const darkColors: ColorsType = {
     // backgrounds
     background_primary: '#FFFFFF',
     background_secondary: '#dc2726',
-    bckground_tertiary: '#F7ECFA',
+    bckground_tertiary: '#fff2f3',
     background_Quaternary: '#F41262',
     background_Quinary: '#F4F1F7',
     background_LightGreen: '#D8F5E3',
 
 
     // common
-    primary: '#F41262',
+    primary: '#dd2727',
     primaryDark: '#D7176C',
     primaryLight: '#95267C',
 
@@ -77,6 +81,7 @@ export const darkColors: ColorsType = {
     contentTertiary: '#87848A',
     contentQuaternary: '#FC0965',
     contentQuinary: '#D9D9D9',
+    contentGreen: '#36ab5a',
     contentDisabled: '#B8B8B8',
     subtitle: '#A0A0A0',
     primaryCtaText: '#FFFFFF',
@@ -89,6 +94,8 @@ export const darkColors: ColorsType = {
     border_2: '#EDEDED',
     // border_4: '#A9A9A9',
     // border_5: '#DCE4EA',
+
+    disabledPrimaryButton: '#565656',
 
 
     // icons
