@@ -4,5 +4,6 @@ export const ScreenNames = {
     PRODUCT_DETAILS: 'ProductDetailsScreen',
     CART_SCREEN: 'CartScreen',
     LOGIN_SCREEN: 'LoginScreen',
-    CATEGORY_SCREEN: 'Categories'
+    CATEGORY_SCREEN: 'CategorieScreen',
+    PROFILE_SCREEN: "ProfileScreen"
 }

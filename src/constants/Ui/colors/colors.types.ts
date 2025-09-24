@@ -2,7 +2,7 @@ export type ColorsType = {
     // backgrounds
     background_primary: string,
     background_secondary: string,
-    bckground_tertiary: string,
+    background_tertiary: string,
     background_Quaternary: string,
     background_Quinary: string,
     background_LightGreen: string,

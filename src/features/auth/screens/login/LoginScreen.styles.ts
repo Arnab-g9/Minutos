@@ -3,20 +3,20 @@ import { ColorsType } from '../../../../constants/Ui/colors/colors.types';
 import { EdgeInsets } from 'react-native-safe-area-context';
 
 export const useStyles = (colors: ColorsType, insets: EdgeInsets) => StyleSheet.create({
-     container: {
+    container: {
         flex: 1,
         backgroundColor: colors.background_primary,
         padding: 16,
         paddingTop: 0,
     },
-    emptyHeader:{
-        height: Platform.OS==="android" ? StatusBar.currentHeight:0,
+    emptyHeader: {
+        height: Platform.OS === "android" ? StatusBar.currentHeight : 0,
         backgroundColor: colors.background_primary,
     },
-     keyboardAvoidingViewContainer: {
+    keyboardAvoidingViewContainer: {
         flex: 1,
     },
-       innerContainer: {
+    innerContainer: {
         flex: 1,
         paddingTop: 50
     },
@@ -53,6 +53,7 @@ export const useStyles = (colors: ColorsType, insets: EdgeInsets) => StyleSheet.
     textInput: {
         // fontFamily: FontFamily.POPPINS_MEDIUM,
         fontSize: 16,
+        flex: 1,
         lineHeight: 23,
         color: colors.contentPrimary,
     },

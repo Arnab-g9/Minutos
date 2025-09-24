@@ -12,6 +12,7 @@ import Cart from 'react-native-vector-icons/Feather';
 import CategoryIcon from 'react-native-vector-icons/MaterialIcons';
 import { useTheme } from '../../theme/ThemeProvider';
 import CategoryScreen from '../../features/category/screens/CategoryScreen/CategoryScreen'
+import ProfileScreen from '../../features/profile/screens/ProfileScreen/ProfileScreen';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const AppNavigation = () => {
@@ -70,6 +71,7 @@ const AppNavigation = () => {
                 <Stack.Screen name={ScreenNames.PRODUCT_DETAILS} component={ProductdetailsScreen} />
                 {/* <Stack.Screen name={ScreenNames.CART_SCREEN} component={CartScreen} /> */}
                 <Stack.Screen name={ScreenNames.LOGIN_SCREEN} component={LoginScreen} />
+                   <Stack.Screen name={ScreenNames.PROFILE_SCREEN} component={ProfileScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )

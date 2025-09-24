@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react'
 import { getFontFamily } from '../../utils/getFontFamily'
 
 interface props extends TextProps {
-    children: ReactNode,
+    children?: ReactNode,
     fontSize?: number,
     varient?: "regular" | "medium" | "semiBold" | "bold",
 }

@@ -18,6 +18,7 @@ import { productData } from '../../mock/ProductMockData';
 import ProductCard from '../../components/ProductCard/ProductCard';
 const { width: screenWidth } = Dimensions.get('window');
 import Cart from 'react-native-vector-icons/Feather';
+import ProductDetailsHeader from '../../components/Header/ProductDetailsHeader/ProductDetailsHeader';
 
 const data = [
   { id: 1, image: ImageSource.bannerProduct1 },
@@ -66,7 +67,7 @@ const ProductdetailsScreen = () => {
   const styles = useStyles(colors);
   useEffect(() => {
     const renderHeader = () => (
-      <PrimaryHeader address="HOME - Sultan Bhag, Erraga..." />
+      <ProductDetailsHeader address="HOME - Sultan Bhag, Erraga..." />
     );
     navigation.setOptions({
       headerShown: true,

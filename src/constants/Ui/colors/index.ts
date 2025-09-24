@@ -4,7 +4,7 @@ export const lightColors: ColorsType = {
     // backgrounds
     background_primary: '#FFFFFF',
     background_secondary: '#dc2726',
-    bckground_tertiary: '#fff2f3',
+    background_tertiary: '#fff2f3',
     background_Quaternary: '#F41262',
     background_Quinary: '#F4F1F7',
     background_LightGreen: '#D8F5E3',
@@ -63,7 +63,7 @@ export const darkColors: ColorsType = {
     // backgrounds
     background_primary: '#FFFFFF',
     background_secondary: '#dc2726',
-    bckground_tertiary: '#fff2f3',
+    background_tertiary: '#fff2f3',
     background_Quaternary: '#F41262',
     background_Quinary: '#F4F1F7',
     background_LightGreen: '#D8F5E3',
