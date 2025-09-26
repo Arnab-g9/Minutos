@@ -1,8 +1,6 @@
 import {
   KeyboardAvoidingView,
   Platform,
-  ScrollView,
-  StyleSheet,
   TextInput,
   View,
 } from 'react-native';

@@ -6,5 +6,6 @@ export const ScreenNames = {
     LOGIN_SCREEN: 'LoginScreen',
     CATEGORY_SCREEN: 'CategorieScreen',
     PROFILE_SCREEN: "ProfileScreen",
-    OTP_SCREEN: 'OtpScreen'
+    OTP_SCREEN: 'OtpScreen',
+    SUBCATEGORY_SCREEN: 'SubcategoryScreen'
 }

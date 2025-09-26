@@ -29,12 +29,15 @@ const { width: screenWidth } = Dimensions.get('window');
 const DashboardScreen = () => {
   const navigation = useNavigation();
   const { colors } = useTheme();
-  const {banner, categories} = useSelector((store: RootState)=>store.dashboard);
+  const { banner, categories } = useSelector((store: RootState) => store.dashboard);
   const styles = useStyles(colors);
   const dispatch = useDispatch();
   const carouselHeight = screenWidth / 2;
 
-  console.log("This is categories ===>", categories)
+  const adjustedCategories =
+    categories.length % 2 === 1
+      ? [...categories, { id: 'dummy', name: '', image: null }]
+      : categories;
 
 
   const handlePressProfileIcon = () => {
@@ -45,16 +48,18 @@ const DashboardScreen = () => {
     const res = await DashboardService.getAds('/ads/get');
     dispatch(setBanner(res));
   };
-  const fetchCategories = async()=>{
+
+  const fetchCategories = async () => {
     const res = await DashboardService.getCategories('/category/getcategories');
     console.log("this is response of getcategories ===>", res);
     dispatch(setCategories(res.categories));
   }
 
-  useEffect(() => {
-    fetchAds();
-    fetchCategories();
-  }, []);
+  const handleCategoryPress = (name: string) => {
+    navigation.navigate(ScreenNames.SUBCATEGORY_SCREEN as never, {
+      name: name
+    })
+  }
 
   useEffect(() => {
     const renderHeader = () => (
@@ -69,10 +74,10 @@ const DashboardScreen = () => {
     });
   }, [navigation]);
 
-  const adjustedCategories =
-  categories.length % 2 === 1
-    ? [...categories, { id: 'dummy', name: '', image: null }]
-    : categories;
+  useEffect(() => {
+    fetchAds();
+    fetchCategories();
+  }, []);
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -85,7 +90,7 @@ const DashboardScreen = () => {
           { height: getResizeImageHeight(ImageSource.banner1, 32) },
         ]}
       >
-        <Image source={{uri: banner?.homeBanner1}} style={styles.banner} />
+        <Image source={{ uri: banner?.homeBanner1 }} style={styles.banner} />
       </View>
 
       <Carousal
@@ -93,21 +98,21 @@ const DashboardScreen = () => {
         showPagination={true}
         loop={true}
         mode={'parallax'}
-        renderItem={({ item }) =>{
+        renderItem={({ item }) => {
           return (
-          <View
-            style={[
-              styles.card,
-              { width: screenWidth, height: carouselHeight },
-            ]}
-          >
-            <Image
-              source={{uri: item}}
-              style={styles.image}
-              resizeMode="cover"
-            />
-          </View>
-        )
+            <View
+              style={[
+                styles.card,
+                { width: screenWidth, height: carouselHeight },
+              ]}
+            >
+              <Image
+                source={{ uri: item }}
+                style={styles.image}
+                resizeMode="cover"
+              />
+            </View>
+          )
         }}
         autoPlay
         autoPlayInterval={2000}
@@ -135,9 +140,9 @@ const DashboardScreen = () => {
       {/* Here show 4 items in each row */}
       <View style={styles.gridContainer}>
         {adjustedCategories.map((category, index) => (
-          <View style={styles.gridItem} key={index.toString()}>
-            <View style={[styles.gridImageBox, categories.length%2!==0 && index === adjustedCategories.length-1 && styles.dummyBox]}>
-              <Image source={{uri: category.image}} style={styles.categoryImage} />
+          <TouchableOpacity style={styles.gridItem} key={index.toString()} disabled={categories.length % 2 !== 0 && index === adjustedCategories.length - 1} onPress={() => handleCategoryPress(category.name)}>
+            <View style={[styles.gridImageBox, categories.length % 2 !== 0 && index === adjustedCategories.length - 1 && styles.dummyBox]}>
+              <Image source={{ uri: category.image }} style={styles.categoryImage} />
             </View>
             <Text
               style={{ textAlign: 'center', color: colors.primaryLight }}
@@ -146,7 +151,7 @@ const DashboardScreen = () => {
             >
               {category.name}
             </Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
 
@@ -157,7 +162,7 @@ const DashboardScreen = () => {
         ]}
       >
         <Image
-          source={{uri: banner?.homeBanner2}}
+          source={{ uri: banner?.homeBanner2 }}
           style={[styles.banner, styles.banner2]}
         />
       </View>
@@ -194,44 +199,7 @@ const DashboardScreen = () => {
         ]}
       >
         <Image
-          source={{uri: banner?.homeBanner3}}
-          style={[styles.banner, styles.banner2]}
-        />
-      </View>
-
-      {/* label and button container */}
-      <View style={[styles.lblBtnContainer, styles.marginTop]}>
-        <Text varient="semiBold" fontSize={18}>
-          Your Go to Items
-        </Text>
-        <TouchableOpacity style={styles.btn}>
-          <Text varient="medium" fontSize={18} style={styles.btnTxt}>
-            See All
-          </Text>
-          {/* <Image source={ImageSource.right} style={styles.rightArrow} /> */}
-          <RightArrow name={'chevron-right'} size={20} color={colors.primary} />
-        </TouchableOpacity>
-      </View>
-      {/* Product container */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainer}
-        style={styles.productContainer}
-      >
-        {productData.map((product, index) => (
-          <ProductCard product={product} key={index.toString()} />
-        ))}
-      </ScrollView>
-
-            <View
-        style={[
-          styles.bannerConatiner,
-          { height: getResizeImageHeight(ImageSource.banner2, 32) },
-        ]}
-      >
-        <Image
-          source={{uri: banner?.homeBanner2}}
+          source={{ uri: banner?.homeBanner3 }}
           style={[styles.banner, styles.banner2]}
         />
       </View>
@@ -268,7 +236,44 @@ const DashboardScreen = () => {
         ]}
       >
         <Image
-          source={{uri: banner?.homeBanner4}}
+          source={{ uri: banner?.homeBanner2 }}
+          style={[styles.banner, styles.banner2]}
+        />
+      </View>
+
+      {/* label and button container */}
+      <View style={[styles.lblBtnContainer, styles.marginTop]}>
+        <Text varient="semiBold" fontSize={18}>
+          Your Go to Items
+        </Text>
+        <TouchableOpacity style={styles.btn}>
+          <Text varient="medium" fontSize={18} style={styles.btnTxt}>
+            See All
+          </Text>
+          {/* <Image source={ImageSource.right} style={styles.rightArrow} /> */}
+          <RightArrow name={'chevron-right'} size={20} color={colors.primary} />
+        </TouchableOpacity>
+      </View>
+      {/* Product container */}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainer}
+        style={styles.productContainer}
+      >
+        {productData.map((product, index) => (
+          <ProductCard product={product} key={index.toString()} />
+        ))}
+      </ScrollView>
+
+      <View
+        style={[
+          styles.bannerConatiner,
+          { height: getResizeImageHeight(ImageSource.banner2, 32) },
+        ]}
+      >
+        <Image
+          source={{ uri: banner?.homeBanner4 }}
           style={[styles.banner, styles.banner2]}
         />
       </View>

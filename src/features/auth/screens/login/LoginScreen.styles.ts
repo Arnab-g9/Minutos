@@ -1,4 +1,4 @@
-import { Dimensions, Platform, StatusBar, StyleSheet } from 'react-native';
+import { Platform, StatusBar, StyleSheet } from 'react-native';
 import { ColorsType } from '../../../../constants/Ui/colors/colors.types';
 import { EdgeInsets } from 'react-native-safe-area-context';
 

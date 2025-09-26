@@ -17,7 +17,8 @@ import OTPScreen from '../../features/auth/screens/otp/OTPScreen';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {default as Text} from '../../components/Text/MSText'
+import { default as Text } from '../../components/Text/MSText'
+import SubCategoriesScreen from '../../features/dashboard/screens/SubCategoriesScreen/SubCategoriesScreen';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const AppNavigation = () => {
@@ -33,19 +34,19 @@ const AppNavigation = () => {
       >
         {!isAuthorized ? (
           <>
-           <Stack.Screen
-            name={ScreenNames.LOGIN_SCREEN}
-            component={LoginScreen}
-          />
-           <Stack.Screen name={ScreenNames.OTP_SCREEN} component={OTPScreen} />
+            <Stack.Screen
+              name={ScreenNames.LOGIN_SCREEN}
+              component={LoginScreen}
+            />
+            <Stack.Screen name={ScreenNames.OTP_SCREEN} component={OTPScreen} />
           </>
-         
+
         ) : (
           <>
             <Stack.Screen name={ScreenNames.DASHBOARD_SCREEN}>
               {() => {
                 return (
-                  <View  style={{ flex: 1, backgroundColor: colors.background_primary }}>
+                  <View style={{ flex: 1, backgroundColor: colors.background_primary }}>
                     <Tab.Navigator
                       initialRouteName={ScreenNames.HOME_SCREEN}
                       screenOptions={{
@@ -81,8 +82,8 @@ const AppNavigation = () => {
                               }
                             />
                           ),
-                          tabBarLabel:({focused})=>(
-                            <Text style={{color: focused ? colors.primary : colors.contentPrimary}}>Home</Text>
+                          tabBarLabel: ({ focused }) => (
+                            <Text style={{ color: focused ? colors.primary : colors.contentPrimary }}>Home</Text>
                           )
                         }}
                       />
@@ -100,8 +101,8 @@ const AppNavigation = () => {
                               }
                             />
                           ),
-                            tabBarLabel:({focused})=>(
-                            <Text style={{color: focused ? colors.primary : colors.contentPrimary}}>Category</Text>
+                          tabBarLabel: ({ focused }) => (
+                            <Text style={{ color: focused ? colors.primary : colors.contentPrimary }}>Category</Text>
                           )
                         }}
                       />
@@ -119,13 +120,13 @@ const AppNavigation = () => {
                               }
                             />
                           ),
-                            tabBarLabel:({focused})=>(
-                            <Text style={{color: focused ? colors.primary: colors.contentPrimary}}>Cart</Text>
+                          tabBarLabel: ({ focused }) => (
+                            <Text style={{ color: focused ? colors.primary : colors.contentPrimary }}>Cart</Text>
                           )
                         }}
                       />
                     </Tab.Navigator>
-                    <SafeAreaView edges={['bottom']} style={{backgroundColor: colors.background_primary}} />
+                    <SafeAreaView edges={['bottom']} style={{ backgroundColor: colors.background_primary }} />
                   </View>
                 );
               }}
@@ -135,10 +136,13 @@ const AppNavigation = () => {
               name={ScreenNames.PRODUCT_DETAILS}
               component={ProductdetailsScreen}
             />
-            {/* <Stack.Screen name={ScreenNames.CART_SCREEN} component={CartScreen} /> */}
             <Stack.Screen
               name={ScreenNames.PROFILE_SCREEN}
               component={ProfileScreen}
+            />
+            <Stack.Screen
+              name={ScreenNames.SUBCATEGORY_SCREEN}
+              component={SubCategoriesScreen}
             />
           </>
         )}

@@ -55,7 +55,7 @@ const ProfileScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const handleLogout = ()=>{
+  const handleLogout = () => {
     dispatch(logout());
     console.log("Logout pressed ===>");
   }
@@ -72,6 +72,7 @@ const ProfileScreen = () => {
     <ScrollView
       contentContainerStyle={styles.contentContainer}
       showsVerticalScrollIndicator={false}
+      nestedScrollEnabled
     >
       {/* Profile Icon and Details Section */}
       <View style={styles.nameAndProfileimageContainer}>
@@ -136,9 +137,9 @@ const ProfileScreen = () => {
       </View>
 
       <TouchableOpacity
-      onPress={handleLogout}
+        onPress={handleLogout}
         style={{
-          position: 'absolute',
+          position: 'static',
           bottom: 50,
           left: 16,
           right: 16,
@@ -156,7 +157,6 @@ const ProfileScreen = () => {
           },
           shadowOpacity: 0.27,
           shadowRadius: 4.65,
-
           elevation: 6,
         }}
       >
