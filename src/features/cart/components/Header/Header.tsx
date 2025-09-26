@@ -23,13 +23,13 @@ const Header = ({ onPressBtn, title, isCart = false }: props) => {
       <View style={styles.iconAndTitlecontainer}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           {/* <Image source={ImageSource.leftArrowWhite}/> */}
-          <LeftIcon name={'chevron-left'} size={20} color={colors.primaryCtaText} />
+          <LeftIcon name={'chevron-left'} size={20} color={colors.primary} />
         </TouchableOpacity>
         <Text varient='medium' fontSize={20} style={styles.title}>{title}</Text>
       </View>
       {
         isCart && <TouchableOpacity style={styles.btn} onPress={onPressBtn}>
-          <Text varient='medium' fontSize={16}>Empty Cart</Text>
+          <Text varient='medium' fontSize={16} style={styles.btnTxt}>Empty Cart</Text>
         </TouchableOpacity>
       }
     </SafeAreaView>

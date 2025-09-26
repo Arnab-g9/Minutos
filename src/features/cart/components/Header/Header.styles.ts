@@ -6,7 +6,7 @@ export const useStyles = (colors: ColorsType) =>
     container: {
        flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: colors.background_secondary,
+      backgroundColor: colors.background_primary,
       paddingHorizontal: 16,
       paddingVertical: 20,
       justifyContent: 'space-between',
@@ -30,11 +30,14 @@ export const useStyles = (colors: ColorsType) =>
       height: 42,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: colors.background_primary,
+      backgroundColor: colors.primary,
       borderRadius: 12,
     },
+    btnTxt:{
+      color: colors.primaryCtaText
+    },
     title: {
-      color: colors.primaryCtaText,
+      color: colors.contentPrimary,
     },
     label: {
       justifyContent: 'center',

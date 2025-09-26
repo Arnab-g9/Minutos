@@ -10,7 +10,6 @@ export const useStyles = (colors: ColorsType, insets: EdgeInsets) => StyleSheet.
         paddingTop: 0,
     },
     emptyHeader: {
-        height: Platform.OS === "android" ? StatusBar.currentHeight : 0,
         backgroundColor: colors.background_primary,
     },
     keyboardAvoidingViewContainer: {
@@ -18,7 +17,7 @@ export const useStyles = (colors: ColorsType, insets: EdgeInsets) => StyleSheet.
     },
     innerContainer: {
         flex: 1,
-        paddingTop: 50
+        // paddingTop: 50
     },
     title: {
         // fontFamily: FontFamily.POPPINS_MEDIUM,
@@ -44,17 +43,14 @@ export const useStyles = (colors: ColorsType, insets: EdgeInsets) => StyleSheet.
         alignItems: 'center',
     },
     defaultCountryCode: {
-        // fontFamily: FontFamily.POPPINS_MEDIUM,
         fontSize: 16,
         color: colors.contentPrimary,
         lineHeight: 23,
         marginEnd: Platform.select({ android: 2, ios: 4 }),
     },
     textInput: {
-        // fontFamily: FontFamily.POPPINS_MEDIUM,
         fontSize: 16,
         flex: 1,
-        lineHeight: 23,
         color: colors.contentPrimary,
     },
     spacer: {

@@ -6,6 +6,7 @@ import { useTheme } from '../../../../theme/ThemeProvider';
 import { useStyles } from './CategoryScreen.styles';
 import { CategoryMockData } from '../../../dashboard/mock/CategoryMockData';
 import { default as Text } from '../../../../components/Text/MSText'
+import PrimaryHeader from '../../../../components/Header/PrimaryHeader/PrimaryHeader';
 
 const CategoryScreen = () => {
     const { colors } = useTheme();
@@ -14,7 +15,7 @@ const CategoryScreen = () => {
     useEffect(() => {
         const renderHeader = () => (
             <>
-                <Header title='Category' />
+               <PrimaryHeader title='Category' />
             </>
         );
         navigation.setOptions({

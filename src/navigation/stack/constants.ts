@@ -5,5 +5,6 @@ export const ScreenNames = {
     CART_SCREEN: 'CartScreen',
     LOGIN_SCREEN: 'LoginScreen',
     CATEGORY_SCREEN: 'CategorieScreen',
-    PROFILE_SCREEN: "ProfileScreen"
+    PROFILE_SCREEN: "ProfileScreen",
+    OTP_SCREEN: 'OtpScreen'
 }

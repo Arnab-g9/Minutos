@@ -13,6 +13,7 @@ import CategoryIcon from 'react-native-vector-icons/MaterialIcons';
 import { useTheme } from '../../theme/ThemeProvider';
 import CategoryScreen from '../../features/category/screens/CategoryScreen/CategoryScreen'
 import ProfileScreen from '../../features/profile/screens/ProfileScreen/ProfileScreen';
+import OTPScreen from '../../features/auth/screens/otp/OTPScreen';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const AppNavigation = () => {
@@ -29,10 +30,10 @@ const AppNavigation = () => {
                                     <Tab.Navigator initialRouteName={ScreenNames.HOME_SCREEN}
                                         screenOptions={{
                                             headerShown: false,
-                                            tabBarActiveTintColor: colors.primaryCtaText,
+                                            tabBarActiveTintColor: colors.primary,
                                             tabBarInactiveTintColor: "#FFFFFF80",
                                             tabBarStyle: {
-                                                backgroundColor: colors.primary,
+                                                backgroundColor: colors.background_primary,
                                                 borderTopWidth: 0,
                                                 borderTopLeftRadius: 20,
                                                 borderTopRightRadius: 20,
@@ -49,16 +50,16 @@ const AppNavigation = () => {
                                     >
 
                                         <Tab.Screen name={ScreenNames.HOME_SCREEN} component={DashboardScreen} options={{
-                                            tabBarIcon: ({ focused }) => <HomeIcon name={'home'} size={20} color={focused ? colors.primaryCtaText : colors.contentPrimary} />
+                                            tabBarIcon: ({ focused }) => <HomeIcon name={'home'} size={20} color={focused ? colors.primary : colors.contentPrimary} />
                                         }} />
 
                                         <Tab.Screen name={ScreenNames.CATEGORY_SCREEN} component={CategoryScreen} options={{
-                                            tabBarIcon: ({ focused }) => <CategoryIcon name={'category'} size={20} color={focused ? colors.primaryCtaText : colors.contentPrimary} />
+                                            tabBarIcon: ({ focused }) => <CategoryIcon name={'category'} size={20} color={focused ? colors.primary : colors.contentPrimary} />
                                         }} />
 
 
                                         <Tab.Screen name={ScreenNames.CART_SCREEN} component={CartScreen} options={{
-                                            tabBarIcon: ({ focused }) => <Cart name={'shopping-cart'} size={20} color={focused ? colors.primaryCtaText : colors.contentPrimary} />
+                                            tabBarIcon: ({ focused }) => <Cart name={'shopping-cart'} size={20} color={focused ? colors.primary : colors.contentPrimary} />
                                         }} />
 
                                     </Tab.Navigator>
@@ -71,7 +72,8 @@ const AppNavigation = () => {
                 <Stack.Screen name={ScreenNames.PRODUCT_DETAILS} component={ProductdetailsScreen} />
                 {/* <Stack.Screen name={ScreenNames.CART_SCREEN} component={CartScreen} /> */}
                 <Stack.Screen name={ScreenNames.LOGIN_SCREEN} component={LoginScreen} />
-                   <Stack.Screen name={ScreenNames.PROFILE_SCREEN} component={ProfileScreen} />
+                <Stack.Screen name={ScreenNames.PROFILE_SCREEN} component={ProfileScreen} />
+                <Stack.Screen name={ScreenNames.OTP_SCREEN} component={OTPScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )

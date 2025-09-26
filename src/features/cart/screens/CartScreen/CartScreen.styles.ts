@@ -25,19 +25,19 @@ export const useStyles = (colors: ColorsType) =>
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
       padding: 16,
-      backgroundColor: colors.primary,
+      backgroundColor: colors.background_tertiary,
       flexDirection: 'row',
       justifyContent: 'space-between',
     },
     title: {
-      color: colors.primaryCtaText,
+      color: colors.primary,
       lineHeight: 20,
     },
     slotBtnTxt: {
       color: colors.primary,
     },
     subTitle: {
-      color: colors.primaryCtaText,
+      color: colors.primary,
       lineHeight: 18,
     },
     titleAndSubTitleContainer: {
