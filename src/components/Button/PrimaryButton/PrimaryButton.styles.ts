@@ -9,6 +9,8 @@ const useStyles = (colors: ColorsType) => StyleSheet.create({
         paddingVertical: 8,
         alignItems: 'center',
         justifyContent: 'center',
+        gap: 10,
+        flexDirection: 'row'
     },
     containerDisabled: {
         backgroundColor: colors.disabledPrimaryButton,

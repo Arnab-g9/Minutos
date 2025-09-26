@@ -1,6 +1,7 @@
 import axios from 'axios';
 // import AsyncStorage from '@react-native-async-storage/async-AsyncStorage';
 import AsyncStorage from '@react-native-community/async-storage';
+import { store } from '../store/store';
 
 const api = axios.create({
   baseURL: 'https://backend.minutos.shop/api',
@@ -16,9 +17,10 @@ const apiFormData = axios.create({
   timeout: 120000,
 });
 
+const {token} = store.getState().auth
+
 apiFormData.interceptors.request.use(
   async config => {
-    const token = await AsyncStorage.getItem('userToken');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -29,7 +31,6 @@ apiFormData.interceptors.request.use(
 
 api.interceptors.request.use(
   async config => {
-    const token = await AsyncStorage.getItem('userToken');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

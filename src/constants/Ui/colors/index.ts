@@ -61,7 +61,7 @@ export const lightColors: ColorsType = {
 
 export const darkColors: ColorsType = {
     // backgrounds
-    background_primary: '#FFFFFF',
+    background_primary: '#000000',
     background_secondary: '#dc2726',
     background_tertiary: '#fff2f3',
     background_Quaternary: '#F41262',

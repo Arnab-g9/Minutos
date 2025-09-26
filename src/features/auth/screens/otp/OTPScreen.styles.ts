@@ -3,10 +3,7 @@ import { ColorsType } from '../../../../constants/Ui/colors/colors.types';
 import { EdgeInsets } from 'react-native-safe-area-context';
 
 export const useStyles = (colors: ColorsType, insets: EdgeInsets) => StyleSheet.create({
-    header: {
-        backgroundColor: colors.background_primary
-    },
-    container: {
+      container: {
         flex: 1,
         backgroundColor: colors.background_primary,
         padding: 16,

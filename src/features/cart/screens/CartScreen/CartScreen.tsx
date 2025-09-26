@@ -16,6 +16,8 @@ import Card from '../../components/Card/Card';
 import ConfermationModal from '../../../../components/Modal/ConfermationModal/ConfermationModal';
 import { default as Text } from '../../../../components/Text/MSText';
 import LocationIcon from 'react-native-vector-icons/Ionicons'
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store/store';
 
 interface ICartItem {
   id: number;
@@ -79,6 +81,7 @@ const cartdata: ICartItem[] = [
 
 const CartScreen = () => {
   const { colors } = useTheme();
+  const {user, token} = useSelector((store: RootState)=>store.auth)
   const styles = useStyles(colors);
   const navigation = useNavigation();
 
@@ -90,12 +93,7 @@ const CartScreen = () => {
   const onDismissConfermationModal = () => {
     setShowConfermationModal(false);
   };
-
-  console.log(
-    'this is the state of onconfirm click ===>',
-    showConfermationModal,
-  );
-
+  console.log("this is userId ===>", user?.id, token)
   useEffect(() => {
     const renderHeader = () => (
       <>

@@ -10,6 +10,7 @@ export const useStyles = (colors: ColorsType, insets: EdgeInsets) => StyleSheet.
         paddingTop: 0,
     },
     emptyHeader: {
+        height: Platform.OS === "android" ? StatusBar.currentHeight : 0,
         backgroundColor: colors.background_primary,
     },
     keyboardAvoidingViewContainer: {
@@ -17,7 +18,7 @@ export const useStyles = (colors: ColorsType, insets: EdgeInsets) => StyleSheet.
     },
     innerContainer: {
         flex: 1,
-        // paddingTop: 50
+        paddingTop: 20
     },
     title: {
         // fontFamily: FontFamily.POPPINS_MEDIUM,
@@ -45,7 +46,6 @@ export const useStyles = (colors: ColorsType, insets: EdgeInsets) => StyleSheet.
     defaultCountryCode: {
         fontSize: 16,
         color: colors.contentPrimary,
-        lineHeight: 23,
         marginEnd: Platform.select({ android: 2, ios: 4 }),
     },
     textInput: {

@@ -1,6 +1,7 @@
 import {
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
   StyleSheet,
   TextInput,
   View,
@@ -22,7 +23,10 @@ import {
 import PrimaryButton from '../../../../components/Button/PrimaryButton/PrimaryButton';
 import { ScreenNames } from '../../../../navigation/stack/constants';
 import { fetchData, postData } from '../../../../api/api';
-import { Toast } from 'toastify-react-native'
+import { Toast } from 'toastify-react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPhoneNumber } from '../../slice/Authslice';
+import AuthService from '../../service/AuthService';
 
 const LoginScreen = () => {
   const [inputPhoneNumber, setInputPhoneNumber] = useState('');
@@ -31,10 +35,12 @@ const LoginScreen = () => {
     invalid: false,
     valid: false,
   });
+  const [showLoader, setShowLoader] = useState(false);
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const styles = useStyles(colors, insets);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const onChangeText = (phno: string) => {
     setInputPhoneNumber(phno);
@@ -55,7 +61,7 @@ const LoginScreen = () => {
   };
 
   useEffect(() => {
-    const renderAppHeader = () => <SafeAreaView style={styles.emptyHeader} />;
+    const renderAppHeader = () => <SafeAreaView edges={['top']} style={styles.emptyHeader} />;
     navigation.setOptions({
       headerShown: true,
       header: renderAppHeader,
@@ -71,27 +77,30 @@ const LoginScreen = () => {
   // }, []);
 
   const handleSubmitPhoneNo = async () => {
-    // const sendPhoneObj = {
-    //   phoneNumber: '+91' + inputPhoneNumber,
-    // };
-    // const res = await postData('/auth/send-otp', sendPhoneObj);
-    // console.log('This is response ===>', res);
-    // if (res?.status === 200) {
-    //   navigation.navigate(ScreenNames.DASHBOARD_SCREEN as never);
-    //   Toast.show({
-    //     type: 'success',
-    //     text1: 'OTP Sent',
-    //     text2: res?.data?.message,
-    //     position: 'bottom',
-    //     visibilityTime: 4000,
-    //     autoHide: true,
-    //     onPress: () => console.log('Toast pressed'),
-    //     onShow: () => console.log('Toast shown'),
-    //     onHide: () => console.log('Toast hidden'),
-    //   })
-    // }
-    //  navigation.navigate(ScreenNames.DASHBOARD_SCREEN as never);
-    navigation.navigate(ScreenNames.OTP_SCREEN as never);
+    setShowLoader(true);
+    const sendPhoneObj = {
+      phoneNumber: '+91' + inputPhoneNumber,
+    };
+    dispatch(setPhoneNumber(inputPhoneNumber));
+    try {
+      const res = await AuthService.sendOTP('/auth/send-otp', sendPhoneObj);
+      console.log("Response of get OTP ===>", res)
+      if (res?.success) {
+        Toast.show({
+          type: 'success',
+          text1: 'OTP Sent',
+          text2: res?.data?.message,
+          position: 'bottom',
+          visibilityTime: 1500,
+          autoHide: true,
+        });
+        navigation.navigate(ScreenNames.OTP_SCREEN as never);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setShowLoader(false);
+    }
   };
 
   return (
@@ -110,7 +119,7 @@ const LoginScreen = () => {
             <Text style={styles.defaultCountryCode}>+91</Text>
             <TextInput
               value={inputPhoneNumber}
-              cursorColor={colors.primary}
+              cursorColor={colors.contentPrimary}
               style={styles.textInput}
               placeholder={'Enter your phone number'}
               placeholderTextColor={colors.subtitle}
@@ -147,6 +156,7 @@ const LoginScreen = () => {
             }
             containerStyle={styles.ctaContainer}
             onPress={onPressCta}
+            showLoader={showLoader}
           />
         </View>
       </KeyboardAvoidingView>
@@ -156,4 +166,3 @@ const LoginScreen = () => {
 
 export default LoginScreen;
 
-const styles = StyleSheet.create({});

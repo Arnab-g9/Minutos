@@ -13,6 +13,8 @@ import SupportIcon from 'react-native-vector-icons/MaterialIcons';
 import ProfileIcon from 'react-native-vector-icons/FontAwesome6';
 import LogoutIcon from 'react-native-vector-icons/AntDesign';
 import NavItem from '../../components/NavItem/NavItem';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../../auth/slice/Authslice';
 
 const infoArr = [
   {
@@ -51,6 +53,13 @@ const ProfileScreen = () => {
   const { colors } = useTheme();
   const styles = useStyles(colors);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const handleLogout = ()=>{
+    dispatch(logout());
+    console.log("Logout pressed ===>");
+  }
+
   useEffect(() => {
     const renderHeader = () => <PrimaryHeader title="Settings" />;
     navigation.setOptions({
@@ -127,6 +136,7 @@ const ProfileScreen = () => {
       </View>
 
       <TouchableOpacity
+      onPress={handleLogout}
         style={{
           position: 'absolute',
           bottom: 50,

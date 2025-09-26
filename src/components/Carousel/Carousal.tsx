@@ -8,17 +8,13 @@ const { width: screenWidth } = Dimensions.get("window");
 
 console.log("This is width ===>", screenWidth)
 
-interface IItem {
-    id: number,
-    image: any,
-}
 
 interface props {
-    data: IItem[],
+    data: String[] | undefined,
     showPagination?: boolean,
     loop?: boolean,
     mode?: 'horizontal-stack' | 'vertical-stack' | 'parallax',
-    renderItem: CarouselRenderItem<IItem>,
+    renderItem: CarouselRenderItem<String[]>,
     showDots?: boolean
     autoPlay?: boolean
     autoPlayInterval?: number

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleProp, Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native';
+import { ActivityIndicator, StyleProp, Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native';
 import { useTheme } from '../../../theme/ThemeProvider';
 import useStyles from './PrimaryButton.styles';
 
@@ -8,7 +8,8 @@ interface Props {
     titleStyle?: StyleProp<TextStyle>
     disabled?: boolean
     containerStyle?: StyleProp<ViewStyle>
-    onPress: () => void
+    onPress: () => void,
+    showLoader?: boolean
 }
 
 const PrimaryButton = (props: Props) => {
@@ -18,6 +19,7 @@ const PrimaryButton = (props: Props) => {
         disabled = false,
         containerStyle,
         onPress,
+        showLoader=false,
     } = props ?? {};
 
     const { colors } = useTheme();
@@ -29,6 +31,9 @@ const PrimaryButton = (props: Props) => {
         onPress={onPress}
         activeOpacity={0.8}
     >
+        {
+            showLoader && <ActivityIndicator size={'small'} color={colors.primaryCtaText} />
+        }
         <Text style={[styles.title, disabled && styles.titleDisabled, titleStyle]}>{title}</Text>
     </TouchableOpacity>;
 };
