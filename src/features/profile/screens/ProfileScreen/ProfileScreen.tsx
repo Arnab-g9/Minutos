@@ -69,77 +69,86 @@ const ProfileScreen = () => {
   }, [navigation]);
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.contentContainer}
-      showsVerticalScrollIndicator={false}
-      nestedScrollEnabled
-    >
-      {/* Profile Icon and Details Section */}
-      <View style={styles.nameAndProfileimageContainer}>
-        <View style={styles.imageContainer}>
-          <UserIcon
-            name={IconsName.userIcon}
-            size={70}
-            color={colors.primary}
+    <View style={{ flex: 1 }}>
+      <ScrollView
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={false}
+        nestedScrollEnabled
+      >
+        {/* Profile Icon and Details Section */}
+        <View style={styles.nameAndProfileimageContainer}>
+          <View style={styles.imageContainer}>
+            <UserIcon
+              name={IconsName.userIcon}
+              size={70}
+              color={colors.primary}
+            />
+          </View>
+          {/* Profile Image and details container */}
+          <View>
+            <Text varient="bold" fontSize={20}>
+              Guest Name
+            </Text>
+            <Text style={styles.phNo} varient="medium">
+              +919876543210
+            </Text>
+          </View>
+        </View>
+        {/* options */}
+        <View style={styles.optionsContainer}>
+          <Card
+            renderIcon={() => (
+              <OrderIcon
+                name={IconsName.orderIcon}
+                size={30}
+                color={colors.primary}
+              />
+            )}
+            title={'Your Orders'}
+          />
+          <Card
+            renderIcon={() => (
+              <SupportIcon
+                name={IconsName.supportIcon}
+                size={30}
+                color={colors.primary}
+              />
+            )}
+            title={'Help & Support'}
+          />
+          <Card
+            renderIcon={() => (
+              <ProfileIcon
+                name={IconsName.profileIcon}
+                size={30}
+                color={colors.primary}
+              />
+            )}
+            title={'Profile'}
           />
         </View>
-        {/* Profile Image and details container */}
-        <View>
-          <Text varient="bold" fontSize={20}>
-            Guest Name
-          </Text>
-          <Text style={styles.phNo} varient="medium">
-            +919876543210
-          </Text>
+
+        <Text varient="bold" fontSize={18} style={{ marginTop: 50 }}>
+          Your Information
+        </Text>
+        <View style={styles.infoContainer}>
+          {infoArr.map((item, index) => (
+            <NavItem item={item} />
+          ))}
         </View>
-      </View>
-      {/* options */}
-      <View style={styles.optionsContainer}>
-        <Card
-          renderIcon={() => (
-            <OrderIcon
-              name={IconsName.orderIcon}
-              size={30}
-              color={colors.primary}
-            />
-          )}
-          title={'Your Orders'}
-        />
-        <Card
-          renderIcon={() => (
-            <SupportIcon
-              name={IconsName.supportIcon}
-              size={30}
-              color={colors.primary}
-            />
-          )}
-          title={'Help & Support'}
-        />
-        <Card
-          renderIcon={() => (
-            <ProfileIcon
-              name={IconsName.profileIcon}
-              size={30}
-              color={colors.primary}
-            />
-          )}
-          title={'Profile'}
-        />
-      </View>
-
-      <Text varient="bold" fontSize={18} style={{ marginTop: 50 }}>
-        Your Information
-      </Text>
-      <View style={styles.infoContainer}>
-        {infoArr.map((item, index) => (
-          <NavItem item={item} />
-        ))}
-      </View>
-
+        <Text varient="bold" fontSize={18} style={{ marginTop: 50 }}>
+          Your Information
+        </Text>
+        <View style={styles.infoContainer}>
+          {infoArr.map((item, index) => (
+            <NavItem item={item} />
+          ))}
+        </View>
+      </ScrollView>
       <TouchableOpacity
         onPress={handleLogout}
         style={{
-          position: 'static',
+          position: 'absolute',
           bottom: 50,
           left: 16,
           right: 16,
@@ -169,7 +178,8 @@ const ProfileScreen = () => {
           Log Out
         </Text>
       </TouchableOpacity>
-    </ScrollView>
+    </View>
+
   );
 };
 
