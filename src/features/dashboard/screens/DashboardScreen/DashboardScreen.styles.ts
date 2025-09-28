@@ -1,4 +1,4 @@
-import { Dimensions, Image, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 import { ColorsType } from '../../../../constants/Ui/colors/colors.types';
 
 export const useStyles = (colors: ColorsType) => StyleSheet.create({
@@ -66,9 +66,9 @@ export const useStyles = (colors: ColorsType) => StyleSheet.create({
         height: 120,
         margin: 4,
         gap: 6,
-       justifyContent: 'center',
-       alignItems: 'center',
-    //    backgroundColor: 'red'
+        justifyContent: 'center',
+        alignItems: 'center',
+        //    backgroundColor: 'red'
     },
     gridImageBox: {
         width: '100%',
@@ -77,10 +77,10 @@ export const useStyles = (colors: ColorsType) => StyleSheet.create({
         padding: 12,
         backgroundColor: colors.background_tertiary
     },
-    dummyBox:{
+    dummyBox: {
         backgroundColor: colors.background_primary
     },
-    categoryImage:{
+    categoryImage: {
         width: '100%',
         height: '100%',
     },

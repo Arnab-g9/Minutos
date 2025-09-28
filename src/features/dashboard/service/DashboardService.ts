@@ -18,6 +18,11 @@ class DashboardService {
         const res = await fetchData(`${endpoint}/${name}`);
         return res?.data;
     }
+
+    getSubCategoriesProduct = async (endpoint: string, subcatId: string) => {
+        const res = await fetchData(`${endpoint}=${subcatId}`)
+        return res?.data;
+    }
 }
 
 export default new DashboardService();

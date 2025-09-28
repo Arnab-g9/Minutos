@@ -13,8 +13,6 @@ import Carousal from '../../../../components/Carousel/Carousal';
 import { default as Text } from '../../../../components/Text/MSText';
 import { ImageSource } from '../../../../constants/assets/Images';
 import ProductCard from '../../components/ProductCard/ProductCard';
-import { productData } from '../../mock/ProductMockData';
-import { CategoryMockData } from '../../mock/CategoryMockData';
 import { getResizeImageHeight } from '../../../../utils/getResizeImageHeight';
 import RightArrow from 'react-native-vector-icons/Entypo';
 import DashboardHeader from '../../components/Header/DashboardHeader/DashboardHeader';
@@ -22,14 +20,14 @@ import { ScreenNames } from '../../../../navigation/stack/constants';
 import { IconsName } from '../../../../constants/assets/Icons';
 import DashboardService from '../../service/DashboardService';
 import { useDispatch, useSelector } from 'react-redux';
-import { setBanner, setCategories } from '../../slice/DashboardSlice';
+import { setBanner, setCategories, setHotDealItems1, setHotDealItems2, setHotDealItems3 } from '../../slice/DashboardSlice';
 import { RootState } from '../../../../store/store';
 
 const { width: screenWidth } = Dimensions.get('window');
 const DashboardScreen = () => {
   const navigation = useNavigation();
   const { colors } = useTheme();
-  const { banner, categories } = useSelector((store: RootState) => store.dashboard);
+  const { banner, categories, hotDealItems1, hotDealItems2, hotDealItems3 } = useSelector((store: RootState) => store.dashboard);
   const styles = useStyles(colors);
   const dispatch = useDispatch();
   const carouselHeight = screenWidth / 2;
@@ -55,6 +53,19 @@ const DashboardScreen = () => {
     dispatch(setCategories(res.categories));
   }
 
+  const fetchCategorieItemsById = async (id: string, type: number) => {
+    const res = await DashboardService.getSubCategoriesProduct('/product/subcategories?subCategories', id);
+    console.log("this is dashboard subcategory data ===>", res?.data)
+    if (type === 0) {
+      dispatch(setHotDealItems1(res?.data));
+    } else if (type === 1) {
+      dispatch(setHotDealItems2(res?.data));
+    } else {
+      dispatch(setHotDealItems3(res?.data))
+    }
+
+  }
+
   const handleCategoryPress = (name: string) => {
     navigation.navigate(ScreenNames.SUBCATEGORY_SCREEN as never, {
       name: name
@@ -77,6 +88,9 @@ const DashboardScreen = () => {
   useEffect(() => {
     fetchAds();
     fetchCategories();
+    fetchCategorieItemsById('68c31d7043f5a67c5b62b07d', 0);
+    fetchCategorieItemsById('68c90e2b44c6da7aa09c5300', 1);
+    fetchCategorieItemsById('68c31d5843f5a67c5b62b075', 2);
   }, []);
 
   return (
@@ -170,7 +184,7 @@ const DashboardScreen = () => {
       {/* label and button container */}
       <View style={[styles.lblBtnContainer, styles.marginTop]}>
         <Text varient="semiBold" fontSize={18}>
-          Your Go to Items
+          Hot Deals
         </Text>
         <TouchableOpacity style={styles.btn}>
           <Text varient="medium" fontSize={18} style={styles.btnTxt}>
@@ -187,7 +201,7 @@ const DashboardScreen = () => {
         contentContainerStyle={styles.contentContainer}
         style={styles.productContainer}
       >
-        {productData.map((product, index) => (
+        {hotDealItems1.map((product, index) => (
           <ProductCard product={product} key={index.toString()} />
         ))}
       </ScrollView>
@@ -207,7 +221,7 @@ const DashboardScreen = () => {
       {/* label and button container */}
       <View style={[styles.lblBtnContainer, styles.marginTop]}>
         <Text varient="semiBold" fontSize={18}>
-          Your Go to Items
+          Hot Deals
         </Text>
         <TouchableOpacity style={styles.btn}>
           <Text varient="medium" fontSize={18} style={styles.btnTxt}>
@@ -224,44 +238,7 @@ const DashboardScreen = () => {
         contentContainerStyle={styles.contentContainer}
         style={styles.productContainer}
       >
-        {productData.map((product, index) => (
-          <ProductCard product={product} key={index.toString()} />
-        ))}
-      </ScrollView>
-
-      <View
-        style={[
-          styles.bannerConatiner,
-          { height: getResizeImageHeight(ImageSource.banner2, 32) },
-        ]}
-      >
-        <Image
-          source={{ uri: banner?.homeBanner2 }}
-          style={[styles.banner, styles.banner2]}
-        />
-      </View>
-
-      {/* label and button container */}
-      <View style={[styles.lblBtnContainer, styles.marginTop]}>
-        <Text varient="semiBold" fontSize={18}>
-          Your Go to Items
-        </Text>
-        <TouchableOpacity style={styles.btn}>
-          <Text varient="medium" fontSize={18} style={styles.btnTxt}>
-            See All
-          </Text>
-          {/* <Image source={ImageSource.right} style={styles.rightArrow} /> */}
-          <RightArrow name={'chevron-right'} size={20} color={colors.primary} />
-        </TouchableOpacity>
-      </View>
-      {/* Product container */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainer}
-        style={styles.productContainer}
-      >
-        {productData.map((product, index) => (
+        {hotDealItems2.map((product, index) => (
           <ProductCard product={product} key={index.toString()} />
         ))}
       </ScrollView>
@@ -277,6 +254,68 @@ const DashboardScreen = () => {
           style={[styles.banner, styles.banner2]}
         />
       </View>
+
+      {/* label and button container */}
+      <View style={[styles.lblBtnContainer, styles.marginTop]}>
+        <Text varient="semiBold" fontSize={18}>
+          Hot Deals
+        </Text>
+        <TouchableOpacity style={styles.btn}>
+          <Text varient="medium" fontSize={18} style={styles.btnTxt}>
+            See All
+          </Text>
+          {/* <Image source={ImageSource.right} style={styles.rightArrow} /> */}
+          <RightArrow name={'chevron-right'} size={20} color={colors.primary} />
+        </TouchableOpacity>
+      </View>
+      {/* Product container */}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainer}
+        style={styles.productContainer}
+      >
+        {hotDealItems3.map((product, index) => (
+          <ProductCard product={product} key={index.toString()} />
+        ))}
+      </ScrollView>
+
+      <View
+        style={[
+          styles.bannerConatiner,
+          { height: getResizeImageHeight(ImageSource.banner2, 32) },
+        ]}
+      >
+        <Image
+          source={{ uri: banner?.homeBanner4 }}
+          style={[styles.banner, styles.banner2]}
+        />
+      </View>
+
+      {/* label and button container */}
+      <View style={[styles.lblBtnContainer, styles.marginTop]}>
+        <Text varient="semiBold" fontSize={18}>
+          Indian Mithai
+        </Text>
+        <TouchableOpacity style={styles.btn}>
+          <Text varient="medium" fontSize={18} style={styles.btnTxt}>
+            See All
+          </Text>
+          {/* <Image source={ImageSource.right} style={styles.rightArrow} /> */}
+          <RightArrow name={'chevron-right'} size={20} color={colors.primary} />
+        </TouchableOpacity>
+      </View>
+      {/* Product container */}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainer}
+        style={styles.productContainer}
+      >
+        {hotDealItems1.map((product, index) => (
+          <ProductCard product={product} key={index.toString()} />
+        ))}
+      </ScrollView>
     </ScrollView>
   );
 };

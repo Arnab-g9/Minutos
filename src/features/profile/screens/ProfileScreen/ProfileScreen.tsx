@@ -13,8 +13,9 @@ import SupportIcon from 'react-native-vector-icons/MaterialIcons';
 import ProfileIcon from 'react-native-vector-icons/FontAwesome6';
 import LogoutIcon from 'react-native-vector-icons/AntDesign';
 import NavItem from '../../components/NavItem/NavItem';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../auth/slice/Authslice';
+import { RootState } from '../../../../store/store';
 
 const infoArr = [
   {
@@ -37,23 +38,24 @@ const infoArr = [
   },
 ];
 
-const otherInfoArr = [
-  {
-    name: 'Suggest Products',
-  },
-  {
-    name: 'Notifications',
-  },
-  {
-    name: 'General Info',
-  },
-];
+// const otherInfoArr = [
+//   {
+//     name: 'Suggest Products',
+//   },
+//   {
+//     name: 'Notifications',
+//   },
+//   {
+//     name: 'General Info',
+//   },
+// ];
 
 const ProfileScreen = () => {
   const { colors } = useTheme();
   const styles = useStyles(colors);
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const { user } = useSelector((store: RootState) => store.auth)
 
   const handleLogout = () => {
     dispatch(logout());
@@ -90,7 +92,7 @@ const ProfileScreen = () => {
               Guest Name
             </Text>
             <Text style={styles.phNo} varient="medium">
-              +919876543210
+              {user?.phoneNumber}
             </Text>
           </View>
         </View>

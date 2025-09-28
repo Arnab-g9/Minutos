@@ -2,7 +2,8 @@ import AsyncStorage from '@react-native-community/async-storage'
 import { configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 import AuthSlice from '../features/auth/slice/Authslice';
-import  DashboardSlice  from '../features/dashboard/slice/DashboardSlice';
+import DashboardSlice from '../features/dashboard/slice/DashboardSlice';
+import CartSlice from '../features/cart/slice/CartSlice';
 
 
 
@@ -16,7 +17,8 @@ const persistedSlice = persistReducer(persistConfig, AuthSlice);
 export const store = configureStore({
     reducer: {
         auth: persistedSlice,
-        dashboard: DashboardSlice
+        dashboard: DashboardSlice,
+        cart: CartSlice
     },
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware({

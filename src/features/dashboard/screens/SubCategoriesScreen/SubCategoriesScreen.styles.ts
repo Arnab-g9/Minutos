@@ -1,6 +1,7 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { ColorsType } from '../../../../constants/Ui/colors/colors.types';
 const { width } = Dimensions.get('window');
+console.log("This is subCategory screen width ===>", width)
 
 export const useStyles = (colors: ColorsType) =>
     StyleSheet.create({
@@ -15,20 +16,34 @@ export const useStyles = (colors: ColorsType) =>
         },
         sectionContainer2: {
             flexGrow: 1,
-            width: width - 100
+            width: width - 100,
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            gap: 10,
+            padding: 10,
+            justifyContent: 'space-evenly'
+        },
+        subCatItemContainer: {
+            padding: 10,
         },
         item: {
             justifyContent: 'center',
             alignItems: 'center',
-            gap: 10,
-            padding: 10
+            gap: 5,
+            padding: 10,
+        },
+        selectedItem: {
+            backgroundColor: colors.background_tertiary,
+            borderWidth: 0.5,
+            borderColor: colors.primary,
+            borderRadius: 20,
         },
         sideBarImage: {
-            height: 50,
-            width: 50
+            height: 30,
+            width: 30
         },
         itemTxt: {
-            textAlign: 'center'
+            textAlign: 'center',
         },
         section1: {
             shadowColor: "#000",
