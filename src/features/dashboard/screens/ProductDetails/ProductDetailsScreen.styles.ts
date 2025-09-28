@@ -129,8 +129,8 @@ export const useStyles = (colors: ColorsType) =>
       paddingVertical: 20,
       paddingHorizontal: 16
     },
-    titleAndfrequentBaughtProductsContainer:{
-        backgroundColor: colors.background_Quinary,
-        marginTop: 17,
+    titleAndfrequentBaughtProductsContainer: {
+      backgroundColor: colors.background_Quinary,
+      marginTop: 17,
     }
   });

@@ -19,6 +19,7 @@ import ProductCard from '../../components/ProductCard/ProductCard';
 const { width: screenWidth } = Dimensions.get('window');
 import Cart from 'react-native-vector-icons/Feather';
 import ProductDetailsHeader from '../../components/Header/ProductDetailsHeader/ProductDetailsHeader';
+import { IItem } from '../../Types/GetSubCategorieItems.Types';
 
 const data = [
   { id: 1, image: ImageSource.bannerProduct1 },
@@ -32,6 +33,10 @@ export interface IProductWeightData {
   price: number;
   per100: number;
   discount?: number;
+}
+
+interface props {
+  route: any
 }
 
 const productWeightData: IProductWeightData[] = [
@@ -60,9 +65,11 @@ const productWeightData: IProductWeightData[] = [
   },
 ];
 
-const ProductdetailsScreen = () => {
+
+const ProductdetailsScreen = ({ route }: props) => {
   const navigation = useNavigation();
   const { colors } = useTheme();
+  const { product } = route.params ?? {};
   const carouselHeight = screenWidth / 2;
   const styles = useStyles(colors);
   useEffect(() => {
@@ -74,11 +81,13 @@ const ProductdetailsScreen = () => {
       header: renderHeader,
     });
   }, [navigation]);
+
+  console.log("this is product inside product details page ==>", product)
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 50 }}>
       <View style={styles.carousalContainer}>
         <Carousal
-          data={data}
+          data={product?.images ?? []}
           showPagination={true}
           loop={true}
           renderItem={({ item }) => (
@@ -89,7 +98,7 @@ const ProductdetailsScreen = () => {
               ]}
             >
               <Image
-                source={item.image}
+                source={{ uri: item }}
                 style={styles.image}
                 resizeMode="cover"
               />
@@ -99,7 +108,7 @@ const ProductdetailsScreen = () => {
         />
       </View>
       <Text varient="semiBold" fontSize={20} style={styles.title}>
-        Tata Salt
+        {product?.productName}
       </Text>
       {/* product weight section */}
       <ScrollView
@@ -116,19 +125,19 @@ const ProductdetailsScreen = () => {
       <View style={styles.priceAndAddBtnContainer}>
         <View style={styles.priceAndOfferContainer}>
           <Text varient="semiBold" fontSize={24} style={styles.offerPrice}>
-            ₹24
+            ₹{product?.discountedMRP}
           </Text>
           <Text varient="regular" fontSize={16} style={styles.actualPrice}>
-            ₹25
+            ₹{product?.originalPrice}
           </Text>
           <Text varient="medium" fontSize={16} style={styles.offerText}>
             {' '}
-            4% OFF
+            {product?.discount}% OFF
           </Text>
         </View>
 
         <TouchableOpacity style={styles.addBtn}>
-          <Cart name={'shopping-cart'} size={20} color={colors.primaryCtaText}/>
+          <Cart name={'shopping-cart'} size={20} color={colors.primaryCtaText} />
           <Text varient="medium" fontSize={16} style={styles.btnTxt}>
             Add to Cart
           </Text>

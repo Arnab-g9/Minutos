@@ -77,6 +77,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../store/store';
 import { addToCart, ICartItem } from '../../../cart/slice/CartSlice';
 import { Toast } from 'toastify-react-native';
+import { ImageSource } from '../../../../constants/assets/Images';
 
 interface props {
     product: IItem
@@ -115,7 +116,9 @@ const ProductCard = ({ product }: props) => {
 
 
     const handlePressCard = () => {
-        navigation.navigate(ScreenNames.PRODUCT_DETAILS as never);
+        navigation.navigate(ScreenNames.PRODUCT_DETAILS as never, {
+            product: product,
+        });
     }
 
     // const onPressAddIcon = () => {
@@ -123,7 +126,7 @@ const ProductCard = ({ product }: props) => {
     // }
 
     return (
-        <TouchableOpacity style={styles.container} activeOpacity={0.8} onPress={handlePressCard}>
+        <TouchableOpacity style={styles.container} activeOpacity={1} onPress={handlePressCard}>
             {
                 product.discount ? (
                     <View style={styles.discountBadge}>
@@ -139,14 +142,19 @@ const ProductCard = ({ product }: props) => {
             }
 
             <View style={styles.imgContainer}>
-                <Image
-                    source={{ uri: product?.images?.[0] || product?.images?.[1] }}
-                    style={styles.productImage}
-                />
+                {
+                    product?.images?.[0] || product?.images?.[1] ? <Image
+                        source={{ uri: product?.images?.[0] || product?.images?.[1] }}
+                        style={styles.productImage}
+                    /> : <Image
+                        source={ImageSource.item1}
+                        style={styles.productImage}
+                    />
+                }
             </View>
 
             <Text varient='semiBold' style={styles.prodName}>
-                {product.name}
+                {product.productName}
             </Text>
             <Text varient='regular' style={styles.prodWeight}>
                 {product.unit}
