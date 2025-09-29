@@ -44,7 +44,7 @@ const ProductWeightCard = ({ product }: props) => {
           </Text>
         </View>
       )}
-      <Text varient="regular" style={{ lineHeight: 14 }}>
+      <Text varient="regular" style={{ lineHeight: 14, color: colors.contentPrimary }}>
         {product.weight}
       </Text>
       <Text fontSize={16} varient="medium" style={styles.price}>

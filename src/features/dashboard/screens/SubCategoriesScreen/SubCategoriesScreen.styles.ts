@@ -13,6 +13,7 @@ export const useStyles = (colors: ColorsType) =>
         sectionContainer1: {
             flexGrow: 1,
             width: 100,
+            backgroundColor: colors.card_bg_primary,
         },
         sectionContainer2: {
             flexGrow: 1,
@@ -31,6 +32,7 @@ export const useStyles = (colors: ColorsType) =>
             alignItems: 'center',
             gap: 5,
             padding: 10,
+            borderRadius: 20
         },
         selectedItem: {
             backgroundColor: colors.background_tertiary,
@@ -38,15 +40,19 @@ export const useStyles = (colors: ColorsType) =>
             borderColor: colors.primary,
             borderRadius: 20,
         },
+        selectedText: {
+            color: colors.primary
+        },
         sideBarImage: {
             height: 30,
             width: 30
         },
         itemTxt: {
             textAlign: 'center',
+            color: colors.contentTertiary
         },
         section1: {
-            shadowColor: "#000",
+            shadowColor: colors.primaryShadow,
             shadowOffset: {
                 width: 0,
                 height: 4,
@@ -54,6 +60,6 @@ export const useStyles = (colors: ColorsType) =>
             shadowOpacity: 0.32,
             shadowRadius: 5.46,
             elevation: 9,
-            backgroundColor: colors.background_primary
+            backgroundColor: colors.background_primary,
         }
     });

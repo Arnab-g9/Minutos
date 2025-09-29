@@ -19,14 +19,8 @@ import ProductCard from '../../components/ProductCard/ProductCard';
 const { width: screenWidth } = Dimensions.get('window');
 import Cart from 'react-native-vector-icons/Feather';
 import ProductDetailsHeader from '../../components/Header/ProductDetailsHeader/ProductDetailsHeader';
-import { IItem } from '../../Types/GetSubCategorieItems.Types';
+import { ScreenNames } from '../../../../navigation/stack/constants';
 
-const data = [
-  { id: 1, image: ImageSource.bannerProduct1 },
-  { id: 2, image: ImageSource.bannerProduct1 },
-  { id: 3, image: ImageSource.bannerProduct1 },
-  { id: 4, image: ImageSource.bannerProduct1 },
-];
 
 export interface IProductWeightData {
   weight: string;
@@ -72,9 +66,14 @@ const ProductdetailsScreen = ({ route }: props) => {
   const { product } = route.params ?? {};
   const carouselHeight = screenWidth / 2;
   const styles = useStyles(colors);
+
+  const handleProfileIconPress = ()=>{
+    navigation.navigate(ScreenNames.PROFILE_SCREEN as never);
+  }
+
   useEffect(() => {
     const renderHeader = () => (
-      <ProductDetailsHeader address="HOME - Sultan Bhag, Erraga..." />
+      <ProductDetailsHeader address="HOME - Sultan Bhag, Erraga..." onProfileIconPress={handleProfileIconPress} />
     );
     navigation.setOptions({
       headerShown: true,

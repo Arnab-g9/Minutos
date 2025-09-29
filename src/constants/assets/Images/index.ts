@@ -31,4 +31,7 @@ export const ImageSource = {
     // cart Section
     leftArrowWhite: require('../../../assets/images/Cart/leftArrow.png'),
     cross: require('../../../assets/images/Cart/cross.png'),
+
+    // No data
+     noData: require('../../../assets/images/SubCategory/empty.png'),
 }

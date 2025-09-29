@@ -21,6 +21,7 @@ export const useStyles = (colors: ColorsType) =>
     title: {
       marginBottom: 11,
       paddingHorizontal: 16,
+      color: colors.contentPrimary
     },
     carousalContainer: {
       marginTop: 39,
@@ -90,6 +91,7 @@ export const useStyles = (colors: ColorsType) =>
     InfoTitle: {
       fontSize: 18,
       lineHeight: 18,
+      color: colors.contentPrimary
     },
     label: {
       backgroundColor: colors.background_Quinary,
@@ -106,6 +108,7 @@ export const useStyles = (colors: ColorsType) =>
     },
     dateTitle: {
       lineHeight: 14,
+      color: colors.contentTertiary
     },
     info: {
       gap: 4,
@@ -114,6 +117,7 @@ export const useStyles = (colors: ColorsType) =>
     infoTitle: {
       fontSize: 14,
       lineHeight: 14,
+      color: colors.contentPrimary
     },
     infoVal: {
       fontSize: 14,
@@ -127,7 +131,8 @@ export const useStyles = (colors: ColorsType) =>
     frequentBaughtSectionTitle: {
       lineHeight: 18,
       paddingVertical: 20,
-      paddingHorizontal: 16
+      paddingHorizontal: 16,
+      color: colors.contentPrimary
     },
     titleAndfrequentBaughtProductsContainer: {
       backgroundColor: colors.background_Quinary,

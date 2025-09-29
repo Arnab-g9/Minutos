@@ -20,7 +20,7 @@ const Card = ({ onPress, title, renderIcon}:props) => {
         {
             renderIcon?.()
         }
-      <Text varient='medium' fontSize={14}>{title}</Text>
+      <Text varient='medium' fontSize={14} style={styles.title}>{title}</Text>
     </TouchableOpacity>
   )
 }

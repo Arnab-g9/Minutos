@@ -1,4 +1,5 @@
 import {
+  FlatList,
   Image,
   ScrollView,
   StyleSheet,
@@ -19,6 +20,7 @@ import LocationIcon from 'react-native-vector-icons/Ionicons'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, store } from '../../../../store/store';
 import { resetCart } from '../../slice/CartSlice';
+import NoDataFound from '../../../../components/NoDataFound/NoDataFound';
 
 // interface ICartItem {
 //   id: number;
@@ -120,20 +122,12 @@ const CartScreen = () => {
   return (
     <View style={styles.cartContainer}>
       <View style={{ flex: 1 }}>
-        <ScrollView
-          style={styles.container}
+        <FlatList data={cart} renderItem={({ item }) => <Card item={item} />} style={styles.container}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.contentContainer}
-        >
-          {cart.map((product, index) => (
-            <Card item={product} />
-          ))}
-          <ConfermationModal
-            visible={showConfermationModal}
-            onConfirm={onConfirmConfermationModal}
-            onDecline={onDismissConfermationModal}
-          />
-        </ScrollView>
+          keyExtractor={(item) => item._id.toString()}
+          ListEmptyComponent={() => <NoDataFound message='Please add some product into the cart :)' />}
+        />
       </View>
       {
         cart.length > 0 && <View style={styles.slotAddressAndButtonContainer}>
@@ -154,13 +148,13 @@ const CartScreen = () => {
             </TouchableOpacity>
           </View>
           <View style={styles.addressContainer}>
-            <Text>
+            <Text style={styles.addressTxt}>
               HOME <Text>- 4202, T 4, Sultan Bagh...</Text>
             </Text>
             <View style={styles.changeAddressBtn}>
               {/* <Image source={ImageSource.location} /> */}
               <LocationIcon name={'location-outline'} size={20} color={colors.primary} />
-              <Text>CHANGE ADDRESS</Text>
+              <Text style={styles.addressTxt}>CHANGE ADDRESS</Text>
             </View>
           </View>
           <View style={styles.payBtnConatiner}>

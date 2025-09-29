@@ -21,13 +21,16 @@ import { IconsName } from '../../../../constants/assets/Icons';
 import DashboardService from '../../service/DashboardService';
 import { useDispatch, useSelector } from 'react-redux';
 import { setBanner, setCategories, setHotDealItems1, setHotDealItems2, setHotDealItems3 } from '../../slice/DashboardSlice';
-import { RootState } from '../../../../store/store';
+import { RootState, store } from '../../../../store/store';
+import CartService from '../../../cart/service/CartService';
+import { setCart } from '../../../cart/slice/CartSlice';
 
 const { width: screenWidth } = Dimensions.get('window');
 const DashboardScreen = () => {
   const navigation = useNavigation();
   const { colors } = useTheme();
   const { banner, categories, hotDealItems1, hotDealItems2, hotDealItems3 } = useSelector((store: RootState) => store.dashboard);
+  const { user } = useSelector((store: RootState) => store.auth)
   const styles = useStyles(colors);
   const dispatch = useDispatch();
   const carouselHeight = screenWidth / 2;
@@ -46,6 +49,12 @@ const DashboardScreen = () => {
     const res = await DashboardService.getAds('/ads/get');
     dispatch(setBanner(res));
   };
+
+  const fetchInitialCartData = async () => {
+    const res = await CartService.getInitailCartItem("/cart?userId", user?.id!)
+    console.log("This is initail cart response ===>", res?.items)
+    dispatch(setCart(res?.items))
+  }
 
   const fetchCategories = async () => {
     const res = await DashboardService.getCategories('/category/getcategories');
@@ -91,7 +100,10 @@ const DashboardScreen = () => {
     fetchCategorieItemsById('68c31d7043f5a67c5b62b07d', 0);
     fetchCategorieItemsById('68c90e2b44c6da7aa09c5300', 1);
     fetchCategorieItemsById('68c31d5843f5a67c5b62b075', 2);
+
+    fetchInitialCartData();
   }, []);
+
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -135,7 +147,7 @@ const DashboardScreen = () => {
 
       {/* label and button container */}
       <View style={[styles.lblBtnContainer, styles.marginTop]}>
-        <Text varient="semiBold" fontSize={18}>
+        <Text varient="semiBold" fontSize={18} style={styles.title}>
           Your Go to Items
         </Text>
         <TouchableOpacity style={styles.btn}>
@@ -159,7 +171,7 @@ const DashboardScreen = () => {
               <Image source={{ uri: category.image }} style={styles.categoryImage} />
             </View>
             <Text
-              style={{ textAlign: 'center', color: colors.primaryLight }}
+              style={{ textAlign: 'center', color: colors.contentPrimary }}
               varient="medium"
               fontSize={12}
             >
@@ -183,7 +195,7 @@ const DashboardScreen = () => {
 
       {/* label and button container */}
       <View style={[styles.lblBtnContainer, styles.marginTop]}>
-        <Text varient="semiBold" fontSize={18}>
+        <Text varient="semiBold" fontSize={18} style={styles.title}>
           Hot Deals
         </Text>
         <TouchableOpacity style={styles.btn}>
@@ -220,7 +232,7 @@ const DashboardScreen = () => {
 
       {/* label and button container */}
       <View style={[styles.lblBtnContainer, styles.marginTop]}>
-        <Text varient="semiBold" fontSize={18}>
+        <Text varient="semiBold" fontSize={18} style={styles.title}>
           Hot Deals
         </Text>
         <TouchableOpacity style={styles.btn}>
@@ -257,7 +269,7 @@ const DashboardScreen = () => {
 
       {/* label and button container */}
       <View style={[styles.lblBtnContainer, styles.marginTop]}>
-        <Text varient="semiBold" fontSize={18}>
+        <Text varient="semiBold" fontSize={18} style={styles.title}>
           Hot Deals
         </Text>
         <TouchableOpacity style={styles.btn}>
@@ -294,7 +306,7 @@ const DashboardScreen = () => {
 
       {/* label and button container */}
       <View style={[styles.lblBtnContainer, styles.marginTop]}>
-        <Text varient="semiBold" fontSize={18}>
+        <Text varient="semiBold" fontSize={18} style={styles.title}>
           Indian Mithai
         </Text>
         <TouchableOpacity style={styles.btn}>

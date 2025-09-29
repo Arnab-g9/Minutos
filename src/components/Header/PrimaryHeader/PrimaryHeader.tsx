@@ -20,7 +20,6 @@ const PrimaryHeader = ({ title }: props) => {
     }
     return (
         <SafeAreaView edges={['top']} style={styles.container}>
-            <StatusBar translucent backgroundColor={'transparent'} barStyle={'light-content'} />
             <View style={styles.section1}>
                     <TouchableOpacity onPress={onBackPress}>
                         <LeftIcon name={'chevron-left'} size={20} color={colors.primary} />

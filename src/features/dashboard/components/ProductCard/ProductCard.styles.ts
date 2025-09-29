@@ -95,7 +95,7 @@ export const useStyles = (colors: ColorsType) =>
         container: {
             width: (width - 24) / 3,
             borderRadius: 12,
-            backgroundColor: colors.background_primary,
+            backgroundColor: colors.card_bg_primary,
             shadowColor: "#000",
             shadowOffset: {
                 width: 0,
@@ -139,6 +139,7 @@ export const useStyles = (colors: ColorsType) =>
         },
         prodName: {
             marginTop: 10,
+            color: colors.contentPrimary
         },
         prodWeight: {
             marginTop: 26,
@@ -171,7 +172,7 @@ export const useStyles = (colors: ColorsType) =>
             fontSize: 12,
         },
         price: {
-            // color: colors.primary
+            color: colors.contentPrimary
         },
         offerTextContainer: {
             position: 'absolute',

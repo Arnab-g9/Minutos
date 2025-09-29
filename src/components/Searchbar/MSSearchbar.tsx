@@ -17,7 +17,7 @@ const Searchbar = (props: props) => {
             {
                 props.renderLeftIcon && props.renderLeftIcon()
             }
-            <TextInput placeholder={props.placeholder} value={props.value} />
+            <TextInput placeholder={props.placeholder} value={props.value} placeholderTextColor={colors.contentTertiary} />
             {
                 props.renderRightIcon && props.renderRightIcon()
             }

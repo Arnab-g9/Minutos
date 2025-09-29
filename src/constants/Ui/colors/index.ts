@@ -15,6 +15,9 @@ export const lightColors: ColorsType = {
     primaryDark: '#D7176C',
     primaryLight: '#95267C',
 
+    // card background
+    card_bg_primary: '#FFFFFF',
+
 
     // texts
     contentPrimary: '#2A2A2A',
@@ -35,6 +38,9 @@ export const lightColors: ColorsType = {
     border_2: '#EDEDED',
     // border_4: '#A9A9A9',
     // border_5: '#DCE4EA',
+
+    // shadow color
+    primaryShadow: '#000',
 
     // buttons
     disabledPrimaryButton: '#565656',
@@ -61,11 +67,11 @@ export const lightColors: ColorsType = {
 
 export const darkColors: ColorsType = {
     // backgrounds
-    background_primary: '#000000',
+    background_primary: '#0F0E0E',
     background_secondary: '#dc2726',
     background_tertiary: '#fff2f3',
     background_Quaternary: '#F41262',
-    background_Quinary: '#F4F1F7',
+    background_Quinary: '#171717ff',
     background_LightGreen: '#D8F5E3',
 
 
@@ -74,11 +80,14 @@ export const darkColors: ColorsType = {
     primaryDark: '#D7176C',
     primaryLight: '#95267C',
 
+    // card-background
+    card_bg_primary: '#37353E',
+
 
     // texts
-    contentPrimary: '#2A2A2A',
+    contentPrimary: '#FFFFFF',
     contentSecondary: '#414141',
-    contentTertiary: '#87848A',
+    contentTertiary: '#a9a8a9ff',
     contentQuaternary: '#FC0965',
     contentQuinary: '#D9D9D9',
     contentGreen: '#36ab5a',
@@ -95,6 +104,10 @@ export const darkColors: ColorsType = {
     // border_4: '#A9A9A9',
     // border_5: '#DCE4EA',
 
+       // shadow color
+    primaryShadow: '#ff0b0bff',
+
+
     disabledPrimaryButton: '#565656',
 
 
@@ -104,7 +117,7 @@ export const darkColors: ColorsType = {
     tertiaryIconColor: '#7B7B7B',
 
     // // searchbar
-    searchbar: '#FFF',
+    searchbar: '#0F0E0E',
 
     // primary Modal Backdrop Color
     // modalOverlay: '#00000080',

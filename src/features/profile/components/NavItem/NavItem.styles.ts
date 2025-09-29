@@ -8,8 +8,16 @@ export const useStyles = (colors: ColorsType) =>
       alignItems: 'center',
       gap: 16,
       paddingVertical: 16,
+      borderBottomWidth:1,
+      borderColor: colors.border_1
     },
     titleContainer: {
       flex: 1,
     },
+    navItemTxt:{
+      color: colors.contentPrimary
+    },
+    borderBottom0:{
+      borderBottomWidth: 0
+    }
   });

@@ -9,16 +9,18 @@ import OrderIcon from 'react-native-vector-icons/Feather';
 
 interface props {
     renderIcon?: ()=>ReactNode,
-    item: any
+    item: any,
+    isLast: boolean
 }
 
-const NavItem = ({item, renderIcon}:props) => {
+const NavItem = ({item, renderIcon, isLast}:props) => {
     const {colors} = useTheme();
     const styles = useStyles(colors);
+    console.log("This is last item ==> ", isLast)
 
   return (
      <TouchableOpacity
-            style={styles.navItem}
+            style={[styles.navItem, isLast && styles.borderBottom0]}
             activeOpacity={0.8}
           >
             <OrderIcon
@@ -30,7 +32,7 @@ const NavItem = ({item, renderIcon}:props) => {
                 renderIcon?.()
             }
             <View style={styles.titleContainer}>
-              <Text fontSize={16} varient="medium">
+              <Text fontSize={16} varient="medium" style={styles.navItemTxt}>
                 {item.name}
               </Text>
             </View>

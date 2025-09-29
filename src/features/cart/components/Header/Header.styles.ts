@@ -4,7 +4,7 @@ import { ColorsType } from '../../../../constants/Ui/colors/colors.types';
 export const useStyles = (colors: ColorsType) =>
   StyleSheet.create({
     container: {
-       flexDirection: 'row',
+      flexDirection: 'row',
       alignItems: 'center',
       backgroundColor: colors.background_primary,
       paddingHorizontal: 16,

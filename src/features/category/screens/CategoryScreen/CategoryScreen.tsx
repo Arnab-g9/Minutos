@@ -52,7 +52,7 @@ const CategoryScreen = () => {
               <Image source={{ uri: category.image! }} style={styles.categoryImage} />
             </View>
             <Text
-              style={{ textAlign: 'center', color: colors.primaryLight }}
+              style={{ textAlign: 'center', color: colors.contentPrimary }}
               varient="medium"
               fontSize={12}
             >

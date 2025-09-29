@@ -7,8 +7,8 @@ export const useStyles = (colors: ColorsType) =>
         paddingVertical: 16,
           gap: 8,
           borderBottomWidth: 1,
-          borderColor: colors.border_2
-    },
+          borderColor: colors.border_2,
+   },
     productDetailsContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -51,7 +51,12 @@ export const useStyles = (colors: ColorsType) =>
     countValueContainer:{
         flex:1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: colors.card_bg_primary
+    },
+    qty:{
+        color: colors.contentPrimary,
+        fontSize: 16
     },
     leftRadius:{
         borderTopLeftRadius: 8,
@@ -60,5 +65,11 @@ export const useStyles = (colors: ColorsType) =>
     rightRadius:{
          borderTopRightRadius: 8,
         borderBottomRightRadius: 8
+    },
+    prodName:{
+        color: colors.contentPrimary
+    },
+    discountedMRP:{
+        color: colors.contentPrimary
     }
   });

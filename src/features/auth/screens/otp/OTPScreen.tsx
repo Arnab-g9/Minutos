@@ -24,6 +24,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../store/store';
 import { postData } from '../../../../api/api';
 import { setAuthToken, setLogin, setUser } from '../../slice/Authslice';
+import AuthService from '../../service/AuthService';
+import { Toast } from 'toastify-react-native';
 
 const OTPScreen = () => {
   const [otp, setOtp] = useState<string[]>(new Array(6).fill(''));
@@ -72,30 +74,49 @@ const OTPScreen = () => {
   };
 
   const handleSubmit = async () => {
-    console.log("handle submit of otp screen called ==>")
+    console.log('handle submit of otp screen called ==>');
     const enteredOtp = otp.join('');
     console.log('This is Otp ==>', enteredOtp);
     const cred = {
-      phoneNumber: "+91"+phoneNumber,
+      phoneNumber: '+91' + phoneNumber,
       otp: enteredOtp,
     };
-    console.log("this is cred ===>", cred);
+    console.log('this is cred ===>', cred);
     try {
       const res = await postData('/auth/verify-otp', cred);
-      console.log("this is response of handle submit otp ===>", res)
-      if(res?.data?.success){
+      console.log('this is response of handle submit otp ===>', res);
+      if (res?.data?.success) {
         dispatch(setAuthToken(res?.data?.token));
         dispatch(setUser(res?.data?.user));
         dispatch(setLogin(true));
         navigation.navigate(ScreenNames.DASHBOARD_SCREEN as never);
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error:', error);
     }
   };
 
   const handleResend = () => {
     setShowTimer({ visible: true, time: 30 });
+    const sendPhoneObj = {
+      phoneNumber: '+91' + phoneNumber,
+    };
+    try {
+      const res = AuthService.sendOTP('/auth/send-otp', sendPhoneObj);
+      if (res?.success) {
+        Toast.show({
+          type: 'success',
+          text1: 'OTP Sent',
+          text2: res?.data?.message,
+          position: 'bottom',
+          visibilityTime: 1500,
+          autoHide: true,
+        });
+        navigation.navigate(ScreenNames.OTP_SCREEN as never);
+      }
+    } catch (error) {
+      console.error("Error happen: ", error)
+    }
   };
 
   const initializeTextInputRef = (ref: TextInput | null, index: number) => {

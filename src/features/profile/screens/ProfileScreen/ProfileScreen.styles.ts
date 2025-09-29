@@ -10,11 +10,15 @@ export const useStyles = (colors: ColorsType) =>
     contentContainer: {
       flexGrow: 1,
       padding: 16,
+      backgroundColor: colors.background_primary,
     },
     nameAndProfileimageContainer: {
       flexDirection: 'row',
       gap: 20,
       alignItems: 'center',
+    },
+    useName: {
+      color: colors.contentPrimary,
     },
     imageContainer: {
       height: 80,
@@ -23,6 +27,10 @@ export const useStyles = (colors: ColorsType) =>
       backgroundColor: colors.background_tertiary,
       justifyContent: 'flex-end',
       alignItems: 'center',
+    },
+    circleStyle: {
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     phNo: {
       color: colors.contentTertiary,
@@ -35,8 +43,9 @@ export const useStyles = (colors: ColorsType) =>
     infoContainer: {
       marginTop: 20,
       padding: 16,
-      backgroundColor: colors.background_primary,
+      backgroundColor: colors.card_bg_primary,
       borderRadius: 20,
+      borderWidth: 1,
+      borderColor: colors.border_1,
     },
-  
   });

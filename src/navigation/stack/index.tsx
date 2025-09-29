@@ -54,7 +54,7 @@ const AppNavigation = () => {
                         tabBarActiveTintColor: colors.primary,
                         tabBarInactiveTintColor: colors.contentPrimary,
                         tabBarStyle: {
-                          backgroundColor: colors.background_primary,
+                          backgroundColor: colors.card_bg_primary,
                           borderTopWidth: 0,
                           borderTopLeftRadius: 20,
                           borderTopRightRadius: 20,

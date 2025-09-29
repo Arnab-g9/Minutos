@@ -49,8 +49,8 @@ const Card = ({ item }: props) => {
         <View style={styles.productDetails}>
           <Image source={ImageSource.item1} />
           <View>
-            <Text>{item.name}</Text>
-            <Text fontSize={16} varient="semiBold">
+            <Text style={styles.prodName}>{item.name}</Text>
+            <Text fontSize={16} varient="semiBold" style={styles.discountedMRP}>
               ₹{item.discountedMRP}{' '}
               <Text fontSize={12} varient="regular" style={styles.actualPrice}>
                 ₹{item.originalPrice}
@@ -74,7 +74,7 @@ const Card = ({ item }: props) => {
             <Image source={ImageSource.minusWhite} />
           </TouchableOpacity>
           <View style={styles.countValueContainer}>
-            <Text>{quantity}</Text>
+            <Text style={styles.qty}>{quantity}</Text>
           </View>
           <TouchableOpacity style={[styles.btn, styles.rightRadius]} onPress={handleIncreaseQuantity} activeOpacity={0.8}>
             <Image source={ImageSource.plusWhite} />

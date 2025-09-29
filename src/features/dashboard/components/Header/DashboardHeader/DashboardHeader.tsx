@@ -21,11 +21,10 @@ const DashboardHeader = ({ address, onPressProfileIcon }: props) => {
     const styles = useStyles(colors);
     // const navigation = useNavigation();
     const renderLeftIcon = () => {
-        return <SearchIcon name={'search'} size={20} />
+        return <SearchIcon name={'search'} size={20} color={colors.contentTertiary}/>
     }
     return (
         <SafeAreaView edges={['top']} style={styles.container}>
-            <StatusBar translucent backgroundColor={'transparent'} barStyle={'light-content'} />
             <View style={styles.section1}>
                 <View style={[styles.section1, styles.flex1]}>
                     {/* <Image source={ImageSource.location} style={styles.location} /> */}

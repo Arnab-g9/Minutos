@@ -19,6 +19,7 @@ export const useStyles = (colors: ColorsType) =>
       //   left: 0,
       //   right: 0,
       //   bottom: 0,
+      backgroundColor: colors.background_primary
     },
     slotContainer: {
       height: 91,
@@ -61,6 +62,9 @@ export const useStyles = (colors: ColorsType) =>
       padding: 16,
       paddingBottom: 0,
       justifyContent: 'space-between'
+    },
+    addressTxt:{
+      color: colors.contentPrimary
     },
     changeAddressBtn: {
       flexDirection: 'row',

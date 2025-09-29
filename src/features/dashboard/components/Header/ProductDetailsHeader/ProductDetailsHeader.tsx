@@ -12,9 +12,10 @@ import { useStyles } from './ProductDetailsHeader.styles';
 
 interface props {
     address: string,
+    onProfileIconPress: ()=> void
 }
 
-const ProductDetailsHeader = ({ address }: props) => {
+const ProductDetailsHeader = ({ address, onProfileIconPress }: props) => {
     const { colors } = useTheme();
     const styles = useStyles(colors);
     const navigation = useNavigation();
@@ -37,7 +38,7 @@ const ProductDetailsHeader = ({ address }: props) => {
                     <DownArrowIcon name={'chevron-small-down'} size={20} color={colors.primary} />
                 </View>
                 {/* <Image source={ImageSource.profile} style={styles.profile} /> */}
-                <UserIcon name={'user'} size={20} color={colors.primary} />
+                <UserIcon name={'user'} size={20} color={colors.primary} onPress={onProfileIconPress} />
 
             </View>
         </SafeAreaView>

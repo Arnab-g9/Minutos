@@ -8,9 +8,9 @@ export interface ISubCategoryResponse {
 export interface ISubcategory {
     _id: string
     name: string
-    category: string
-    image: string
-    createdAt: string
-    updatedAt: string
-    __v: number
+    category?: string
+    image?: string
+    createdAt?: string
+    updatedAt?: string
+    __v?: number
 }

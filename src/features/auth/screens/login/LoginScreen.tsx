@@ -66,14 +66,6 @@ const LoginScreen = () => {
     });
   }, [navigation, styles.emptyHeader]);
 
-  // useEffect(() => {
-  // const phoneNumber = storage.getString(StorageKeys.USER_PHONE_NUMBER);
-  // if (phoneNumber) {
-  //     setInputPhoneNumber(phoneNumber);
-  //     validateText(phoneNumber);
-  // }
-  // }, []);
-
   const handleSubmitPhoneNo = async () => {
     setShowLoader(true);
     const sendPhoneObj = {

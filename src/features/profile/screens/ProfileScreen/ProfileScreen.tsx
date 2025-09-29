@@ -1,5 +1,5 @@
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
-import React, { useEffect } from 'react';
+import { FlatList, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { useTheme } from '../../../../theme/ThemeProvider';
 import { useStyles } from './ProfileScreen.styles';
 import { useNavigation } from '@react-navigation/native';
@@ -16,6 +16,9 @@ import NavItem from '../../components/NavItem/NavItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../auth/slice/Authslice';
 import { RootState } from '../../../../store/store';
+import { Switch } from 'react-native-switch';
+import SunIcon from 'react-native-vector-icons/Feather'
+import MoonIcon from 'react-native-vector-icons/Feather'
 
 const infoArr = [
   {
@@ -51,7 +54,8 @@ const infoArr = [
 // ];
 
 const ProfileScreen = () => {
-  const { colors } = useTheme();
+  const [isEnabled, setIsEnabled] = useState<boolean>(false);
+  const { colors, mode, toggleTheme } = useTheme();
   const styles = useStyles(colors);
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -59,11 +63,19 @@ const ProfileScreen = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    console.log("Logout pressed ===>");
   }
 
+  const handleToggleSwitch = ()=>{
+    setIsEnabled(prev => !prev);
+    toggleTheme();
+  }
+
+  useEffect(()=>{
+    setIsEnabled(mode==='light' ? false : true)
+  }, [])
+
   useEffect(() => {
-    const renderHeader = () => <PrimaryHeader title="Settings" />;
+    const renderHeader = () => <PrimaryHeader title="Settings"  />;
     navigation.setOptions({
       headerShown: true,
       header: renderHeader,
@@ -88,13 +100,37 @@ const ProfileScreen = () => {
           </View>
           {/* Profile Image and details container */}
           <View>
-            <Text varient="bold" fontSize={20}>
+            <Text varient="bold" fontSize={20} style={styles.useName}>
               Guest Name
             </Text>
             <Text style={styles.phNo} varient="medium">
               {user?.phoneNumber}
             </Text>
           </View>
+          {/* switch */}
+          <View style={{flex:1, alignItems: 'flex-end'}}>
+          <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
+            <SunIcon name={'sun'} size={20} color={mode==='light' ? colors.contentPrimary : colors.primaryCtaText}/>
+              <Switch
+            value={isEnabled}
+            onValueChange={handleToggleSwitch}
+            circleSize={20}
+            barHeight={22}
+            backgroundInactive={colors.contentDisabled}
+            backgroundActive={colors.primary}
+            renderActiveText={false}
+            renderInActiveText={false}
+            changeValueImmediately
+            circleBorderWidth={2}
+            innerCircleStyle={styles.circleStyle}
+            outerCircleStyle={styles.circleStyle}
+            circleBorderActiveColor={colors.primary}
+            circleBorderInactiveColor={colors.contentDisabled}
+          />
+          <MoonIcon name={'moon'} size={20} color={mode==='light' ? colors.contentPrimary : colors.primaryCtaText} />
+          </View>
+          </View>
+
         </View>
         {/* options */}
         <View style={styles.optionsContainer}>
@@ -129,23 +165,15 @@ const ProfileScreen = () => {
             title={'Profile'}
           />
         </View>
+        <Text varient="bold" fontSize={18} style={{ marginTop: 50, color: colors.contentPrimary }}>
+          Your Information
+        </Text>
+        <View style={styles.infoContainer}>
+          {infoArr.map((item, index) => (
+            <NavItem item={item} isLast={index === infoArr.length-1}/>
+          ))}
+        </View>
 
-        <Text varient="bold" fontSize={18} style={{ marginTop: 50 }}>
-          Your Information
-        </Text>
-        <View style={styles.infoContainer}>
-          {infoArr.map((item, index) => (
-            <NavItem item={item} />
-          ))}
-        </View>
-        <Text varient="bold" fontSize={18} style={{ marginTop: 50 }}>
-          Your Information
-        </Text>
-        <View style={styles.infoContainer}>
-          {infoArr.map((item, index) => (
-            <NavItem item={item} />
-          ))}
-        </View>
       </ScrollView>
       <TouchableOpacity
         onPress={handleLogout}

@@ -9,15 +9,17 @@ export const useStyles = (colors: ColorsType) => StyleSheet.create({
         borderColor: colors.border_1,
         borderRadius: 8,
         padding: 8,
-        gap: 7
+        gap: 7,
+        backgroundColor: colors.card_bg_primary
     },
     activeContainer: {
         borderColor: colors.border_active,
-        backgroundColor: colors.bckground_tertiary
+        backgroundColor: colors.background_tertiary
     },
     price:{
         // marginTop: 6
-        lineHeight: 14
+        lineHeight: 14,
+        color: colors.contentPrimary
     },
     per100:{
          color: colors.contentGreen,
