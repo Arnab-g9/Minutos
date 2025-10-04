@@ -4,13 +4,12 @@ import { ColorsType } from '../../../../constants/Ui/colors/colors.types';
 export const useStyles = (colors: ColorsType) =>
   StyleSheet.create({
     container: {
-      flexGrow: 1,
-      backgroundColor: colors.background_primary,
+      flex: 1,
+      backgroundColor: colors.background_primary
     },
     contentContainerStyle: {
-      backgroundColor: colors.background_primary,
-      flexGrow: 1,
-      paddingVertical: 20,
+      padding: 15,
+      flexGrow: 1
     },
     gridContainer: {
       flexDirection: 'row',
@@ -21,19 +20,22 @@ export const useStyles = (colors: ColorsType) =>
     },
     gridItem: {
       width: (Dimensions.get('window').width - 32) / 5,
-      height: 112,
+      height: 120,
       margin: 4,
       gap: 6,
+      justifyContent: 'center',
+      alignItems: 'center',
+      //    backgroundColor: 'red'
     },
     gridImageBox: {
       width: '100%',
       height: '70%',
       borderRadius: 15,
       padding: 12,
-      backgroundColor: colors.background_tertiary,
+      backgroundColor: colors.background_tertiary
     },
     dummyBox: {
-      backgroundColor: colors.background_primary,
+      backgroundColor: colors.background_primary
     },
     categoryImage: {
       width: '100%',

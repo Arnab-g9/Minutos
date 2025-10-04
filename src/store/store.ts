@@ -4,6 +4,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import AuthSlice from '../features/auth/slice/Authslice';
 import DashboardSlice from '../features/dashboard/slice/DashboardSlice';
 import CartSlice from '../features/cart/slice/CartSlice';
+import CategorySlice from '../features/category/slice/CategorySlice';
 
 
 
@@ -18,7 +19,8 @@ export const store = configureStore({
     reducer: {
         auth: persistedSlice,
         dashboard: DashboardSlice,
-        cart: CartSlice
+        cart: CartSlice,
+        category: CategorySlice
     },
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware({

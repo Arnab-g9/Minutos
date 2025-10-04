@@ -16,6 +16,8 @@ interface props {
 }
 
 const Card = ({ item }: props) => {
+  const [imageError, setImageError] = useState(false);
+  const imageUri = item?.images?.[0] || item?.images?.[1];
   const { colors } = useTheme();
   const styles = useStyles(colors);
   const dispatch = useDispatch();
@@ -47,7 +49,11 @@ const Card = ({ item }: props) => {
     <View style={styles.container}>
       <View style={styles.productDetailsContainer}>
         <View style={styles.productDetails}>
-          <Image source={ImageSource.item1} />
+          <Image source={imageError || !imageUri ? ImageSource.item1 : { uri: imageUri }}
+            style={styles.productImage}
+            onError={() => setImageError(true)}
+            resizeMode='contain'
+          />
           <View>
             <Text style={styles.prodName}>{item.name}</Text>
             <Text fontSize={16} varient="semiBold" style={styles.discountedMRP}>

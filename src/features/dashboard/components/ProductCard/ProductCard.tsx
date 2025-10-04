@@ -47,8 +47,6 @@ const ProductCard = ({ product }: props) => {
       quantity: 1,
       userId: user?.id
     })
-    console.log("This is response of cart service add product ===>", res.data)
-
     Toast.show({
       type: 'success',
       text1: 'Cart Updated',
