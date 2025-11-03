@@ -19,73 +19,13 @@ import { default as Text } from '../../../../components/Text/MSText';
 import LocationIcon from 'react-native-vector-icons/Ionicons'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, store } from '../../../../store/store';
-import { resetCart } from '../../slice/CartSlice';
 import NoDataFound from '../../../../components/NoDataFound/NoDataFound';
-
-// interface ICartItem {
-//   id: number;
-//   image: any;
-//   weight: string[];
-//   price: number;
-//   discountPrice: number;
-// }
-
-// const cartdata: ICartItem[] = [
-//   {
-//     id: 1,
-//     image: ImageSource.item1,
-//     weight: ['500g', '1kg', '1.5kg', '2kg'],
-//     price: 25,
-//     discountPrice: 24,
-//   },
-//   {
-//     id: 2,
-//     image: ImageSource.item1,
-//     weight: ['500g', '1kg', '1.5kg', '2kg'],
-//     price: 25,
-//     discountPrice: 24,
-//   },
-//   {
-//     id: 3,
-//     image: ImageSource.item1,
-//     weight: ['500g', '1kg', '1.5kg', '2kg'],
-//     price: 25,
-//     discountPrice: 24,
-//   },
-//   {
-//     id: 4,
-//     image: ImageSource.item1,
-//     weight: ['500g', '1kg', '1.5kg', '2kg'],
-//     price: 25,
-//     discountPrice: 24,
-//   },
-//   {
-//     id: 5,
-//     image: ImageSource.item1,
-//     weight: ['500g', '1kg', '1.5kg', '2kg'],
-//     price: 25,
-//     discountPrice: 24,
-//   },
-//   {
-//     id: 6,
-//     image: ImageSource.item1,
-//     weight: ['500g', '1kg', '1.5kg', '2kg'],
-//     price: 25,
-//     discountPrice: 24,
-//   },
-//   {
-//     id: 7,
-//     image: ImageSource.item1,
-//     weight: ['500g', '1kg', '1.5kg', '2kg'],
-//     price: 25,
-//     discountPrice: 24,
-//   },
-// ];
+import { setCart } from '../../slice/CartSlice';
 
 const CartScreen = () => {
   const { colors } = useTheme();
-  const { user, token } = useSelector((store: RootState) => store.auth)
   const { cart, totalPrice } = useSelector((store: RootState) => store.cart);
+  const {currentAddress} = useSelector((store: RootState)=>store.dashboard);
   const styles = useStyles(colors);
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -100,14 +40,14 @@ const CartScreen = () => {
     setShowConfermationModal(false);
   };
   const onConfirmConfermationModal = () => {
-    dispatch(resetCart());
     setShowConfermationModal(false);
+    dispatch(setCart([]))
   }
-  console.log("this is userId ===>", user?.id, token)
+
   useEffect(() => {
     const renderHeader = () => (
       <>
-        <Header onPressBtn={handlePressBtn} title={`Cart (${cart.length})`} isCart />
+        <Header onPressBtn={handlePressBtn} title={`Cart (${cart?.length})`} isCart />
         <Label />
       </>
     );
@@ -125,12 +65,12 @@ const CartScreen = () => {
         <FlatList data={cart} renderItem={({ item }) => <Card item={item} />} style={styles.container}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.contentContainer}
-          keyExtractor={(item) => item._id.toString()}
+          keyExtractor={(item) => item?.productId?._id?.toString?.() || item._id?.toString?.()}
           ListEmptyComponent={() => <NoDataFound message='Please add some product into the cart :)' />}
         />
       </View>
       {
-        cart.length > 0 && <View style={styles.slotAddressAndButtonContainer}>
+        cart?.length > 0 && <View style={styles.slotAddressAndButtonContainer}>
           <View style={styles.slotContainer}>
             <View style={styles.titleAndSubTitleContainer}>
               <Text varient="medium" fontSize={16} style={styles.title}>
@@ -149,7 +89,7 @@ const CartScreen = () => {
           </View>
           <View style={styles.addressContainer}>
             <Text style={styles.addressTxt}>
-              HOME <Text>- 4202, T 4, Sultan Bagh...</Text>
+              HOME <Text>- {currentAddress?.length! > 15 ? currentAddress?.slice(0, 15)+"..." : currentAddress}</Text>
             </Text>
             <View style={styles.changeAddressBtn}>
               {/* <Image source={ImageSource.location} /> */}
@@ -164,6 +104,7 @@ const CartScreen = () => {
           </View>
         </View>
       }
+      <ConfermationModal visible={showConfermationModal} onConfirm={onConfirmConfermationModal} onDecline={onDismissConfermationModal} />
     </View>
   );
 };

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { Banner } from "../Types/GetAds.Types";
 import { ICategory } from "../Types/GetCategories.Types";
 import { IItem } from "../Types/GetSubCategorieItems.Types";
+import { ICoordinate } from "../Types/GetCoordinate.types";
 
 interface IDashboard {
    banner: Banner | null;
@@ -9,6 +10,8 @@ interface IDashboard {
    hotDealItems1: IItem[] | []
    hotDealItems2: IItem[] | []
    hotDealItems3: IItem[] | []
+   currentCoords: ICoordinate | null
+   currentAddress?: string | null
 }
 
 const initialState: IDashboard = {
@@ -16,8 +19,9 @@ const initialState: IDashboard = {
    categories: [],
    hotDealItems1: [],
    hotDealItems2: [],
-   hotDealItems3: []
-
+   hotDealItems3: [],
+   currentCoords: null,
+   currentAddress: null
 }
 
 export const DashboardSlice = createSlice({
@@ -39,6 +43,12 @@ export const DashboardSlice = createSlice({
       setHotDealItems3: (state, action) => {
          state.hotDealItems3 = action.payload
       },
+      setCurrentCoords: (state, action)=>{
+         state.currentCoords = action.payload
+      },
+      setCurrentAddress: (state, action) => {
+         state.currentAddress = action.payload
+      }
    }
 })
 
@@ -47,6 +57,8 @@ export const {
    setCategories,
    setHotDealItems1,
    setHotDealItems2,
-   setHotDealItems3
+   setHotDealItems3,
+   setCurrentCoords,
+   setCurrentAddress
 } = DashboardSlice.actions;
 export default DashboardSlice.reducer;

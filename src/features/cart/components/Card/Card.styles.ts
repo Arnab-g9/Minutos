@@ -53,6 +53,9 @@ export const useStyles = (colors: ColorsType) =>
             justifyContent: 'center',
             alignItems: 'center',
         },
+        disabledBtn:{
+            backgroundColor: colors.contentDisabled
+        },
         countValueContainer: {
             flex: 1,
             justifyContent: 'center',

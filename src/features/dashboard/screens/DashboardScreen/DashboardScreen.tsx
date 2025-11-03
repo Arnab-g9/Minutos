@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../../../theme/ThemeProvider';
 import { useStyles } from './DashboardScreen.styles';
@@ -23,16 +23,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setBanner, setCategories, setHotDealItems1, setHotDealItems2, setHotDealItems3 } from '../../slice/DashboardSlice';
 import { RootState, store } from '../../../../store/store';
 import CartService from '../../../cart/service/CartService';
+import useGetLocation from '../../../../hooks/useGeoLocation';
 import { setCart } from '../../../cart/slice/CartSlice';
+import AddressModal from '../../components/AddressModal/AddressModal';
 
 const { width: screenWidth } = Dimensions.get('window');
 const DashboardScreen = () => {
+  const [shwoAddressModal, setShowAddressModal] = useState(false);
   const navigation = useNavigation();
   const { colors } = useTheme();
-  const { banner, categories, hotDealItems1, hotDealItems2, hotDealItems3 } = useSelector((store: RootState) => store.dashboard);
+  const { banner, categories, hotDealItems1, hotDealItems2, hotDealItems3, currentAddress } = useSelector((store: RootState) => store.dashboard);
   const { user } = useSelector((store: RootState) => store.auth)
   const styles = useStyles(colors);
   const dispatch = useDispatch();
+  const { isLocationPermissionGranted, getCurrentLocation } = useGetLocation()
+
   const carouselHeight = screenWidth / 2;
 
   const adjustedCategories =
@@ -52,19 +57,16 @@ const DashboardScreen = () => {
 
   const fetchInitialCartData = async () => {
     const res = await CartService.getInitailCartItem("/cart?userId", user?.id!)
-    console.log("This is initail cart response ===>", res?.items)
     dispatch(setCart(res?.items))
   }
 
   const fetchCategories = async () => {
     const res = await DashboardService.getCategories('/category/getcategories');
-    console.log("this is response of getcategories ===>", res);
     dispatch(setCategories(res.categories));
   }
 
   const fetchCategorieItemsById = async (id: string, type: number) => {
     const res = await DashboardService.getSubCategoriesProduct('/product/subcategories?subCategories', id);
-    console.log("this is dashboard subcategory data ===>", res?.data)
     if (type === 0) {
       dispatch(setHotDealItems1(res?.data));
     } else if (type === 1) {
@@ -76,23 +78,42 @@ const DashboardScreen = () => {
   }
 
   const handleCategoryPress = (name: string) => {
-    navigation.navigate(ScreenNames.SUBCATEGORY_SCREEN as never, {
+    (navigation as any).navigate(ScreenNames.SUBCATEGORY_SCREEN as never, {
       name: name
     })
   }
 
+  const handlePressDetectLocation = async ()=>{
+    console.log("getting current location ===>");
+    await getCurrentLocation()
+  }
+
+  const handlePressSaveLocation = ()=>{
+    setShowAddressModal(false);
+  }
+
+  const handlePressAddressBtn = ()=>{
+    setShowAddressModal(true);
+  }
+
+  const headerAddress = useMemo(() => {
+    if (currentAddress) return currentAddress;
+    return 'Detecting location...';
+  }, [currentAddress]);
+
   useEffect(() => {
     const renderHeader = () => (
       <DashboardHeader
-        address="HOME - Sultan Bhag, Erraga..."
+        address={headerAddress.length > 20 ? headerAddress.slice(0, 30) + "..." : headerAddress}
         onPressProfileIcon={handlePressProfileIcon}
+        onPressAddressBtn={handlePressAddressBtn}
       />
     );
     navigation.setOptions({
       headerShown: true,
       header: renderHeader,
     });
-  }, [navigation]);
+  }, [navigation, headerAddress]);
 
   useEffect(() => {
     fetchAds();
@@ -103,6 +124,13 @@ const DashboardScreen = () => {
 
     fetchInitialCartData();
   }, []);
+
+  useEffect(() => {
+    if (isLocationPermissionGranted) {
+
+      getCurrentLocation()
+    }
+  }, [isLocationPermissionGranted]);
 
 
   return (
@@ -328,6 +356,7 @@ const DashboardScreen = () => {
           <ProductCard product={product} key={index.toString()} />
         ))}
       </ScrollView>
+      <AddressModal visible={shwoAddressModal} onPressDetectLocation={handlePressDetectLocation} onPressSaveLocation={handlePressSaveLocation} addressTxt={headerAddress} onDismiss={()=>setShowAddressModal(false)}/>
     </ScrollView>
   );
 };

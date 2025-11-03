@@ -7,12 +7,13 @@ import { default as Text } from '../../../../components/Text/MSText';
 import DownArrowIcon from 'react-native-vector-icons/Entypo';
 import CrossIcon from 'react-native-vector-icons/Entypo';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart, removeFromCart } from '../../slice/CartSlice';
-import { ICartItem } from '../../slice/CartSlice';
 import { RootState } from '../../../../store/store';
+import { ICartItem } from '../../Types/Getcart.Types';
+import { setCart } from '../../slice/CartSlice';
+import CartService from '../../service/CartService';
 
 interface props {
-  item: ICartItem
+  item: ICartItem;
 }
 
 const Card = ({ item }: props) => {
@@ -21,43 +22,93 @@ const Card = ({ item }: props) => {
   const { colors } = useTheme();
   const styles = useStyles(colors);
   const dispatch = useDispatch();
-  const cartItem = useSelector((state: RootState) =>
-    state.cart.cart.find(i => i._id === item._id)
-  );
+  const { cart } = useSelector((state: RootState) => state.cart);
+  const { user } = useSelector((state: RootState) => state.auth);
 
-  const quantity = cartItem?.quantity || 0;
-
-  const handleIncreaseQuantity = () => {
-    if (quantity < 10) {
-      dispatch(addToCart({ ...item, quantity: 1 })); // slice increments
+  const handleIncreaseQuantity = async () => {
+    const existingProduct = cart.find(
+      cartProd => cartProd.productId._id === item.productId._id,
+    );
+    try {
+      if (existingProduct) {
+        const res = await CartService.updateCart('/cart/update', {
+          productId: item.productId._id,
+          quantity: existingProduct?.quantity + 1,
+          userId: user?.id,
+        });
+        const newProd = {
+          ...existingProduct,
+          quantity: existingProduct.quantity + 1,
+          lineTotal: existingProduct.lineTotal + existingProduct.price,
+        };
+        const newCartData = cart.map(cartProd =>
+          cartProd.productId._id === item.productId._id ? newProd : cartProd,
+        );
+        dispatch(setCart(newCartData));
+      }
+    } catch (error) {
+      console.log('Error: ', error);
     }
-  }
+  };
 
-  const handleDecreaseQuantity = () => {
-    if (quantity > 1) {
-      dispatch(addToCart({ ...item, quantity: -1 })); // slice decrements
-    } else if (quantity === 1) {
-      dispatch(removeFromCart(item._id));
+  const handleDecreaseQuantity = async () => {
+    const existingProduct = cart.find(
+      cartProd => cartProd.productId._id === item.productId._id,
+    );
+
+    if (existingProduct?.quantity! > 2) {
+      const newProduct = {
+        ...existingProduct,
+        quantity: existingProduct?.quantity! - 1,
+        lineTotal: existingProduct?.lineTotal! - existingProduct?.price!,
+      };
+      const newCartData = cart.map(cartProd =>
+        cartProd.productId._id === item.productId._id ? newProduct : cartProd,
+      );
+      dispatch(setCart(newCartData));
+      const res = await CartService.updateCart('/cart/update', {
+        userId: user?.id,
+        productId: item.productId._id,
+        quantity: existingProduct?.quantity! - 1,
+      });
+    } else {
+      const newCartData = cart.filter(
+        cartProd => cartProd.productId._id !== item.productId._id,
+      );
+      dispatch(setCart(newCartData));
+      const res = await CartService.removeFromCart('/cart/remove', {
+        userId: user?.id,
+        productId: existingProduct?.productId._id,
+      });
     }
-  }
+  };
 
-  const handleRemoveItem = () => {
-    dispatch(removeFromCart(item._id));
-  }
+  const handleRemoveItem = async () => {
+   const newCartData = cart.filter((cartProd)=>cartProd.productId._id !== item.productId._id!);
+     const res = await CartService.removeFromCart('/cart/remove', {
+        userId: user?.id,
+        productId: item?.productId._id,
+      });
+      console.log("this is response of remove item from cart ===>", res)
+      dispatch(setCart(newCartData));
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.productDetailsContainer}>
         <View style={styles.productDetails}>
-          <Image source={imageError || !imageUri ? ImageSource.item1 : { uri: imageUri }}
+          <Image
+            source={
+              imageError || !imageUri ? ImageSource.item1 : { uri: imageUri }
+            }
             style={styles.productImage}
             onError={() => setImageError(true)}
-            resizeMode='contain'
+            resizeMode="contain"
           />
           <View>
             <Text style={styles.prodName}>{item.name}</Text>
             <Text fontSize={16} varient="semiBold" style={styles.discountedMRP}>
-              ₹{item.discountedMRP}{' '}
+              ₹{item.price}{' '}
               <Text fontSize={12} varient="regular" style={styles.actualPrice}>
                 ₹{item.originalPrice}
               </Text>
@@ -72,17 +123,29 @@ const Card = ({ item }: props) => {
       <View style={styles.dropDownAndCounterContainer}>
         <TouchableOpacity style={styles.dropDown}>
           <Text>500 g</Text>
-          <DownArrowIcon name={'chevron-small-down'} size={20} color={colors.primary} />
+          <DownArrowIcon
+            name={'chevron-small-down'}
+            size={20}
+            color={colors.primary}
+          />
         </TouchableOpacity>
 
         <View style={styles.counter}>
-          <TouchableOpacity style={[styles.btn, styles.leftRadius]} onPress={handleDecreaseQuantity} activeOpacity={0.8}>
+          <TouchableOpacity
+            style={[styles.btn, styles.leftRadius]}
+            onPress={handleDecreaseQuantity}
+            activeOpacity={0.8}
+          >
             <Image source={ImageSource.minusWhite} />
           </TouchableOpacity>
           <View style={styles.countValueContainer}>
-            <Text style={styles.qty}>{quantity}</Text>
+            <Text style={styles.qty}>{item.quantity}</Text>
           </View>
-          <TouchableOpacity style={[styles.btn, styles.rightRadius]} onPress={handleIncreaseQuantity} activeOpacity={0.8}>
+          <TouchableOpacity
+            style={[styles.btn, styles.rightRadius]}
+            onPress={handleIncreaseQuantity}
+            activeOpacity={0.8}
+          >
             <Image source={ImageSource.plusWhite} />
           </TouchableOpacity>
         </View>

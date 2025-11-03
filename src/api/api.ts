@@ -7,7 +7,7 @@ const api = axios.create({
   baseURL: 'https://backend.minutos.shop/api',
   timeout: 120000,
   headers: {
-    'Content-Type': `application/json`,
+    'Content-Type': 'application/json',
     Accept: 'application/json',
   },
 });
@@ -17,7 +17,7 @@ const apiFormData = axios.create({
   timeout: 120000,
 });
 
-const {token} = store.getState().auth
+const { token } = store.getState().auth;
 
 apiFormData.interceptors.request.use(
   async config => {
@@ -42,17 +42,12 @@ api.interceptors.request.use(
 export const fetchData = async (endpoint: string) => {
   try {
     const response = await api.get(endpoint);
-    // console.log('Success:___', response.config);
     return response;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.log("Axios Error:", error?.config);
-      // console.log('Error response:', error.response?.data);
-      // console.log('Status:', error.response?.status);
-      // console.log('Headers:', error.response?.headers);
-      return error.response
-    }
-    else {
+      return error.response;
+    } else {
       console.log("Generic Error:", error);
     }
   }
@@ -61,18 +56,27 @@ export const fetchData = async (endpoint: string) => {
 export const postData = async (endpoint: string, body: any) => {
   try {
     const response = await api.post(endpoint, body);
-    // console.log('Success:___', response.config);
     return response;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.log("Axios Error:", error?.config);
-      // console.log('Error response:', error.response?.data);
-      // console.log('Status:', error.response?.status);
-      // console.log('Headers:', error.response?.headers);
-      return error.response
-    }
-    else {
+      return error.response;
+    } else {
       console.log("Generic Error:", error);
+    }
+  }
+};
+
+export const putData = async (endpoint: string, body: any) => {
+  try {
+    const response = await api.put(endpoint, body);
+    return response;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log("Axios PUT Error:", error?.config);
+      return error.response;
+    } else {
+      console.log("Generic PUT Error:", error);
     }
   }
 };
@@ -93,9 +97,8 @@ export const postFormData = async (endpoint: string, body: FormData) => {
       console.log('Error response:', error.response?.data);
       console.log('Status:', error.response?.status);
       console.log('Headers:', error.response?.headers);
-      return error.response
-    }
-    else {
+      return error.response;
+    } else {
       console.log("Generic Error:", error);
     }
   }
@@ -112,9 +115,8 @@ export const deleteData = async (endpoint: string) => {
       console.log('Error response:', error.response?.data);
       console.log('Status:', error.response?.status);
       console.log('Headers:', error.response?.headers);
-      return error.response
-    }
-    else {
+      return error.response;
+    } else {
       console.log("Delete Generic Error:", error);
     }
   }

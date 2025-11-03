@@ -19,22 +19,14 @@ import { RootState } from '../../../../store/store';
 import { Switch } from 'react-native-switch';
 import SunIcon from 'react-native-vector-icons/Feather'
 import MoonIcon from 'react-native-vector-icons/Feather'
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const infoArr = [
-  {
-    name: 'Your Orders',
-  },
-  {
-    name: 'Help & Support',
-  },
   {
     name: 'Refunds',
   },
   {
     name: 'Saved Addresses',
-  },
-  {
-    name: 'Profile',
   },
   {
     name: 'Payment Management',
@@ -59,7 +51,7 @@ const ProfileScreen = () => {
   const styles = useStyles(colors);
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { user } = useSelector((store: RootState) => store.auth)
+  const { user } = useSelector((store: RootState) => store.auth);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -83,7 +75,7 @@ const ProfileScreen = () => {
   }, [navigation]);
 
   return (
-    <View style={{ flex: 1 }}>
+    <SafeAreaView edges={['bottom']} style={styles.container}>
       <ScrollView
         contentContainerStyle={styles.contentContainer}
         showsVerticalScrollIndicator={false}
@@ -175,13 +167,10 @@ const ProfileScreen = () => {
         </View>
 
       </ScrollView>
-      <TouchableOpacity
+   <View style={{paddingHorizontal: 16}}>
+   <TouchableOpacity
         onPress={handleLogout}
         style={{
-          position: 'absolute',
-          bottom: 50,
-          left: 16,
-          right: 16,
           borderRadius: 12,
           height: 50,
           justifyContent: 'center',
@@ -197,6 +186,7 @@ const ProfileScreen = () => {
           shadowOpacity: 0.27,
           shadowRadius: 4.65,
           elevation: 6,
+          marginBottom: 20
         }}
       >
         <LogoutIcon name="logout" size={20} color={colors.primaryCtaText} />
@@ -208,7 +198,8 @@ const ProfileScreen = () => {
           Log Out
         </Text>
       </TouchableOpacity>
-    </View>
+   </View>
+    </SafeAreaView>
 
   );
 };

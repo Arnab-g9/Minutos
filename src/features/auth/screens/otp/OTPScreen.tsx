@@ -1,22 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useRef, useState } from 'react';
-import {
-  KeyboardAvoidingView,
-  NativeSyntheticEvent,
-  Platform,
-  Text,
-  TextInput,
-  TextInputKeyPressEventData,
-  View,
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { KeyboardAvoidingView, Platform, Text, View } from 'react-native';
 import {
   SafeAreaView,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 import { useTheme } from '../../../../theme/ThemeProvider';
 import { useStyles } from './OTPScreen.styles';
-import regularExpressions from '../../../../constants/regularExpressions';
-import PrimaryHeader from '../../../../components/Header/PrimaryHeader/PrimaryHeader';
 import TextWithLinkButton from '../../../../components/Button/TextWithLinkButton/TextWithLinkButton';
 import PrimaryButton from '../../../../components/Button/PrimaryButton/PrimaryButton';
 import { ScreenNames } from '../../../../navigation/stack/constants';
@@ -26,9 +16,10 @@ import { postData } from '../../../../api/api';
 import { setAuthToken, setLogin, setUser } from '../../slice/Authslice';
 import AuthService from '../../service/AuthService';
 import { Toast } from 'toastify-react-native';
+import { OtpInput } from 'react-native-otp-entry';
 
 const OTPScreen = () => {
-  const [otp, setOtp] = useState<string[]>(new Array(6).fill(''));
+  const [otp, setOtp] = useState('');
   const [showTimer, setShowTimer] = useState<{
     visible: boolean;
     time: number;
@@ -38,48 +29,19 @@ const OTPScreen = () => {
   });
   const { phoneNumber } = useSelector((store: RootState) => store.auth);
 
-  const inputs = useRef<(TextInput | null)[]>([]);
-
   const navigation = useNavigation();
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const styles = useStyles(colors, insets);
   const dispatch = useDispatch();
 
-  const handleChange = (text: string, index: number) => {
-    if (!regularExpressions.ONLY_DIGITS.test(text) && text !== '') return;
-
-    const newOtp = [...otp];
-    newOtp[index] = text;
-    setOtp(newOtp);
-
-    if (text !== '' && index < otp.length - 1) {
-      inputs.current[index + 1]?.focus();
-    }
-  };
-
-  const handleKeyPress = (
-    e: NativeSyntheticEvent<TextInputKeyPressEventData>,
-    index: number,
-  ) => {
-    if (e.nativeEvent.key === 'Backspace') {
-      if (otp[index] === '' && index > 0) {
-        inputs.current[index - 1]?.focus();
-      } else {
-        const newOtp = [...otp];
-        newOtp[index] = '';
-        setOtp(newOtp);
-      }
-    }
-  };
-
-  const handleSubmit = async () => {
+  const handleSubmit = async (otp:string) => {
+    console.log("handle submit called ===>", otp);
+    if (otp.length < 6) return;
     console.log('handle submit of otp screen called ==>');
-    const enteredOtp = otp.join('');
-    console.log('This is Otp ==>', enteredOtp);
     const cred = {
       phoneNumber: '+91' + phoneNumber,
-      otp: enteredOtp,
+      otp,
     };
     console.log('this is cred ===>', cred);
     try {
@@ -96,13 +58,11 @@ const OTPScreen = () => {
     }
   };
 
-  const handleResend = () => {
+  const handleResend = async () => {
     setShowTimer({ visible: true, time: 30 });
-    const sendPhoneObj = {
-      phoneNumber: '+91' + phoneNumber,
-    };
+    const sendPhoneObj = { phoneNumber: '+91' + phoneNumber };
     try {
-      const res = AuthService.sendOTP('/auth/send-otp', sendPhoneObj);
+      const res = await AuthService.sendOTP('/auth/send-otp', sendPhoneObj);
       if (res?.success) {
         Toast.show({
           type: 'success',
@@ -115,35 +75,9 @@ const OTPScreen = () => {
         navigation.navigate(ScreenNames.OTP_SCREEN as never);
       }
     } catch (error) {
-      console.error("Error happen: ", error)
+      console.error('Error happen: ', error);
     }
   };
-
-  const initializeTextInputRef = (ref: TextInput | null, index: number) => {
-    inputs.current[index] = ref;
-  };
-
-  const renderOtpInputs = () =>
-    otp.map((digit, index) => (
-      <TextInput
-        key={index}
-        ref={ref => initializeTextInputRef(ref, index)}
-        value={digit}
-        onChangeText={text => handleChange(text, index)}
-        onKeyPress={e => handleKeyPress(e, index)}
-        keyboardType="number-pad"
-        maxLength={1}
-        autoFocus={index === 0}
-        returnKeyType="next"
-        style={[
-          styles.otpInput,
-          digit.length > 0 && styles.activeOtpInput,
-          index === otp.length - 1 && styles.otpInputLast,
-        ]}
-      />
-    ));
-
-  const isOtpComplete = otp.every(digit => digit !== '');
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
@@ -155,13 +89,7 @@ const OTPScreen = () => {
       setShowTimer({ visible: false, time: 0 });
     }
     return () => clearTimeout(timer);
-  }, [showTimer.time, showTimer.visible]);
-
-  useEffect(() => {
-    if (otp.every(digit => digit !== '')) {
-      handleSubmit();
-    }
-  }, [otp]);
+  }, [showTimer]);
 
   useEffect(() => {
     const renderAppHeader = () => (
@@ -183,9 +111,36 @@ const OTPScreen = () => {
         keyboardVerticalOffset={Platform.OS === 'ios' ? insets.bottom + 80 : 0}
       >
         <View style={styles.innerContainer}>
-          <Text style={styles.title}>{'Verify Phone Number'}</Text>
-          <Text style={styles.subtitle}>{'Enter your OTP'}</Text>
-          <View style={styles.otpcontainer}>{renderOtpInputs()}</View>
+          <Text style={styles.title}>Verify Phone Number</Text>
+          <Text style={styles.subtitle}>Enter your OTP</Text>
+
+          {/* ✅ New OtpInput Component */}
+          <OtpInput
+            numberOfDigits={6}
+            focusColor={colors.primary}
+            autoFocus={true}
+            hideStick={false}
+            blurOnFilled={false}
+            type="numeric"
+            secureTextEntry={false}
+            onTextChange={text => {
+              console.log("This is text ===>", text);
+              setOtp(text)
+            }}
+            onFilled={text => {
+              setOtp(text);
+              handleSubmit(text);
+            }}
+            textInputProps={{
+              accessibilityLabel: 'One-Time Password',
+            }}
+            theme={{
+              containerStyle: styles.otpcontainer,
+              pinCodeContainerStyle: styles.otpInput,
+              focusedPinCodeContainerStyle: styles.activeOtpInput,
+              filledPinCodeContainerStyle: styles.activeOtpInput,
+            }}
+          />
 
           <TextWithLinkButton
             text={
@@ -199,9 +154,9 @@ const OTPScreen = () => {
           <View style={styles.spacer} />
           <PrimaryButton
             title={'Continue'}
-            disabled={!isOtpComplete}
+            disabled={otp.length < 6}
             containerStyle={styles.cta}
-            onPress={handleSubmit}
+            onPress={()=>handleSubmit(otp)}
           />
         </View>
       </KeyboardAvoidingView>

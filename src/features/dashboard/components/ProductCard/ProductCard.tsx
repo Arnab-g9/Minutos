@@ -9,9 +9,9 @@ import PlusIcon from 'react-native-vector-icons/Feather';
 import { IItem } from '../../Types/GetSubCategorieItems.Types';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../store/store';
-import { addToCart, ICartItem } from '../../../cart/slice/CartSlice';
 import { Toast } from 'toastify-react-native';
 import { ImageSource } from '../../../../constants/assets/Images';
+import { setCart } from '../../../cart/slice/CartSlice';
 import CartService from '../../../cart/service/CartService';
 
 interface props {
@@ -24,49 +24,98 @@ const ProductCard = ({ product }: props) => {
   const styles = useStyles(colors);
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { user } = useSelector((store: RootState) => store.auth)
+  const { user } = useSelector((store: RootState) => store.auth);
 
   const [imageError, setImageError] = useState(false);
 
   const imageUri = product?.images?.[0] || product?.images?.[1];
 
-  const onPressAddIcon = async () => {
+  const handlePressAddToCart = async (product: IItem) => {
+    const existingProduct = cart.find(
+      item => item.productId._id === product._id,
+    );
 
-    const existingItem = cart.find(item => item._id === product._id);
+    try {
+      if (!existingProduct) {
+        const res = await CartService.addToCart('/cart/add', {
+          productId: product._id,
+          quantity: 1,
+          userId: user?.id,
+        });
+        const newProduct = {
+          productId: {
+            _id: product._id,
+            name: product.name,
+            images: product.images,
+            category: product.category,
+            subCategory: product.subCategory,
+            unit: product.unit,
+            stock: product.stock,
+            price: product.price,
+            originalPrice: product.originalPrice,
+            discountedMRP: product.discountedMRP,
+            discount: product.discount,
+            amountSaving: product.amountSaving,
+            description: product.description,
+            pack: product.pack,
+            productName: product.productName,
+            rating: product.rating,
+            more_details: product.more_details,
+            createdAt: product.createdAt,
+            updatedAt: product.updatedAt,
+            __v: product.__v,
+          },
+          name: product.name,
+          images: product.images,
+          unit: product.unit,
+          price: product.price,
+          originalPrice: product.originalPrice,
+          quantity: 1,
+          lineTotal: product.price,
+          discount: product.discount,
+        };
+        const newCartData = [...cart, newProduct];
+        dispatch(setCart(newCartData));
+      } else {
+        const res = await CartService.updateCart('/cart/update', {
+          productId: product._id,
+          quantity: existingProduct?.quantity + 1,
+          userId: user?.id,
+        });
+       const newProduct = {
+        ...existingProduct,
+          quantity: existingProduct.quantity + 1,
+          lineTotal: existingProduct.lineTotal + existingProduct.price,
+       }
+       const newCartData = cart.map((cartProd)=>cartProd.productId._id === product._id ? newProduct : cartProd);
+       dispatch(setCart(newCartData));
+      }
 
-    const cartItem: ICartItem = {
-      ...product,
-      quantity: existingItem ? existingItem.quantity + 1 : 1, // increment if exists
-    };
-
-    dispatch(addToCart(cartItem));
-
-    // call api -- 
-    const res = await CartService.addToCart('/cart/add', {
-      productId: product._id,
-      quantity: 1,
-      userId: user?.id
-    })
-    Toast.show({
-      type: 'success',
-      text1: 'Cart Updated',
-      text2: existingItem
-        ? `${product.productName} quantity updated`
-        : `${product.productName} added to cart`,
-      position: 'bottom',
-      visibilityTime: 3000,
-      autoHide: true,
-    });
+       Toast.show({
+                type: 'success',
+                text1: 'Cart Updated',
+                text2: existingProduct ? `${existingProduct.name} quantity updated` : `${product?.name} added to the cart`,
+                position: 'bottom',
+                visibilityTime: 1500,
+                autoHide: true,
+              });
+    } catch (error) {
+      console.log('Error: ', error);
+    }
   };
 
   const handlePressCard = () => {
-    navigation.navigate(ScreenNames.PRODUCT_DETAILS as never, {
+    (navigation as any).navigate(ScreenNames.PRODUCT_DETAILS as never, {
       product: product,
     });
   };
 
   return (
-    <TouchableOpacity style={styles.container} activeOpacity={1} onPress={handlePressCard}>
+    <TouchableOpacity
+      style={styles.container}
+      activeOpacity={1}
+      onPress={handlePressCard}
+    >
       {product.discount ? (
         <View style={styles.discountBadge}>
           <Text varient="semiBold" fontSize={14} style={styles.offerText}>
@@ -75,13 +124,19 @@ const ProductCard = ({ product }: props) => {
         </View>
       ) : (
         <View style={styles.emptyBadge}>
-          <Text varient="semiBold" fontSize={14} style={styles.offerText}></Text>
+          <Text
+            varient="semiBold"
+            fontSize={14}
+            style={styles.offerText}
+          ></Text>
         </View>
       )}
 
       <View style={styles.imgContainer}>
         <Image
-          source={imageError || !imageUri ? ImageSource.item1 : { uri: imageUri }}
+          source={
+            imageError || !imageUri ? ImageSource.item1 : { uri: imageUri }
+          }
           style={styles.productImage}
           onError={() => setImageError(true)}
           resizeMode="contain"
@@ -103,10 +158,16 @@ const ProductCard = ({ product }: props) => {
             {product?.amountSaving ? `₹${product.originalPrice}` : null}
           </Text>
           <Text style={styles.price} varient="semiBold">
-            {product?.amountSaving ? `₹${product.discountedMRP}` : `₹${product.price}`}
+            {product?.amountSaving
+              ? `₹${product.discountedMRP}`
+              : `₹${product.price}`}
           </Text>
         </View>
-        <TouchableOpacity style={styles.addBtn} onPress={onPressAddIcon} activeOpacity={0.8}>
+        <TouchableOpacity
+          style={styles.addBtn}
+          onPress={() => handlePressAddToCart(product)}
+          activeOpacity={0.8}
+        >
           <PlusIcon name={'plus'} size={20} color={colors.primary} />
         </TouchableOpacity>
       </View>

@@ -1,0 +1,8 @@
+export interface ICoordinate {
+    accuracy: number,
+    altitude: number,
+    heading: number,
+    latitude: number,
+    longitude: number,
+    speed: number,
+}

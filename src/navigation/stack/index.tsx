@@ -24,6 +24,7 @@ const Tab = createBottomTabNavigator();
 const AppNavigation = () => {
   const { colors } = useTheme();
   const { isAuthorized } = useSelector((store: RootState) => store.auth);
+  const { cart } = useSelector((store: RootState) => store.cart)
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -32,7 +33,7 @@ const AppNavigation = () => {
         // }
         screenOptions={{ headerShown: false }}
       >
-        {!isAuthorized ? (
+        {!!isAuthorized ? (
           <>
             <Stack.Screen
               name={ScreenNames.LOGIN_SCREEN}
@@ -112,13 +113,18 @@ const AppNavigation = () => {
                         component={CartScreen}
                         options={{
                           tabBarIcon: ({ focused }) => (
-                            <Cart
-                              name={'shopping-cart'}
-                              size={20}
-                              color={
-                                focused ? colors.primary : colors.contentPrimary
-                              }
-                            />
+                            <View >
+                              <Cart
+                                name={'shopping-cart'}
+                                size={20}
+                                color={
+                                  focused ? colors.primary : colors.contentPrimary
+                                }
+                              />
+                              <View style={{ position: 'absolute', top: -10, right: -15, width: 20, height: 20, borderRadius: 50, backgroundColor: colors.primary, justifyContent: 'center', alignItems: 'center' }}>
+                                <Text style={{ color: colors.primaryCtaText }}>{cart?.length}</Text>
+                              </View>
+                            </View>
                           ),
                           tabBarLabel: ({ focused }) => (
                             <Text style={{ color: focused ? colors.primary : colors.contentPrimary }}>Cart</Text>

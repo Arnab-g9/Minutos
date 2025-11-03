@@ -6,8 +6,6 @@ import { useTheme } from "../../theme/ThemeProvider";
 
 const { width: screenWidth } = Dimensions.get("window");
 
-console.log("This is width ===>", screenWidth)
-
 
 interface props {
     data: String[] | undefined,

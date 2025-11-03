@@ -1,15 +1,16 @@
 import { StyleSheet } from 'react-native';
-import { ColorsType } from '../../../../constants/Ui/colors/colors.types';
+import { ColorsType } from '../../../../../constants/Ui/colors/colors.types';
 
 export const useStyles = (colors: ColorsType) => StyleSheet.create({
     container: {
         backgroundColor: colors.background_secondary,
         padding: 16,
-        gap: 16
+        gap: 16,
+      justifyContent: 'center'
     },
     section1: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     profile: {
         width: 17,
@@ -27,9 +28,13 @@ export const useStyles = (colors: ColorsType) => StyleSheet.create({
         color: colors.primaryCtaText,
         lineHeight: 16,
         marginLeft: 9,
-        marginRight: 3
+        marginRight: 3,
+    },
+    addressTxtContainer:{
+        // flex:1
     },
     flex1: {
-        flex: 1
+        flex: 1,
+        alignItems: 'flex-start'
     }
 });
