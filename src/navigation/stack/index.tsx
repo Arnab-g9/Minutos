@@ -33,7 +33,7 @@ const AppNavigation = () => {
         // }
         screenOptions={{ headerShown: false }}
       >
-        {!!isAuthorized ? (
+        {!isAuthorized ? (
           <>
             <Stack.Screen
               name={ScreenNames.LOGIN_SCREEN}

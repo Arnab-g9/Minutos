@@ -25,6 +25,7 @@ import { Toast } from 'toastify-react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPhoneNumber } from '../../slice/Authslice';
 import AuthService from '../../service/AuthService';
+import axios from 'axios';
 
 const LoginScreen = () => {
   const [inputPhoneNumber, setInputPhoneNumber] = useState('');
@@ -73,7 +74,17 @@ const LoginScreen = () => {
     };
     dispatch(setPhoneNumber(inputPhoneNumber));
     try {
-      const res = await AuthService.sendOTP('/auth/send-otp', sendPhoneObj);
+      // const res = await AuthService.sendOTP('api/auth/send-otp', sendPhoneObj);
+      let res = await axios.post(
+        'https://minutosa-3.onrender.com/api/auth/send-otp',
+        sendPhoneObj,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      res = res.data;
       console.log("Response of get OTP ===>", res)
       if (res?.success) {
         Toast.show({

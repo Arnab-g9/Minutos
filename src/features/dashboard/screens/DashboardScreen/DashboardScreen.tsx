@@ -41,7 +41,7 @@ const DashboardScreen = () => {
   const carouselHeight = screenWidth / 2;
 
   const adjustedCategories =
-    categories.length % 2 === 1
+    categories?.length % 2 === 1
       ? [...categories, { id: 'dummy', name: '', image: null }]
       : categories;
 
@@ -83,16 +83,16 @@ const DashboardScreen = () => {
     })
   }
 
-  const handlePressDetectLocation = async ()=>{
+  const handlePressDetectLocation = async () => {
     console.log("getting current location ===>");
     await getCurrentLocation()
   }
 
-  const handlePressSaveLocation = ()=>{
+  const handlePressSaveLocation = () => {
     setShowAddressModal(false);
   }
 
-  const handlePressAddressBtn = ()=>{
+  const handlePressAddressBtn = () => {
     setShowAddressModal(true);
   }
 
@@ -241,7 +241,7 @@ const DashboardScreen = () => {
         contentContainerStyle={styles.contentContainer}
         style={styles.productContainer}
       >
-        {hotDealItems1.map((product, index) => (
+        {hotDealItems1?.map((product, index) => (
           <ProductCard product={product} key={index.toString()} />
         ))}
       </ScrollView>
@@ -356,7 +356,7 @@ const DashboardScreen = () => {
           <ProductCard product={product} key={index.toString()} />
         ))}
       </ScrollView>
-      <AddressModal visible={shwoAddressModal} onPressDetectLocation={handlePressDetectLocation} onPressSaveLocation={handlePressSaveLocation} addressTxt={headerAddress} onDismiss={()=>setShowAddressModal(false)}/>
+      <AddressModal visible={shwoAddressModal} onPressDetectLocation={handlePressDetectLocation} onPressSaveLocation={handlePressSaveLocation} addressTxt={headerAddress} onDismiss={() => setShowAddressModal(false)} />
     </ScrollView>
   );
 };

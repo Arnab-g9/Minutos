@@ -17,6 +17,7 @@ import { setAuthToken, setLogin, setUser } from '../../slice/Authslice';
 import AuthService from '../../service/AuthService';
 import { Toast } from 'toastify-react-native';
 import { OtpInput } from 'react-native-otp-entry';
+import axios from 'axios';
 
 const OTPScreen = () => {
   const [otp, setOtp] = useState('');
@@ -35,7 +36,7 @@ const OTPScreen = () => {
   const styles = useStyles(colors, insets);
   const dispatch = useDispatch();
 
-  const handleSubmit = async (otp:string) => {
+  const handleSubmit = async (otp: string) => {
     console.log("handle submit called ===>", otp);
     if (otp.length < 6) return;
     console.log('handle submit of otp screen called ==>');
@@ -45,7 +46,15 @@ const OTPScreen = () => {
     };
     console.log('this is cred ===>', cred);
     try {
-      const res = await postData('/auth/verify-otp', cred);
+      let res = await axios.post(
+        'https://minutosa-3.onrender.com/api/auth/verify-otp',
+        cred,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
       console.log('this is response of handle submit otp ===>', res);
       if (res?.data?.success) {
         dispatch(setAuthToken(res?.data?.token));
@@ -156,7 +165,7 @@ const OTPScreen = () => {
             title={'Continue'}
             disabled={otp.length < 6}
             containerStyle={styles.cta}
-            onPress={()=>handleSubmit(otp)}
+            onPress={() => handleSubmit(otp)}
           />
         </View>
       </KeyboardAvoidingView>
