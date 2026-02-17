@@ -51,22 +51,24 @@ const DashboardScreen = () => {
   };
 
   const fetchAds = async () => {
-    const res = await DashboardService.getAds('/ads/get');
+    const res = await DashboardService.getAds('/api/ads/get');
+    console.log("This is response of banner ===>", res)
     dispatch(setBanner(res));
   };
 
   const fetchInitialCartData = async () => {
-    const res = await CartService.getInitailCartItem("/cart?userId", user?.id!)
+    const res = await CartService.getInitailCartItem("/api/cart?userId", user?.id!)
     dispatch(setCart(res?.items))
   }
 
   const fetchCategories = async () => {
-    const res = await DashboardService.getCategories('/category/getcategories');
+    const res = await DashboardService.getCategories('/api/category/categories');
+    console.log("categories response +++ ===>", res);
     dispatch(setCategories(res.categories));
   }
 
   const fetchCategorieItemsById = async (id: string, type: number) => {
-    const res = await DashboardService.getSubCategoriesProduct('/product/subcategories?subCategories', id);
+    const res = await DashboardService.getSubCategoriesProduct('/api/product/subcategories?subCategories', id);
     if (type === 0) {
       dispatch(setHotDealItems1(res?.data));
     } else if (type === 1) {
@@ -193,7 +195,7 @@ const DashboardScreen = () => {
 
       {/* Here show 4 items in each row */}
       <View style={styles.gridContainer}>
-        {adjustedCategories.map((category, index) => (
+        {adjustedCategories?.map((category, index) => (
           <TouchableOpacity style={styles.gridItem} key={index.toString()} disabled={categories.length % 2 !== 0 && index === adjustedCategories.length - 1} onPress={() => handleCategoryPress(category.name)}>
             <View style={[styles.gridImageBox, categories.length % 2 !== 0 && index === adjustedCategories.length - 1 && styles.dummyBox]}>
               <Image source={{ uri: category.image }} style={styles.categoryImage} />
@@ -278,7 +280,7 @@ const DashboardScreen = () => {
         contentContainerStyle={styles.contentContainer}
         style={styles.productContainer}
       >
-        {hotDealItems2.map((product, index) => (
+        {hotDealItems2?.map((product, index) => (
           <ProductCard product={product} key={index.toString()} />
         ))}
       </ScrollView>
@@ -315,7 +317,7 @@ const DashboardScreen = () => {
         contentContainerStyle={styles.contentContainer}
         style={styles.productContainer}
       >
-        {hotDealItems3.map((product, index) => (
+        {hotDealItems3?.map((product, index) => (
           <ProductCard product={product} key={index.toString()} />
         ))}
       </ScrollView>
@@ -352,7 +354,7 @@ const DashboardScreen = () => {
         contentContainerStyle={styles.contentContainer}
         style={styles.productContainer}
       >
-        {hotDealItems1.map((product, index) => (
+        {hotDealItems1?.map((product, index) => (
           <ProductCard product={product} key={index.toString()} />
         ))}
       </ScrollView>

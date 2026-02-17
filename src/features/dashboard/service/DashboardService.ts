@@ -11,11 +11,13 @@ class DashboardService {
 
     getCategories = async (endpoint: string): Promise<ICategoryResponse> => {
         const res = await fetchData(endpoint);
+        console.log("categories service response ===>", res);
         return res?.data;
     }
 
     getSubCategories = async (endpoint: string, name: string): Promise<ISubCategoryResponse> => {
         const res = await fetchData(`${endpoint}/${name}`);
+        console.log("subcategories service response ===>", res);
         return res?.data;
     }
 

@@ -46,14 +46,9 @@ const OTPScreen = () => {
     };
     console.log('this is cred ===>', cred);
     try {
-      let res = await axios.post(
-        'https://minutosa-3.onrender.com/api/auth/verify-otp',
+      let res = await postData(
+        '/api/auth/verify-otp',
         cred,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
       );
       console.log('this is response of handle submit otp ===>', res);
       if (res?.data?.success) {

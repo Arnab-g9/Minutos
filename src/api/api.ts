@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { store } from '../store/store';
 
 const api = axios.create({
-  baseURL: 'https://backend.minutos.shop/api',
+  baseURL: 'https://api.minutos.in',
   timeout: 120000,
   headers: {
     'Content-Type': 'application/json',
@@ -13,7 +13,7 @@ const api = axios.create({
 });
 
 const apiFormData = axios.create({
-  baseURL: 'https://backend.minutos.shop/api',
+  baseURL: 'https://api.minutos.in',
   timeout: 120000,
 });
 
@@ -40,6 +40,7 @@ api.interceptors.request.use(
 );
 
 export const fetchData = async (endpoint: string) => {
+  console.log("This is endpoint ===>", endpoint);
   try {
     const response = await api.get(endpoint);
     return response;

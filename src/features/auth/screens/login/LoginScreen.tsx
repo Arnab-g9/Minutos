@@ -20,7 +20,7 @@ import {
 } from '../../utils/helper';
 import PrimaryButton from '../../../../components/Button/PrimaryButton/PrimaryButton';
 import { ScreenNames } from '../../../../navigation/stack/constants';
-import { fetchData, postData } from '../../../../api/api';
+import { postData } from '../../../../api/api';
 import { Toast } from 'toastify-react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPhoneNumber } from '../../slice/Authslice';
@@ -71,20 +71,18 @@ const LoginScreen = () => {
     setShowLoader(true);
     const sendPhoneObj = {
       phoneNumber: '+91' + inputPhoneNumber,
+      // phoneNumber: '+91' + "9798316854",
+      "role":"DELIVERY_AGENT"
     };
     dispatch(setPhoneNumber(inputPhoneNumber));
     try {
       // const res = await AuthService.sendOTP('api/auth/send-otp', sendPhoneObj);
-      let res = await axios.post(
-        'https://minutosa-3.onrender.com/api/auth/send-otp',
+      let res = await postData(
+        '/api/auth/send-otp',
         sendPhoneObj,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
       );
-      res = res.data;
+      res = res?.data;
+      console.log("This is response of send otp ===>", res);
       console.log("Response of get OTP ===>", res)
       if (res?.success) {
         Toast.show({

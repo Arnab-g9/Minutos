@@ -33,9 +33,10 @@ const SubCategoriesScreen = ({ route }: { route: any }) => {
 
   const fetchSubCategoryData = async () => {
     const res = await DashboardService.getSubCategories(
-      '/category/subcategories',
+      '/api/category/subcategories',
       name,
     );
+    console.log('This is subcategories response ===>', res);
     setSubCategories([
       { _id: '0', name: 'All', category: 'All' },
       ...res.subcategories,

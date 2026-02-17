@@ -115,7 +115,7 @@ const CategoryScreen = () => {
   const fetchAllCategoriesAndSubCategories = async () => {
     try {
       const res = await CategoryService.getAllCategoriesAndSubCategories(
-        '/subcategory/categories-with-subcategories'
+        '/api/subcategory/categories-with-subcategories'
       );
       console.log('Fetched categories:', res?.categories);
       dispatch(setAllCategories(res?.categories));
@@ -125,7 +125,7 @@ const CategoryScreen = () => {
   };
 
   const handleSubCategoryPress = (name: string) => {
-    navigation.navigate(ScreenNames.SUBCATEGORY_SCREEN as never, { name } as never);
+    (navigation as any).navigate(ScreenNames.SUBCATEGORY_SCREEN as never, { name: name } as never);
   };
 
   useEffect(() => {
