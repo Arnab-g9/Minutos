@@ -1,7 +1,6 @@
 import {
   FlatList,
   Image,
-  ScrollView,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -16,6 +15,7 @@ import { default as Text } from '../../../../components/Text/MSText';
 import { IItem } from '../../Types/GetSubCategorieItems.Types';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import NoDataFound from '../../../../components/NoDataFound/NoDataFound';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SubCategoriesScreen = ({ route }: { route: any }) => {
   const [subCategories, setSubCategories] = useState<ISubcategory[] | []>([]);
@@ -45,7 +45,7 @@ const SubCategoriesScreen = ({ route }: { route: any }) => {
 
   const fetchSubCategroyItems = async () => {
     const res = await DashboardService.getSubCategoriesProduct(
-      '/product/subcategories?subCategories',
+      '/api/product/subcategories?subCategories',
       selectedSubCategory?._id || '',
     );
     setItems(res?.data);
@@ -74,43 +74,45 @@ const SubCategoriesScreen = ({ route }: { route: any }) => {
   console.log('This is selectd category ===>', Items);
 
   return (
-    <View style={styles.container}>
-      {/* section-1 */}
-      <FlatList
-        data={subCategories}
-        renderItem={({ item, index }) => (
-          <TouchableOpacity
-            style={[styles.subCatItemContainer]}
-            key={index.toString()}
-            onPress={() => handlePressSubCategory(item)}
-            activeOpacity={1}
-          >
-            <View
-              style={[
-                styles.item,
-                selectedSubCategory?._id === item._id && styles.selectedItem,
-              ]}
+  <SafeAreaView edges={["bottom"]} style={{flex:1}}>
+      <View style={styles.container}>
+        {/* section-1 */}
+        <FlatList
+          data={subCategories}
+          renderItem={({ item, index }) => (
+            <TouchableOpacity
+              style={[styles.subCatItemContainer]}
+              key={index.toString()}
+              onPress={() => handlePressSubCategory(item)}
+              activeOpacity={1}
             >
-              <Image source={{ uri: item.image }} style={styles.sideBarImage} />
-              <Text style={[styles.itemTxt, selectedSubCategory?._id === item._id && styles.selectedText]} fontSize={13}>
-                {item.name}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        )}
-        contentContainerStyle={styles.sectionContainer1}
-        style={styles.section1}
-        showsVerticalScrollIndicator={false}
-      />
-      {/* section-2 */}
-      <FlatList
-        data={Items}
-        renderItem={({ item, index }) => <ProductCard product={item} />}
-        contentContainerStyle={styles.sectionContainer2}
-        showsVerticalScrollIndicator={false}
-        ListEmptyComponent={NoDataFound}
-      />
-    </View>
+              <View
+                style={[
+                  styles.item,
+                  selectedSubCategory?._id === item._id && styles.selectedItem,
+                ]}
+              >
+                <Image source={{ uri: item.image }} style={styles.sideBarImage} />
+                <Text style={[styles.itemTxt, selectedSubCategory?._id === item._id && styles.selectedText]} fontSize={13}>
+                  {item.name}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          contentContainerStyle={styles.sectionContainer1}
+          style={styles.section1}
+          showsVerticalScrollIndicator={false}
+        />
+        {/* section-2 */}
+        <FlatList
+          data={Items}
+          renderItem={({ item, index }) => <ProductCard product={item} />}
+          contentContainerStyle={styles.sectionContainer2}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={NoDataFound}
+        />
+      </View>
+  </SafeAreaView>
   );
 };
 

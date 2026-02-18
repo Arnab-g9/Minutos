@@ -20,6 +20,12 @@ const { width: screenWidth } = Dimensions.get('window');
 import Cart from 'react-native-vector-icons/Feather';
 import ProductDetailsHeader from '../../components/Header/ProductDetailsHeader/ProductDetailsHeader';
 import { ScreenNames } from '../../../../navigation/stack/constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../../store/store';
+import { setCart } from '../../../cart/slice/CartSlice';
+import CartService from '../../../cart/service/CartService';
+import { Toast } from 'toastify-react-native';
+import { IItem } from '../../Types/GetSubCategorieItems.Types';
 
 
 export interface IProductWeightData {
@@ -66,10 +72,89 @@ const ProductdetailsScreen = ({ route }: props) => {
   const { product } = route.params ?? {};
   const carouselHeight = screenWidth / 2;
   const styles = useStyles(colors);
+  const dispatch = useDispatch();
+  const { cart } = useSelector((store: RootState) => store.cart);
+  const { user } = useSelector((store: RootState) => store.auth);
 
-  const handleProfileIconPress = ()=>{
+  const handleProfileIconPress = () => {
     navigation.navigate(ScreenNames.PROFILE_SCREEN as never);
-  }
+  };
+
+  const handleAddToCart = async () => {
+    const p = product as IItem;
+    if (!p?._id) return;
+    const existingProduct = cart.find((item) => item.productId._id === p._id);
+    try {
+      if (!existingProduct) {
+        await CartService.addToCart('/api/cart/add', {
+          productId: p._id,
+          quantity: 1,
+          userId: user?.id,
+        });
+        const price = p.price;
+        const newProduct = {
+          productId: {
+            _id: p._id,
+            name: p.name,
+            images: p.images,
+            category: p.category,
+            subCategory: p.subCategory,
+            unit: p.unit,
+            stock: p.stock,
+            price,
+            originalPrice: p.originalPrice,
+            discountedMRP: p.discountedMRP,
+            discount: p.discount,
+            amountSaving: p.amountSaving,
+            description: p.description,
+            pack: p.pack,
+            productName: p.productName,
+            rating: p.rating,
+            more_details: p.more_details,
+            createdAt: p.createdAt,
+            updatedAt: p.updatedAt,
+            __v: p.__v,
+          },
+          name: p.name,
+          images: p.images,
+          unit: p.unit,
+          price,
+          originalPrice: p.originalPrice,
+          quantity: 1,
+          lineTotal: price,
+          discount: p.discount,
+        };
+        dispatch(setCart([...cart, newProduct]));
+      } else {
+        const newQty = existingProduct.quantity + 1;
+        await CartService.updateCart('/api/cart/update', {
+          productId: p._id,
+          quantity: newQty,
+          userId: user?.id,
+        });
+        const price = existingProduct.price;
+        const newProduct = {
+          ...existingProduct,
+          quantity: newQty,
+          lineTotal: price * newQty,
+        };
+        const newCartData = cart.map((cartProd) =>
+          cartProd.productId._id === p._id ? newProduct : cartProd,
+        );
+        dispatch(setCart(newCartData));
+      }
+      Toast.show({
+        type: 'success',
+        text1: 'Cart Updated',
+        text2: existingProduct ? `${p.productName} quantity updated` : `${p.productName} added to the cart`,
+        position: 'bottom',
+        visibilityTime: 1500,
+        autoHide: true,
+      });
+    } catch (error) {
+      console.log('Error adding to cart: ', error);
+    }
+  };
 
   useEffect(() => {
     const renderHeader = () => (
@@ -135,7 +220,7 @@ const ProductdetailsScreen = ({ route }: props) => {
           </Text>
         </View>
 
-        <TouchableOpacity style={styles.addBtn}>
+        <TouchableOpacity style={styles.addBtn} onPress={handleAddToCart} activeOpacity={0.8}>
           <Cart name={'shopping-cart'} size={20} color={colors.primaryCtaText} />
           <Text varient="medium" fontSize={16} style={styles.btnTxt}>
             Add to Cart

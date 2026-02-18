@@ -27,25 +27,25 @@ const Card = ({ item }: props) => {
 
   const handleIncreaseQuantity = async () => {
     const existingProduct = cart.find(
-      cartProd => cartProd.productId._id === item.productId._id,
+      cartProd => cartProd.productId === item.productId,
     );
+    if (!existingProduct) return;
+    const newQty = existingProduct.quantity + 1;
+    const newProd = {
+      ...existingProduct,
+      quantity: newQty,
+      lineTotal: existingProduct.price * newQty,
+    };
+    const newCartData = cart.map(cartProd =>
+      cartProd.productId === item.productId ? newProd : cartProd,
+    );
+    dispatch(setCart(newCartData));
     try {
-      if (existingProduct) {
-        const res = await CartService.updateCart('/cart/update', {
-          productId: item.productId._id,
-          quantity: existingProduct?.quantity + 1,
-          userId: user?.id,
-        });
-        const newProd = {
-          ...existingProduct,
-          quantity: existingProduct.quantity + 1,
-          lineTotal: existingProduct.lineTotal + existingProduct.price,
-        };
-        const newCartData = cart.map(cartProd =>
-          cartProd.productId._id === item.productId._id ? newProd : cartProd,
-        );
-        dispatch(setCart(newCartData));
-      }
+      await CartService.updateCart('/api/cart/update', {
+        productId: item.productId,
+        quantity: newQty,
+        userId: user?.id,
+      });
     } catch (error) {
       console.log('Error: ', error);
     }
@@ -53,44 +53,60 @@ const Card = ({ item }: props) => {
 
   const handleDecreaseQuantity = async () => {
     const existingProduct = cart.find(
-      cartProd => cartProd.productId._id === item.productId._id,
+      cartProd => cartProd.productId === item.productId,
     );
+    if (!existingProduct) return;
 
-    if (existingProduct?.quantity! > 2) {
+    const newQty = existingProduct.quantity - 1;
+
+    if (newQty >= 1) {
       const newProduct = {
         ...existingProduct,
-        quantity: existingProduct?.quantity! - 1,
-        lineTotal: existingProduct?.lineTotal! - existingProduct?.price!,
+        quantity: newQty,
+        lineTotal: existingProduct.price * newQty,
       };
       const newCartData = cart.map(cartProd =>
-        cartProd.productId._id === item.productId._id ? newProduct : cartProd,
+        cartProd.productId === item.productId ? newProduct : cartProd,
       );
       dispatch(setCart(newCartData));
-      const res = await CartService.updateCart('/cart/update', {
-        userId: user?.id,
-        productId: item.productId._id,
-        quantity: existingProduct?.quantity! - 1,
-      });
+      try {
+        await CartService.updateCart('/api/cart/update', {
+          userId: user?.id,
+          productId: item.productId,
+          quantity: newQty,
+        });
+      } catch (error) {
+        console.log('Error updating cart: ', error);
+      }
     } else {
       const newCartData = cart.filter(
-        cartProd => cartProd.productId._id !== item.productId._id,
+        cartProd => cartProd.productId !== item.productId,
       );
       dispatch(setCart(newCartData));
-      const res = await CartService.removeFromCart('/cart/remove', {
-        userId: user?.id,
-        productId: existingProduct?.productId._id,
-      });
+      try {
+        await CartService.removeFromCart('/api/cart/remove', {
+          userId: user?.id,
+          productId: existingProduct.productId,
+        });
+      } catch (error) {
+        console.log('Error removing from cart: ', error);
+      }
     }
   };
 
   const handleRemoveItem = async () => {
-   const newCartData = cart.filter((cartProd)=>cartProd.productId._id !== item.productId._id!);
-     const res = await CartService.removeFromCart('/cart/remove', {
+    const newCartData = cart.filter(
+      (cartProd) => cartProd.productId !== item.productId
+    );
+    dispatch(setCart(newCartData));
+    try {
+      await CartService.removeFromCart('/api/cart/remove', {
         userId: user?.id,
-        productId: item?.productId._id,
+        productId: item?.productId,
       });
-      console.log("this is response of remove item from cart ===>", res)
-      dispatch(setCart(newCartData));
+    } catch (error) {
+      console.log('Error removing from cart: ', error);
+    }
   };
 
   return (

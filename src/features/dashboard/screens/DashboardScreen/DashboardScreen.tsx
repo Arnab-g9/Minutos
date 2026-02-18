@@ -58,6 +58,7 @@ const DashboardScreen = () => {
 
   const fetchInitialCartData = async () => {
     const res = await CartService.getInitailCartItem("/api/cart?userId", user?.id!)
+    console.log("this is initial cart data ===>", res)
     dispatch(setCart(res?.items))
   }
 
@@ -120,9 +121,9 @@ const DashboardScreen = () => {
   useEffect(() => {
     fetchAds();
     fetchCategories();
-    fetchCategorieItemsById('68c31d7043f5a67c5b62b07d', 0);
-    fetchCategorieItemsById('68c90e2b44c6da7aa09c5300', 1);
-    fetchCategorieItemsById('68c31d5843f5a67c5b62b075', 2);
+    fetchCategorieItemsById('695807eea44f26ca052e33a4', 0);
+    fetchCategorieItemsById('6958f2fea44f26ca052e35ac', 1);
+    fetchCategorieItemsById('6958091ea44f26ca052e33ad', 2);
 
     fetchInitialCartData();
   }, []);
@@ -226,7 +227,7 @@ const DashboardScreen = () => {
       {/* label and button container */}
       <View style={[styles.lblBtnContainer, styles.marginTop]}>
         <Text varient="semiBold" fontSize={18} style={styles.title}>
-          Hot Deals
+         Baby Food
         </Text>
         <TouchableOpacity style={styles.btn}>
           <Text varient="medium" fontSize={18} style={styles.btnTxt}>
@@ -263,7 +264,7 @@ const DashboardScreen = () => {
       {/* label and button container */}
       <View style={[styles.lblBtnContainer, styles.marginTop]}>
         <Text varient="semiBold" fontSize={18} style={styles.title}>
-          Hot Deals
+         Fresh fruits & Vegetables
         </Text>
         <TouchableOpacity style={styles.btn}>
           <Text varient="medium" fontSize={18} style={styles.btnTxt}>
@@ -300,7 +301,7 @@ const DashboardScreen = () => {
       {/* label and button container */}
       <View style={[styles.lblBtnContainer, styles.marginTop]}>
         <Text varient="semiBold" fontSize={18} style={styles.title}>
-          Hot Deals
+         Beverages
         </Text>
         <TouchableOpacity style={styles.btn}>
           <Text varient="medium" fontSize={18} style={styles.btnTxt}>

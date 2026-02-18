@@ -32,12 +32,11 @@ const ProductCard = ({ product }: props) => {
 
   const handlePressAddToCart = async (product: IItem) => {
     const existingProduct = cart.find(
-      item => item.productId._id === product._id,
+      item => item.productId === product._id,
     );
-
     try {
       if (!existingProduct) {
-        const res = await CartService.addToCart('/cart/add', {
+        const res = await CartService.addToCart('/api/cart/add', {
           productId: product._id,
           quantity: 1,
           userId: user?.id,
@@ -77,28 +76,28 @@ const ProductCard = ({ product }: props) => {
         const newCartData = [...cart, newProduct];
         dispatch(setCart(newCartData));
       } else {
-        const res = await CartService.updateCart('/cart/update', {
+        const res = await CartService.updateCart('/api/cart/update', {
           productId: product._id,
           quantity: existingProduct?.quantity + 1,
           userId: user?.id,
         });
-       const newProduct = {
-        ...existingProduct,
+        const newProduct = {
+          ...existingProduct,
           quantity: existingProduct.quantity + 1,
           lineTotal: existingProduct.lineTotal + existingProduct.price,
-       }
-       const newCartData = cart.map((cartProd)=>cartProd.productId._id === product._id ? newProduct : cartProd);
-       dispatch(setCart(newCartData));
+        }
+        const newCartData = cart.map((cartProd) => cartProd.productId === product._id ? newProduct : cartProd);
+        dispatch(setCart(newCartData));
       }
 
-       Toast.show({
-                type: 'success',
-                text1: 'Cart Updated',
-                text2: existingProduct ? `${existingProduct.name} quantity updated` : `${product?.name} added to the cart`,
-                position: 'bottom',
-                visibilityTime: 1500,
-                autoHide: true,
-              });
+      Toast.show({
+        type: 'success',
+        text1: 'Cart Updated',
+        text2: existingProduct ? `${existingProduct.name} quantity updated` : `${product?.name} added to the cart`,
+        position: 'bottom',
+        visibilityTime: 1500,
+        autoHide: true,
+      });
     } catch (error) {
       console.log('Error: ', error);
     }

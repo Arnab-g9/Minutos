@@ -99,7 +99,9 @@ const CartScreen = () => {
           </View>
           <View style={styles.payBtnConatiner}>
             <TouchableOpacity style={styles.payBtn}>
-              <Text varient='semiBold' fontSize={16} style={styles.payBtnTxt}>CONTINUE TO PAY ₹{totalPrice}</Text>
+              <Text varient='semiBold' fontSize={16} style={styles.payBtnTxt}>
+                Pay Now · Subtotal ₹{typeof totalPrice === 'number' ? totalPrice.toFixed(2) : '0.00'}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>

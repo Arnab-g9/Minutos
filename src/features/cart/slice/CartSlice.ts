@@ -1,9 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IItem } from '../../dashboard/Types/GetSubCategorieItems.Types';
 import { ICartItem } from "../Types/Getcart.Types";
 
-// Extend IItem for cart usage
-
+function computeSubtotal(items: ICartItem[]): number {
+  if (!items?.length) return 0;
+  return items.reduce(
+    (sum, item) => sum + (item.lineTotal ?? item.price * (item.quantity ?? 1)),
+    0
+  );
+}
 
 interface ICartState {
     cart: ICartItem[];
@@ -21,9 +25,12 @@ export const CartSlice = createSlice({
     reducers: {
         resetCart: (state) => {
             state.cart = [];
+            state.totalPrice = 0;
         },
-        setCart: (state, action)=>{
-            state.cart = action.payload;
+        setCart: (state, action: PayloadAction<ICartItem[]>) => {
+            const items = action.payload ?? [];
+            state.cart = items;
+            state.totalPrice = computeSubtotal(items);
         }
     }
 });
