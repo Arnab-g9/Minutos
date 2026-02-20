@@ -31,9 +31,13 @@ const ProductCard = ({ product }: props) => {
   const imageUri = product?.images?.[0] || product?.images?.[1];
 
   const handlePressAddToCart = async (product: IItem) => {
-    const existingProduct = cart.find(
-      item => item.productId === product._id,
-    );
+    const existingProduct = cart.find((item) => {
+      // Handle both string and object productId formats
+      const itemProductId = typeof item.productId === 'string' 
+        ? item.productId 
+        : (item.productId as any)?._id;
+      return itemProductId === product._id;
+    });
     try {
       if (!existingProduct) {
         const res = await CartService.addToCart('/api/cart/add', {
@@ -42,36 +46,17 @@ const ProductCard = ({ product }: props) => {
           userId: user?.id,
         });
         const newProduct = {
-          productId: {
-            _id: product._id,
-            name: product.name,
-            images: product.images,
-            category: product.category,
-            subCategory: product.subCategory,
-            unit: product.unit,
-            stock: product.stock,
-            price: product.price,
-            originalPrice: product.originalPrice,
-            discountedMRP: product.discountedMRP,
-            discount: product.discount,
-            amountSaving: product.amountSaving,
-            description: product.description,
-            pack: product.pack,
-            productName: product.productName,
-            rating: product.rating,
-            more_details: product.more_details,
-            createdAt: product.createdAt,
-            updatedAt: product.updatedAt,
-            __v: product.__v,
-          },
+          _id: '',
+          productId: product._id, // Store as string, not object
           name: product.name,
-          images: product.images,
+          image: product.images?.[0] || '',
+          images: product.images || [],
           unit: product.unit,
           price: product.price,
           originalPrice: product.originalPrice,
           quantity: 1,
           lineTotal: product.price,
-          discount: product.discount,
+          discount: product.discount || 0,
         };
         const newCartData = [...cart, newProduct];
         dispatch(setCart(newCartData));
@@ -85,8 +70,14 @@ const ProductCard = ({ product }: props) => {
           ...existingProduct,
           quantity: existingProduct.quantity + 1,
           lineTotal: existingProduct.lineTotal + existingProduct.price,
-        }
-        const newCartData = cart.map((cartProd) => cartProd.productId === product._id ? newProduct : cartProd);
+        };
+        const newCartData = cart.map((cartProd) => {
+          // Handle both string and object productId formats
+          const cartProductId = typeof cartProd.productId === 'string' 
+            ? cartProd.productId 
+            : (cartProd.productId as any)?._id;
+          return cartProductId === product._id ? newProduct : cartProd;
+        });
         dispatch(setCart(newCartData));
       }
 

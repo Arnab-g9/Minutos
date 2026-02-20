@@ -1,89 +1,3 @@
-// import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
-// import React, { useEffect } from 'react'
-// import { useTheme } from '../../../../theme/ThemeProvider'
-// import { useStyles } from './CategoryScreen.styles';
-// import { SafeAreaView } from 'react-native-safe-area-context';
-// import PrimaryHeader from '../../../../components/Header/PrimaryHeader/PrimaryHeader';
-// import { useNavigation } from '@react-navigation/native';
-// import CategoryService from '../../service/CategoryService';
-// import { setAllCategories } from '../../slice/CategorySlice';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { default as Text } from '../../../../components/Text/MSText'
-// import { RootState } from '../../../../store/store';
-// import { ScreenNames } from '../../../../navigation/stack/constants';
-
-// const CategoryScreen = () => {
-//   const { colors } = useTheme();
-//   const { category } = useSelector((store: RootState) => store.category);
-//   const styles = useStyles(colors);
-//   const navigation = useNavigation();
-//   const dispatch = useDispatch();
-
-//   const fetchAllCategoriesAndSubCategories = async () => {
-//     const res = await CategoryService.getAllCategoriesAndSubCategories('/subcategory/categories-with-subcategories');
-//     console.log("This is fetch All categories response data ===>", res.categories);
-//     dispatch(setAllCategories(res?.categories));
-//   }
-
-//   const adjustedCategories =
-//     category.length % 2 === 1
-//       ? [...category, { id: 'dummy', name: '', image: null }]
-//       : category;
-
-//   const handleCategoryPress = (name: string) => {
-//     navigation.navigate(ScreenNames.SUBCATEGORY_SCREEN as never, {
-//       name: name
-//     })
-//   }
-
-//   useEffect(() => {
-//     const renderHeader = () => <PrimaryHeader title="All Categories" />;
-//     navigation.setOptions({
-//       headerShown: true,
-//       header: renderHeader,
-//     });
-//   }, [navigation]);
-
-//   console.log("this is the categoryData from the store ===>", category)
-
-//   useEffect(() => {
-//     fetchAllCategoriesAndSubCategories();
-//   }, [])
-
-//   return (
-//     <SafeAreaView edges={['bottom']} style={styles.container}>
-//       <ScrollView style={styles.contentContainerStyle}>
-//         {
-//           category.map((item, index) => <View>
-//             <Text varient='medium'>{item?.name}</Text>
-//             <View style={styles.gridContainer}>
-//               {adjustedCategories.map((category, index) => (
-//                 <TouchableOpacity style={styles.gridItem} key={index.toString()} disabled={category.length % 2 !== 0 && index === adjustedCategories.length - 1} onPress={() => handleCategoryPress(category.name)}>
-//                   <View style={[styles.gridImageBox, categories.length % 2 !== 0 && index === adjustedCategories.length - 1 && styles.dummyBox]}>
-//                     <Image source={{ uri: category.image }} style={styles.categoryImage} />
-//                   </View>
-//                   <Text
-//                     style={{ textAlign: 'center', color: colors.contentPrimary }}
-//                     varient="medium"
-//                     fontSize={12}
-//                   >
-//                     {category.name}
-//                   </Text>
-//                 </TouchableOpacity>
-//               ))}
-//             </View>
-//           </View>)
-//         }
-//       </ScrollView>
-//     </SafeAreaView>
-//   )
-// }
-
-// export default CategoryScreen
-
-// const styles = StyleSheet.create({})
-
-
 import {
   ScrollView,
   StyleSheet,
@@ -124,8 +38,9 @@ const CategoryScreen = () => {
     }
   };
 
-  const handleSubCategoryPress = (name: string) => {
-    (navigation as any).navigate(ScreenNames.SUBCATEGORY_SCREEN as never, { name: name } as never);
+  const handleSubCategoryPress = (cat: any) => {
+    console.log("This is sub category press ===>", cat);
+    (navigation as any).navigate(ScreenNames.SUBCATEGORY_SCREEN as never, { name: cat?.name } as never);
   };
 
   useEffect(() => {
@@ -178,7 +93,7 @@ const CategoryScreen = () => {
                       sub.id === 'dummy' && styles.dummyBox,
                     ]}
                     disabled={sub.id === 'dummy'}
-                    onPress={() => handleSubCategoryPress(sub.name)}
+                    onPress={() => handleSubCategoryPress(cat)}
                   >
                     <View
                       style={[

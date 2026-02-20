@@ -28,9 +28,11 @@ const useGetLocation = () => {
         const currentLocation = await getCurrentLocationHelper()
         if (currentLocation?.coords) {
             const coords = currentLocation.coords as ICoordinate
+            console.log("this is coords ===>", coords)
             dispatch(setCurrentCoords(coords));
             try {
-                const address = await reverseGeocodeWithOSM(coords.latitude, coords.longitude)
+                const address = await reverseGeocodeWithOSM(coords.latitude, coords.longitude);
+                console.log("This is address ===>", address);
                 if (address) {
                     dispatch(setCurrentAddress(address))
                     await saveRecentAddress(address)

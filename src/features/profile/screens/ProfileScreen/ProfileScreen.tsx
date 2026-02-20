@@ -20,6 +20,7 @@ import { Switch } from 'react-native-switch';
 import SunIcon from 'react-native-vector-icons/Feather'
 import MoonIcon from 'react-native-vector-icons/Feather'
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ScreenNames } from '../../../../navigation/stack/constants';
 
 const infoArr = [
   {
@@ -57,17 +58,17 @@ const ProfileScreen = () => {
     dispatch(logout());
   }
 
-  const handleToggleSwitch = ()=>{
+  const handleToggleSwitch = () => {
     setIsEnabled(prev => !prev);
     toggleTheme();
   }
 
-  useEffect(()=>{
-    setIsEnabled(mode==='light' ? false : true)
+  useEffect(() => {
+    setIsEnabled(mode === 'light' ? false : true)
   }, [])
 
   useEffect(() => {
-    const renderHeader = () => <PrimaryHeader title="Settings"  />;
+    const renderHeader = () => <PrimaryHeader title="Settings" />;
     navigation.setOptions({
       headerShown: true,
       header: renderHeader,
@@ -100,33 +101,34 @@ const ProfileScreen = () => {
             </Text>
           </View>
           {/* switch */}
-          <View style={{flex:1, alignItems: 'flex-end'}}>
-          <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>
-            <SunIcon name={'sun'} size={20} color={mode==='light' ? colors.contentPrimary : colors.primaryCtaText}/>
+          <View style={{ flex: 1, alignItems: 'flex-end' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+              <SunIcon name={'sun'} size={20} color={mode === 'light' ? colors.contentPrimary : colors.primaryCtaText} />
               <Switch
-            value={isEnabled}
-            onValueChange={handleToggleSwitch}
-            circleSize={20}
-            barHeight={22}
-            backgroundInactive={colors.contentDisabled}
-            backgroundActive={colors.primary}
-            renderActiveText={false}
-            renderInActiveText={false}
-            changeValueImmediately
-            circleBorderWidth={2}
-            innerCircleStyle={styles.circleStyle}
-            outerCircleStyle={styles.circleStyle}
-            circleBorderActiveColor={colors.primary}
-            circleBorderInactiveColor={colors.contentDisabled}
-          />
-          <MoonIcon name={'moon'} size={20} color={mode==='light' ? colors.contentPrimary : colors.primaryCtaText} />
-          </View>
+                value={isEnabled}
+                onValueChange={handleToggleSwitch}
+                circleSize={20}
+                barHeight={22}
+                backgroundInactive={colors.contentDisabled}
+                backgroundActive={colors.primary}
+                renderActiveText={false}
+                renderInActiveText={false}
+                changeValueImmediately
+                circleBorderWidth={2}
+                innerCircleStyle={styles.circleStyle}
+                outerCircleStyle={styles.circleStyle}
+                circleBorderActiveColor={colors.primary}
+                circleBorderInactiveColor={colors.contentDisabled}
+              />
+              <MoonIcon name={'moon'} size={20} color={mode === 'light' ? colors.contentPrimary : colors.primaryCtaText} />
+            </View>
           </View>
 
         </View>
         {/* options */}
         <View style={styles.optionsContainer}>
           <Card
+            onPress={() => navigation.navigate(ScreenNames.ORDERS_HISTORY_SCREEN as never)}
             renderIcon={() => (
               <OrderIcon
                 name={IconsName.orderIcon}
@@ -162,43 +164,43 @@ const ProfileScreen = () => {
         </Text>
         <View style={styles.infoContainer}>
           {infoArr.map((item, index) => (
-            <NavItem item={item} isLast={index === infoArr.length-1}/>
+            <NavItem item={item} isLast={index === infoArr.length - 1} />
           ))}
         </View>
 
       </ScrollView>
-   <View style={{paddingHorizontal: 16}}>
-   <TouchableOpacity
-        onPress={handleLogout}
-        style={{
-          borderRadius: 12,
-          height: 50,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: colors.primary,
-          flexDirection: 'row',
-          gap: 15,
-          shadowColor: "red",
-          shadowOffset: {
-            width: 0,
-            height: 3,
-          },
-          shadowOpacity: 0.27,
-          shadowRadius: 4.65,
-          elevation: 6,
-          marginBottom: 20
-        }}
-      >
-        <LogoutIcon name="logout" size={20} color={colors.primaryCtaText} />
-        <Text
-          fontSize={16}
-          varient="semiBold"
-          style={{ color: colors.primaryCtaText }}
+      <View style={{ paddingHorizontal: 16 }}>
+        <TouchableOpacity
+          onPress={handleLogout}
+          style={{
+            borderRadius: 12,
+            height: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: colors.primary,
+            flexDirection: 'row',
+            gap: 15,
+            shadowColor: "red",
+            shadowOffset: {
+              width: 0,
+              height: 3,
+            },
+            shadowOpacity: 0.27,
+            shadowRadius: 4.65,
+            elevation: 6,
+            marginBottom: 20
+          }}
         >
-          Log Out
-        </Text>
-      </TouchableOpacity>
-   </View>
+          <LogoutIcon name="logout" size={20} color={colors.primaryCtaText} />
+          <Text
+            fontSize={16}
+            varient="semiBold"
+            style={{ color: colors.primaryCtaText }}
+          >
+            Log Out
+          </Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
 
   );

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICartItem } from "../Types/Getcart.Types";
+import { normalizeCartItems } from "../utils/normalizeCartItem";
 
 function computeSubtotal(items: ICartItem[]): number {
   if (!items?.length) return 0;
@@ -27,10 +28,11 @@ export const CartSlice = createSlice({
             state.cart = [];
             state.totalPrice = 0;
         },
-        setCart: (state, action: PayloadAction<ICartItem[]>) => {
-            const items = action.payload ?? [];
-            state.cart = items;
-            state.totalPrice = computeSubtotal(items);
+        setCart: (state, action: PayloadAction<ICartItem[] | any[]>) => {
+            // Normalize cart items to ensure consistent format (productId as string)
+            const normalizedItems = normalizeCartItems(action.payload ?? []);
+            state.cart = normalizedItems;
+            state.totalPrice = computeSubtotal(normalizedItems);
         }
     }
 });

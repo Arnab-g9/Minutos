@@ -16,7 +16,7 @@ const Card = ({ onPress, title, renderIcon}:props) => {
     console.log("This is title ===>", title);
     
   return (
-    <TouchableOpacity style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={onPress}>
         {
             renderIcon?.()
         }

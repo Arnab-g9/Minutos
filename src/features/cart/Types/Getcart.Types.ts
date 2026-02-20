@@ -55,10 +55,10 @@ export interface GetCartResponse {
 }
 
 export interface ICartItem {
-  _id: string
+  _id?: string
   productId: string
   name: string
-  image: string
+  image?: string
   images: string[]
   unit: string
   price: number

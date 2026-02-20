@@ -5,6 +5,7 @@ import AuthSlice from '../features/auth/slice/Authslice';
 import DashboardSlice from '../features/dashboard/slice/DashboardSlice';
 import CartSlice from '../features/cart/slice/CartSlice';
 import CategorySlice from '../features/category/slice/CategorySlice';
+import VendorSlice from '../features/checkout/slice/VendorSlice';
 
 
 
@@ -20,7 +21,8 @@ export const store = configureStore({
         auth: persistedSlice,
         dashboard: DashboardSlice,
         cart: CartSlice,
-        category: CategorySlice
+        category: CategorySlice,
+        vendor: VendorSlice
     },
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware({

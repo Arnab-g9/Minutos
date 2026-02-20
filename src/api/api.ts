@@ -18,6 +18,7 @@ const apiFormData = axios.create({
 });
 
 const { token } = store.getState().auth;
+console.log("this is token inside the api.ts file ===>", token)
 
 apiFormData.interceptors.request.use(
   async config => {
@@ -55,6 +56,7 @@ export const fetchData = async (endpoint: string) => {
 };
 
 export const postData = async (endpoint: string, body: any) => {
+  console.log("This is createOrder api endpoint ===>", endpoint)
   try {
     const response = await api.post(endpoint, body);
     return response;

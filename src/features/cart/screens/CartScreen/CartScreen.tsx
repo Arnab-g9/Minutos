@@ -21,6 +21,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState, store } from '../../../../store/store';
 import NoDataFound from '../../../../components/NoDataFound/NoDataFound';
 import { setCart } from '../../slice/CartSlice';
+import { ScreenNames } from '../../../../navigation/stack/constants';
+import VendorService from '../../../checkout/service/VendorService';
+import { setVendors, setVendorsLoading, setVendorsError } from '../../../checkout/slice/VendorSlice';
+import { Toast } from 'toastify-react-native';
 
 const CartScreen = () => {
   const { colors } = useTheme();
@@ -44,6 +48,24 @@ const CartScreen = () => {
     dispatch(setCart([]))
   }
 
+  const handlePayNow = async () => {
+    try {
+      dispatch(setVendorsLoading(true));
+      const response = await VendorService.getVendors('/api/vendor');
+      console.log("This is the vendor service vendor get response ===>", response)
+      if (response?.success && response?.vendors) {
+        dispatch(setVendors(response.vendors));
+        navigation.navigate(ScreenNames.CHECKOUT_SCREEN as never);
+      } else {
+        dispatch(setVendorsError('Failed to fetch vendors'));
+        Toast.error('Failed to fetch vendors');
+      }
+    } catch (error) {
+      dispatch(setVendorsError('Error fetching vendors'));
+      Toast.error('Error fetching vendors');
+    }
+  };
+
   useEffect(() => {
     const renderHeader = () => (
       <>
@@ -57,15 +79,13 @@ const CartScreen = () => {
     });
   }, [navigation, cart]);
 
-  console.log('this is confermationModal ==>', showConfermationModal);
-
   return (
     <View style={styles.cartContainer}>
       <View style={{ flex: 1 }}>
         <FlatList data={cart} renderItem={({ item }) => <Card item={item} />} style={styles.container}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.contentContainer}
-          keyExtractor={(item) => item?.productId?._id?.toString?.() || item._id?.toString?.()}
+          keyExtractor={(item) => item?.productId?.toString?.() || item._id?.toString?.()}
           ListEmptyComponent={() => <NoDataFound message='Please add some product into the cart :)' />}
         />
       </View>
@@ -98,7 +118,11 @@ const CartScreen = () => {
             </View>
           </View>
           <View style={styles.payBtnConatiner}>
-            <TouchableOpacity style={styles.payBtn}>
+            <TouchableOpacity
+              style={styles.payBtn}
+              onPress={handlePayNow}
+              activeOpacity={0.8}
+            >
               <Text varient='semiBold' fontSize={16} style={styles.payBtnTxt}>
                 Pay Now · Subtotal ₹{typeof totalPrice === 'number' ? totalPrice.toFixed(2) : '0.00'}
               </Text>

@@ -19,6 +19,8 @@ import { RootState } from '../../store/store';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { default as Text } from '../../components/Text/MSText'
 import SubCategoriesScreen from '../../features/dashboard/screens/SubCategoriesScreen/SubCategoriesScreen';
+import CheckoutScreen from '../../features/checkout/screens/CheckoutScreen/CheckoutScreen';
+import OrdersHistoryScreen from '../../features/orders/screens/OrdersHistoryScreen/OrdersHistoryScreen';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const AppNavigation = () => {
@@ -149,6 +151,14 @@ const AppNavigation = () => {
             <Stack.Screen
               name={ScreenNames.SUBCATEGORY_SCREEN}
               component={SubCategoriesScreen}
+            />
+            <Stack.Screen
+              name={ScreenNames.CHECKOUT_SCREEN}
+              component={CheckoutScreen}
+            />
+            <Stack.Screen
+              name={ScreenNames.ORDERS_HISTORY_SCREEN}
+              component={OrdersHistoryScreen}
             />
           </>
         )}

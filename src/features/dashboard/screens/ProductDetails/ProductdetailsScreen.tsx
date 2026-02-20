@@ -83,7 +83,13 @@ const ProductdetailsScreen = ({ route }: props) => {
   const handleAddToCart = async () => {
     const p = product as IItem;
     if (!p?._id) return;
-    const existingProduct = cart.find((item) => item.productId._id === p._id);
+    const existingProduct = cart.find((item) => {
+      // Handle both string and object productId formats
+      const itemProductId = typeof item.productId === 'string' 
+        ? item.productId 
+        : (item.productId as any)?._id;
+      return itemProductId === p._id;
+    });
     try {
       if (!existingProduct) {
         await CartService.addToCart('/api/cart/add', {
@@ -93,36 +99,17 @@ const ProductdetailsScreen = ({ route }: props) => {
         });
         const price = p.price;
         const newProduct = {
-          productId: {
-            _id: p._id,
-            name: p.name,
-            images: p.images,
-            category: p.category,
-            subCategory: p.subCategory,
-            unit: p.unit,
-            stock: p.stock,
-            price,
-            originalPrice: p.originalPrice,
-            discountedMRP: p.discountedMRP,
-            discount: p.discount,
-            amountSaving: p.amountSaving,
-            description: p.description,
-            pack: p.pack,
-            productName: p.productName,
-            rating: p.rating,
-            more_details: p.more_details,
-            createdAt: p.createdAt,
-            updatedAt: p.updatedAt,
-            __v: p.__v,
-          },
+          _id: '',
+          productId: p._id, // Store as string, not object
           name: p.name,
-          images: p.images,
+          image: p.images?.[0] || '',
+          images: p.images || [],
           unit: p.unit,
           price,
           originalPrice: p.originalPrice,
           quantity: 1,
           lineTotal: price,
-          discount: p.discount,
+          discount: p.discount || 0,
         };
         dispatch(setCart([...cart, newProduct]));
       } else {
@@ -138,9 +125,13 @@ const ProductdetailsScreen = ({ route }: props) => {
           quantity: newQty,
           lineTotal: price * newQty,
         };
-        const newCartData = cart.map((cartProd) =>
-          cartProd.productId._id === p._id ? newProduct : cartProd,
-        );
+        const newCartData = cart.map((cartProd) => {
+          // Handle both string and object productId formats
+          const cartProductId = typeof cartProd.productId === 'string' 
+            ? cartProd.productId 
+            : (cartProd.productId as any)?._id;
+          return cartProductId === p._id ? newProduct : cartProd;
+        });
         dispatch(setCart(newCartData));
       }
       Toast.show({
