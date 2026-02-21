@@ -114,6 +114,7 @@ export const getCurrentLocationHelper = async () => {
 export const reverseGeocodeWithOSM = async (latitude: number, longitude: number): Promise<string | null> => {
     try {
         const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
+        // https://nominatim.openstreetmap.org/reverse?lat=26.220626116181677&lon=72.94350528803498&format=json
         const response = await fetch(url, {
             headers: {
                 'Accept': 'application/json',
