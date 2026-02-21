@@ -18,6 +18,7 @@ import AuthService from '../../service/AuthService';
 import { Toast } from 'toastify-react-native';
 import { OtpInput } from 'react-native-otp-entry';
 import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const OTPScreen = () => {
   const [otp, setOtp] = useState('');
@@ -52,6 +53,7 @@ const OTPScreen = () => {
       );
       console.log('this is response of handle submit otp ===>', res);
       if (res?.data?.success) {
+        await AsyncStorage.setItem('acc_token', res?.data?.token);
         dispatch(setAuthToken(res?.data?.token));
         dispatch(setUser(res?.data?.user));
         dispatch(setLogin(true));
