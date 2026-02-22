@@ -11,11 +11,12 @@ import { useTheme } from '../../../../../theme/ThemeProvider';
 import { useStyles } from './ProductDetailsHeader.styles';
 
 interface props {
-    address: string,
-    onProfileIconPress: ()=> void
+    address: string;
+    onProfileIconPress: () => void;
+    onPressAddress?: () => void;
 }
 
-const ProductDetailsHeader = ({ address, onProfileIconPress }: props) => {
+const ProductDetailsHeader = ({ address, onProfileIconPress, onPressAddress }: props) => {
     const { colors } = useTheme();
     const styles = useStyles(colors);
     const navigation = useNavigation();
@@ -28,14 +29,20 @@ const ProductDetailsHeader = ({ address, onProfileIconPress }: props) => {
             <View style={styles.section1}>
                 <View style={[styles.section1, styles.flex1]}>
                     <TouchableOpacity onPress={onBackPress}>
-                        {/* <Image source={ImageSource.leftArrow} style={styles.leftArrow} /> */}
                         <LeftIcon name={'chevron-left'} size={20} color={colors.primary} />
                     </TouchableOpacity>
-                    {/* <Image source={ImageSource.location} style={styles.location} /> */}
-                    <LocationIcon name={'location-outline'} size={20} color={colors.primary} />
-                    <Text varient='medium' fontSize={16} style={styles.addressTxt}>{address}</Text>
-                    {/* <Image source={ImageSource.downArrow} style={styles.downArrow} /> */}
-                    <DownArrowIcon name={'chevron-small-down'} size={20} color={colors.primary} />
+                    <TouchableOpacity
+                      style={[styles.section1, { flex: 1 }]}
+                      onPress={onPressAddress}
+                      activeOpacity={0.8}
+                      disabled={!onPressAddress}
+                    >
+                        <LocationIcon name={'location-outline'} size={20} color={colors.primary} />
+                        <Text varient='medium' fontSize={16} style={styles.addressTxt} numberOfLines={1}>
+                          {address}
+                        </Text>
+                        <DownArrowIcon name={'chevron-small-down'} size={20} color={colors.primary} />
+                    </TouchableOpacity>
                 </View>
                 {/* <Image source={ImageSource.profile} style={styles.profile} /> */}
                 <UserIcon name={'user'} size={20} color={colors.primary} onPress={onProfileIconPress} />

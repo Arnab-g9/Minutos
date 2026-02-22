@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import RazorpayCheckout from 'react-native-razorpay';
 import { useTheme } from '../../../../theme/ThemeProvider';
 import { useStyles } from './CheckoutScreen.styles';
 import { default as Text } from '../../../../components/Text/MSText';
@@ -20,6 +21,7 @@ import DownArrowIcon from 'react-native-vector-icons/Entypo';
 import CheckIcon from 'react-native-vector-icons/Feather';
 import { IVendor } from '../../slice/VendorSlice';
 import OrderService from '../../service/OrderService';
+import PaymentService from '../../service/PaymentService';
 import { Toast } from 'toastify-react-native';
 import { useSelector } from 'react-redux';
 
@@ -39,7 +41,6 @@ const CheckoutScreen = () => {
   const { cart, totalPrice } = useSelector((state: RootState) => state.cart);
   const { vendors } = useSelector((state: RootState) => state.vendor);
   const { user } = useSelector((state: RootState) => state.auth);
-
   const [selectedVendor, setSelectedVendor] = useState<IVendor | null>(null);
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
   const [showVendorModal, setShowVendorModal] = useState(false);
@@ -66,69 +67,146 @@ const CheckoutScreen = () => {
     });
   }, [navigation]);
 
-  console.log("this is cart data inside the Checkoutscreen ===>", cart)
+  const buildOrderPayload = () => {
+    const paymentMethodMap: Record<PaymentId, string> = {
+      CARD: 'card',
+      UPI: 'upi',
+      COD: 'cod',
+    };
+    const getProductId = (item: any) =>
+      typeof item?.productId === 'string' ? item.productId : (item?.productId as any)?._id;
+    return {
+      vendorId: selectedVendor!._id,
+      items: cart.map((item) => ({
+        product: getProductId(item),
+        quantity: item.quantity,
+      })),
+      shippingAddress: {
+        street: address,
+        city: city,
+        state: state,
+        pincode: pincode,
+        phone: phone,
+      },
+      paymentMethod: paymentMethodMap[paymentMethod!],
+    };
+  };
 
   const handlePlaceOrder = async () => {
     if (!selectedVendor || !allStepsDone) return;
 
-    setIsPlacingOrder(true);
-    try {
-      const paymentMethodMap: Record<PaymentId, string> = {
-        CARD: 'card',
-        UPI: 'upi',
-        COD: 'cod',
-      };
+    const isOnlinePayment = paymentMethod === 'CARD' || paymentMethod === 'UPI';
 
-      const orderPayload = {
-        vendorId: selectedVendor._id,
-        items: cart.map((item) => ({
-          product: item.productId,
-          quantity: item.quantity,
-        })),
-        shippingAddress: {
-          street: address,
-          city: city,
-          state: state,
-          pincode: pincode,
-          phone: phone,
-        },
-        paymentMethod: paymentMethodMap[paymentMethod!],
-      };
+    if (isOnlinePayment) {
+      setIsPlacingOrder(true);
+      try {
+        const orderPayload = buildOrderPayload();
+        const createOrderResponse = await OrderService.createOrder('/api/order/create', orderPayload);
+        const orderId = createOrderResponse?.order?._id;
 
-      console.log("this is orderpayload ===>", orderPayload)
+        if (!createOrderResponse?.success || !orderId) {
+          Toast.show({
+            type: 'error',
+            text1: 'Order Failed',
+            text2: createOrderResponse?.message || 'Failed to create order',
+            position: 'bottom',
+            visibilityTime: 2000,
+          });
+          return;
+        }
 
-      const response = await OrderService.createOrder('/api/order/create', orderPayload);
-      console.log("this is orderService ===>", response);
-
-      if (response?.success) {
-        Toast.show({
-          type: 'success',
-          text1: 'Order Placed',
-          text2: 'Your order has been placed successfully!',
-          position: 'bottom',
-          visibilityTime: 2000,
+        const paymentResponse = await PaymentService.createRazorpayOrder('/api/payment/create-order', {
+          orderId,
         });
-        dispatch(setCart([]));
-        navigation.navigate(ScreenNames.ORDERS_HISTORY_SCREEN as never);
-      } else {
+
+        if (!paymentResponse?.success || !paymentResponse?.razorpayOrderId) {
+          Toast.show({
+            type: 'error',
+            text1: 'Payment Setup Failed',
+            text2: 'Could not initialize payment. Please try again.',
+            position: 'bottom',
+            visibilityTime: 2000,
+          });
+          return;
+        }
+
+        const razorpayOptions = {
+          description: 'Minutos Order',
+          order_id: paymentResponse.razorpayOrderId,
+          key: paymentResponse.key,
+          amount: String(paymentResponse.amount),
+          currency: paymentResponse.currency || 'INR',
+          name: 'Minutos',
+          prefill: {
+            contact: phone || user?.phoneNumber || '',
+            name: 'Customer',
+          },
+          theme: { color: colors.primary || '#F37254' },
+        };
+
+        const data = await RazorpayCheckout.open(razorpayOptions);
+        const razorpayPaymentId = data?.razorpay_payment_id;
+
+        if (razorpayPaymentId) {
+          Toast.show({
+            type: 'success',
+            text1: 'Order Placed',
+            text2: 'Your order has been placed successfully!',
+            position: 'bottom',
+            visibilityTime: 2000,
+          });
+          dispatch(setCart([]));
+          (navigation as any).navigate(ScreenNames.ORDERS_HISTORY_SCREEN as never, {
+            isFromCheckout: true,
+          });
+        }
+      } catch (error: any) {
+        if (error?.code !== 2) {
+          Toast.show({
+            type: 'error',
+            text1: 'Payment Failed',
+            text2: error?.description || 'Payment was cancelled or failed.',
+            position: 'bottom',
+            visibilityTime: 2000,
+          });
+        }
+      } finally {
+        setIsPlacingOrder(false);
+      }
+    } else {
+      setIsPlacingOrder(true);
+      try {
+        const response = await OrderService.createOrder('/api/order/create', buildOrderPayload());
+        if (response?.success) {
+          Toast.show({
+            type: 'success',
+            text1: 'Order Placed',
+            text2: 'Your order has been placed successfully!',
+            position: 'bottom',
+            visibilityTime: 2000,
+          });
+          dispatch(setCart([]));
+          (navigation as any).navigate(ScreenNames.ORDERS_HISTORY_SCREEN as never, { isFromCheckout: true });
+        } else {
+          Toast.show({
+            type: 'error',
+            text1: 'Order Failed',
+            text2: response?.message || 'Failed to place order',
+            position: 'bottom',
+            visibilityTime: 2000,
+          });
+        }
+      } catch (error) {
         Toast.show({
           type: 'error',
-          text1: 'Order Failed',
-          text2: response?.message || 'Failed to place order',
+          text1: 'Error',
+          text2: 'Failed to place order. Please try again.',
           position: 'bottom',
           visibilityTime: 2000,
         });
+      } finally {
+        setIsPlacingOrder(false);
       }
-    } catch (error) {
-      Toast.show({
-        type: 'error',
-        text1: 'Error',
-        text2: 'Failed to place order. Please try again.',
-        position: 'bottom',
-        visibilityTime: 2000,
-      });
-    } finally {
-      setIsPlacingOrder(false);
     }
   };
 

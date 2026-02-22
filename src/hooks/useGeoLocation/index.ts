@@ -2,7 +2,7 @@ import { useIsFocused } from "@react-navigation/native"
 import { useEffect, useState } from "react"
 import { AppState } from "react-native"
 import { useDispatch } from "react-redux"
-import { checkPermissionsHelper, getCurrentLocationHelper, requestPermissionHelper, reverseGeocodeWithOSM, saveRecentAddress } from "./helper"
+import { checkPermissionsHelper, getCurrentLocationHelper, getRecentAddresses, requestPermissionHelper, reverseGeocodeWithOSM, saveRecentAddress } from "./helper"
 import { AppDispatch } from "../../store/store"
 import { setCurrentAddress, setCurrentCoords } from "../../features/dashboard/slice/DashboardSlice"
 import { ICoordinate } from "../../features/dashboard/Types/GetCoordinate.types"
@@ -28,11 +28,9 @@ const useGetLocation = () => {
         const currentLocation = await getCurrentLocationHelper()
         if (currentLocation?.coords) {
             const coords = currentLocation.coords as ICoordinate
-            console.log("this is coords ===>", coords)
             dispatch(setCurrentCoords(coords));
             try {
                 const address = await reverseGeocodeWithOSM(coords.latitude, coords.longitude);
-                console.log("This is address ===>", address);
                 if (address) {
                     dispatch(setCurrentAddress(address))
                     await saveRecentAddress(address)
@@ -61,7 +59,15 @@ const useGetLocation = () => {
     }, [isFocused])
 
     useEffect(() => {
-        // Prompt for permission and GPS on initial mount
+        (async () => {
+            const recent = await getRecentAddresses()
+            if (recent?.[0]) {
+                dispatch(setCurrentAddress(recent[0]))
+            }
+        })()
+    }, [])
+
+    useEffect(() => {
         (async () => {
             const granted = await requestPermission()
             if (granted) {

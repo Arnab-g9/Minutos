@@ -1,20 +1,21 @@
 import React from 'react';
-import { Modal, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Modal, View, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import { useTheme } from '../../../../theme/ThemeProvider';
 import { default as Text } from '../../../../components/Text/MSText';
-import { TextInput } from 'react-native-gesture-handler';
 const AddressModal = ({
   visible,
   onPressDetectLocation,
   onPressSaveLocation,
   onDismiss,
   addressTxt,
+  isDetecting = false,
 }: {
   visible: boolean;
   onPressDetectLocation: () => void;
   onPressSaveLocation: () => void;
   onDismiss: () => void;
   addressTxt: string;
+  isDetecting?: boolean;
 }) => {
   const { colors } = useTheme();
   return (
@@ -29,7 +30,9 @@ const AddressModal = ({
         onPress={onDismiss}
         activeOpacity={1}
       >
-        <View
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => {}}
           style={{
             backgroundColor: colors.card_bg_primary,
             borderRadius: 16,
@@ -45,22 +48,25 @@ const AddressModal = ({
             Choose your location
           </Text>
           <Text fontSize={16} style={{ color: colors.contentPrimary }}>
-            {' '}
-            Detect your location or enter manually:{' '}
+            Detect your location or enter manually:
           </Text>
 
           <View style={{ gap: 15, marginTop: 20 }}>
             <TouchableOpacity
+              onPress={onPressDetectLocation}
+              disabled={isDetecting}
               style={{
                 height: 40,
                 backgroundColor: colors.primary,
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: 5,
+                opacity: isDetecting ? 0.7 : 1,
               }}
+              activeOpacity={0.8}
             >
               <Text style={{ fontSize: 16, color: colors.primaryCtaText }}>
-                Detect Current Location
+                {isDetecting ? 'Detecting...' : 'Detect Current Location'}
               </Text>
             </TouchableOpacity>
 
@@ -68,7 +74,6 @@ const AddressModal = ({
               value={addressTxt}
               style={{
                 height: 40,
-                // backgroundColor: colors.primary,
                 borderWidth: 1,
                 borderColor: colors.border_1,
                 justifyContent: 'center',
@@ -81,6 +86,7 @@ const AddressModal = ({
             />
 
             <TouchableOpacity
+              onPress={onPressSaveLocation}
               style={{
                 height: 40,
                 backgroundColor: colors.contentSecondary,
@@ -88,13 +94,14 @@ const AddressModal = ({
                 alignItems: 'center',
                 borderRadius: 5,
               }}
+              activeOpacity={0.8}
             >
               <Text style={{ fontSize: 16, color: colors.primaryCtaText }}>
                 Save Location
               </Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </TouchableOpacity>
       </TouchableOpacity>
     </Modal>
   );

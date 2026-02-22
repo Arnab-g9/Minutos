@@ -29,7 +29,8 @@ import AddressModal from '../../components/AddressModal/AddressModal';
 
 const { width: screenWidth } = Dimensions.get('window');
 const DashboardScreen = () => {
-  const [shwoAddressModal, setShowAddressModal] = useState(false);
+  const [showAddressModal, setShowAddressModal] = useState(false);
+  const [isDetectingLocation, setIsDetectingLocation] = useState(false);
   const navigation = useNavigation();
   const { colors } = useTheme();
   const { banner, categories, hotDealItems1, hotDealItems2, hotDealItems3, currentAddress } = useSelector((store: RootState) => store.dashboard);
@@ -87,17 +88,18 @@ const DashboardScreen = () => {
   }
 
   const handlePressDetectLocation = async () => {
-    console.log("getting current location ===>");
-    await getCurrentLocation()
-  }
+    setIsDetectingLocation(true);
+    await getCurrentLocation();
+    setIsDetectingLocation(false);
+  };
 
   const handlePressSaveLocation = () => {
     setShowAddressModal(false);
-  }
+  };
 
   const handlePressAddressBtn = () => {
     setShowAddressModal(true);
-  }
+  };
 
   const headerAddress = useMemo(() => {
     if (currentAddress) return currentAddress;
@@ -359,7 +361,14 @@ const DashboardScreen = () => {
           <ProductCard product={product} key={index.toString()} />
         ))}
       </ScrollView>
-      <AddressModal visible={shwoAddressModal} onPressDetectLocation={handlePressDetectLocation} onPressSaveLocation={handlePressSaveLocation} addressTxt={headerAddress} onDismiss={() => setShowAddressModal(false)} />
+      <AddressModal
+        visible={showAddressModal}
+        onPressDetectLocation={handlePressDetectLocation}
+        onPressSaveLocation={handlePressSaveLocation}
+        addressTxt={headerAddress}
+        onDismiss={() => setShowAddressModal(false)}
+        isDetecting={isDetectingLocation}
+      />
     </ScrollView>
   );
 };

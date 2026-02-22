@@ -60,10 +60,8 @@ export const useStyles = (colors: ColorsType) =>
     addBtn: {
       flexDirection: 'row',
       gap: 10,
-      // width: 80,
       paddingHorizontal: 15,
       paddingVertical: 8,
-      // height: 32,
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: colors.primary,
@@ -72,6 +70,34 @@ export const useStyles = (colors: ColorsType) =>
     btnTxt: {
       lineHeight: 20,
       color: colors.primaryCtaText,
+    },
+    quantityContainer: {
+      flexDirection: 'row',
+      height: 40,
+      minWidth: 120,
+      borderRadius: 8,
+      overflow: 'hidden',
+    },
+    quantityBtn: {
+      width: 40,
+      backgroundColor: colors.primary,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    quantityBtnLeft: {
+      borderTopLeftRadius: 8,
+      borderBottomLeftRadius: 8,
+    },
+    quantityBtnRight: {
+      borderTopRightRadius: 8,
+      borderBottomRightRadius: 8,
+    },
+    quantityValue: {
+      flex: 1,
+      minWidth: 40,
+      backgroundColor: colors.card_bg_primary,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     seperator: {
       height: 4,
@@ -120,8 +146,10 @@ export const useStyles = (colors: ColorsType) =>
       color: colors.contentPrimary
     },
     infoVal: {
-      fontSize: 14,
+      fontSize: 16,
       color: colors.contentTertiary,
+      marginTop: 20,
+      textAlign: 'justify'
     },
     frequentBaughtProductsContainer: {
       gap: 16,

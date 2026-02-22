@@ -5,7 +5,6 @@ import {
 } from 'react-native';
 import { useTheme } from '../../../../theme/ThemeProvider';
 import { useStyles } from './OrdersHistoryScreen.styles';
-import { default as Text } from '../../../../components/Text/MSText';
 import Header from '../../../cart/components/Header/Header';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
@@ -14,6 +13,7 @@ import NoDataFound from '../../../../components/NoDataFound/NoDataFound';
 import OrderCard from '../../components/OrderCard/OrderCard';
 import OrderService from '../../../checkout/service/OrderService';
 import { Toast } from 'toastify-react-native';
+import { ScreenNames } from '../../../../navigation/stack/constants';
 
 export interface IOrderItem {
   product: string;
@@ -48,22 +48,27 @@ export interface IOrder {
   updatedAt: string;
 }
 
-const OrdersHistoryScreen = () => {
+const OrdersHistoryScreen = ({route}: {route:any}) => {
   const { colors } = useTheme();
   const styles = useStyles(colors);
   const navigation = useNavigation();
   const { user } = useSelector((state: RootState) => state.auth);
+  const { isFromCheckout } = route.params || {};
 
   const [orders, setOrders] = useState<IOrder[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const handlePressBack = ()=>{
+    navigation.navigate(ScreenNames.DASHBOARD_SCREEN as never);
+  }
+
   useEffect(() => {
-    const renderHeader = () => <Header title="My Orders" />;
+    const renderHeader = () => <Header title="My Orders" onBackPress={isFromCheckout ? handlePressBack : undefined}/>;
     navigation.setOptions({
       headerShown: true,
       header: renderHeader,
     });
-  }, [navigation]);
+  }, [navigation, isFromCheckout]);
 
   useEffect(() => {
     fetchOrders();

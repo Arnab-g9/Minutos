@@ -111,19 +111,34 @@ export const getCurrentLocationHelper = async () => {
     }
 };
 
+const NOMINATIM_BASE = 'https://nominatim.openstreetmap.org';
+
 export const reverseGeocodeWithOSM = async (latitude: number, longitude: number): Promise<string | null> => {
     try {
-        const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
-        // https://nominatim.openstreetmap.org/reverse?lat=26.220626116181677&lon=72.94350528803498&format=json
+        const lat = typeof latitude === 'number' ? latitude : parseFloat(String(latitude));
+        const lon = typeof longitude === 'number' ? longitude : parseFloat(String(longitude));
+        if (isNaN(lat) || isNaN(lon)) return null;
+
+        const url = `${NOMINATIM_BASE}/reverse?lat=${lat}&lon=${lon}&format=json&addressdetails=1`;
         const response = await fetch(url, {
+            method: 'GET',
             headers: {
                 'Accept': 'application/json',
-                // Nominatim Usage Policy recommends identifying User-Agent
-                'User-Agent': 'MinutosApp/1.0 (contact: support@example.com)'
-            }
+                'Accept-Language': 'en',
+                'User-Agent': 'MinutosDelivery/1.0 (https://minutos.in; contact@minutos.in)',
+            },
         });
-        if (!response.ok) return null;
+
+        if (!response.ok) {
+            console.warn('reverseGeocodeWithOSM: response not ok', response.status);
+            return null;
+        }
+
         const data = await response.json();
+        if (data?.error) {
+            console.warn('reverseGeocodeWithOSM: API error', data.error);
+            return null;
+        }
         return data?.display_name ?? null;
     } catch (e) {
         console.warn('reverseGeocodeWithOSM error:', e);
