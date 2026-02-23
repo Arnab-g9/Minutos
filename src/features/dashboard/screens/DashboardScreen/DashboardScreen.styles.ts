@@ -16,7 +16,7 @@ export const useStyles = (colors: ColorsType) => StyleSheet.create({
     banner: {
         height: '100%',
         width: '100%',
-        resizeMode: 'contain',
+        resizeMode: 'stretch',
         borderRadius: 12,
     },
     banner2: {

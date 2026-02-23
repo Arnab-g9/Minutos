@@ -145,10 +145,21 @@ export const useStyles = (colors: ColorsType) =>
             marginTop: 26,
             color: colors.contentTertiary,
         },
-        priceAndAddBtnContainer: {
+        priceAndAddContainer: {
+            marginTop: 9,
+        },
+        existingProduct:{
+               flexDirection: "row",
+            justifyContent: "space-between",
+        },
+        priceRow: {
             flexDirection: 'row',
             justifyContent: 'space-between',
-            marginTop: 9,
+            alignItems: 'flex-start',
+        },
+        counterRow: {
+            alignSelf: 'flex-end',
+            marginTop: 8,
         },
         addBtn: {
             paddingHorizontal: 8,
@@ -156,11 +167,46 @@ export const useStyles = (colors: ColorsType) =>
             borderRadius: 8,
             backgroundColor: colors.background_primary,
             justifyContent: 'center',
-            alignItems: 'center',
+            alignItems: 'flex-end',
             flexDirection: 'row',
             gap: 10,
             borderWidth: 1,
-            borderColor: colors.border_2
+            borderColor: colors.border_2,
+            marginTop: 8
+        },
+        counter: {
+            flexDirection: 'row',
+            height: 28,
+            minWidth: 80,
+        },
+        counterBtn: {
+            backgroundColor: colors.primary,
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            minWidth: 28,
+        },
+        counterBtnLeft: {
+            borderTopLeftRadius: 8,
+            borderBottomLeftRadius: 8,
+        },
+        counterBtnRight: {
+            borderTopRightRadius: 8,
+            borderBottomRightRadius: 8,
+        },
+        counterValue: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: colors.card_bg_primary,
+            minWidth: 24,
+            borderTopWidth: 1,
+            borderBottomWidth: 1,
+            borderColor: colors.border_2,
+        },
+        counterValueText: {
+            color: colors.contentPrimary,
+            fontSize: 14,
         },
         addIcon: {
             width: 12,

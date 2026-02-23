@@ -146,10 +146,11 @@ const DashboardScreen = () => {
       <View
         style={[
           styles.bannerConatiner,
-          { height: getResizeImageHeight(ImageSource.banner1, 32) },
+          // { height: getResizeImageHeight(ImageSource.banner1, 32) },
+          { height: 140, width: "100%" },
         ]}
       >
-        <Image source={{ uri: banner?.homeBanner1 }} style={styles.banner} />
+        <Image source={{ uri: banner?.homeBanner1 }} style={styles.banner} resizeMethod='scale' resizeMode='stretch' />
       </View>
 
       <Carousal
@@ -217,12 +218,14 @@ const DashboardScreen = () => {
       <View
         style={[
           styles.bannerConatiner,
-          { height: getResizeImageHeight(ImageSource.banner2, 32) },
+          // { height: getResizeImageHeight(ImageSource.banner2, 32) },
+          { height: 140, width: "100%" },
         ]}
       >
         <Image
           source={{ uri: banner?.homeBanner2 }}
           style={[styles.banner, styles.banner2]}
+          resizeMethod='scale' resizeMode='stretch'
         />
       </View>
 
@@ -254,12 +257,13 @@ const DashboardScreen = () => {
       <View
         style={[
           styles.bannerConatiner,
-          { height: getResizeImageHeight(ImageSource.banner2, 32) },
+          { height: 140, width: "100%" },
         ]}
       >
         <Image
           source={{ uri: banner?.homeBanner3 }}
           style={[styles.banner, styles.banner2]}
+          resizeMethod='scale' resizeMode='stretch'
         />
       </View>
 
@@ -291,7 +295,8 @@ const DashboardScreen = () => {
       <View
         style={[
           styles.bannerConatiner,
-          { height: getResizeImageHeight(ImageSource.banner2, 32) },
+          // { height: getResizeImageHeight(ImageSource.banner2, 32) },
+          { height: 140, width: "100%" },
         ]}
       >
         <Image
@@ -328,12 +333,14 @@ const DashboardScreen = () => {
       <View
         style={[
           styles.bannerConatiner,
-          { height: getResizeImageHeight(ImageSource.banner2, 32) },
+          // { height: getResizeImageHeight(ImageSource.banner2, 32) },
+          { height: 140, width: "100%" },
         ]}
       >
         <Image
           source={{ uri: banner?.homeBanner4 }}
           style={[styles.banner, styles.banner2]}
+          resizeMethod='scale' resizeMode='stretch'
         />
       </View>
 

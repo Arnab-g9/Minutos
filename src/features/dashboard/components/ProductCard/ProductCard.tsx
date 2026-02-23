@@ -6,6 +6,7 @@ import { default as Text } from '../../../../components/Text/MSText';
 import { useNavigation } from '@react-navigation/native';
 import { ScreenNames } from '../../../../navigation/stack/constants';
 import PlusIcon from 'react-native-vector-icons/Feather';
+import MinusIcon from 'react-native-vector-icons/Feather';
 import { IItem } from '../../Types/GetSubCategorieItems.Types';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../store/store';
@@ -26,29 +27,31 @@ const ProductCard = ({ product }: props) => {
   const dispatch = useDispatch();
   const { user } = useSelector((store: RootState) => store.auth);
 
+  console.log("This is product ===>", product)
+
   const [imageError, setImageError] = useState(false);
 
   const imageUri = product?.images?.[0] || product?.images?.[1];
 
-  const handlePressAddToCart = async (product: IItem) => {
-    const existingProduct = cart.find((item) => {
-      // Handle both string and object productId formats
-      const itemProductId = typeof item.productId === 'string' 
-        ? item.productId 
-        : (item.productId as any)?._id;
-      return itemProductId === product._id;
-    });
+  const getCartProductId = (item: { productId: string | { _id: string } }) =>
+    typeof item.productId === 'string' ? item.productId : (item.productId as any)?._id;
+
+  const existingProduct = cart.find(
+    (item) => getCartProductId(item) === product._id,
+  );
+
+  const handleIncrement = async () => {
     try {
       if (!existingProduct) {
-        const res = await CartService.addToCart('/api/cart/add', {
+        await CartService.addToCart('/api/cart/add', {
           productId: product._id,
           quantity: 1,
           userId: user?.id,
         });
         const newProduct = {
           _id: '',
-          productId: product._id, // Store as string, not object
-          name: product.name,
+          productId: product._id,
+          name: product.productName || product.name,
           image: product.images?.[0] || '',
           images: product.images || [],
           unit: product.unit,
@@ -58,37 +61,82 @@ const ProductCard = ({ product }: props) => {
           lineTotal: product.price,
           discount: product.discount || 0,
         };
-        const newCartData = [...cart, newProduct];
-        dispatch(setCart(newCartData));
+        dispatch(setCart([...cart, newProduct]));
+        Toast.show({
+          type: 'success',
+          text1: 'Cart Updated',
+          text2: `${product?.productName || product?.name} added to the cart`,
+          position: 'bottom',
+          visibilityTime: 1500,
+          autoHide: true,
+        });
       } else {
-        const res = await CartService.updateCart('/api/cart/update', {
+        const newQty = existingProduct.quantity + 1;
+        await CartService.updateCart('/api/cart/update', {
           productId: product._id,
-          quantity: existingProduct?.quantity + 1,
+          quantity: newQty,
           userId: user?.id,
         });
         const newProduct = {
           ...existingProduct,
-          quantity: existingProduct.quantity + 1,
+          quantity: newQty,
           lineTotal: existingProduct.lineTotal + existingProduct.price,
         };
-        const newCartData = cart.map((cartProd) => {
-          // Handle both string and object productId formats
-          const cartProductId = typeof cartProd.productId === 'string' 
-            ? cartProd.productId 
-            : (cartProd.productId as any)?._id;
-          return cartProductId === product._id ? newProduct : cartProd;
+        const newCartData = cart.map((cartProd) =>
+          getCartProductId(cartProd) === product._id ? newProduct : cartProd,
+        );
+        dispatch(setCart(newCartData));
+        Toast.show({
+          type: 'success',
+          text1: 'Cart Updated',
+          text2: `${existingProduct.name} quantity updated`,
+          position: 'bottom',
+          visibilityTime: 1500,
+          autoHide: true,
         });
+      }
+    } catch (error) {
+      console.log('Error: ', error);
+    }
+  };
+
+  const handleDecrement = async () => {
+    if (!existingProduct) return;
+    const newQty = existingProduct.quantity - 1;
+    try {
+      if (newQty >= 1) {
+        await CartService.updateCart('/api/cart/update', {
+          productId: product._id,
+          quantity: newQty,
+          userId: user?.id,
+        });
+        const newProduct = {
+          ...existingProduct,
+          quantity: newQty,
+          lineTotal: existingProduct.price * newQty,
+        };
+        const newCartData = cart.map((cartProd) =>
+          getCartProductId(cartProd) === product._id ? newProduct : cartProd,
+        );
+        dispatch(setCart(newCartData));
+        Toast.show({
+          type: 'success',
+          text1: 'Cart Updated',
+          text2: `${existingProduct.name} quantity updated`,
+          position: 'bottom',
+          visibilityTime: 1500,
+          autoHide: true,
+        });
+      } else {
+        await CartService.removeFromCart('/api/cart/remove', {
+          userId: user?.id,
+          productId: product._id,
+        });
+        const newCartData = cart.filter(
+          (cartProd) => getCartProductId(cartProd) !== product._id,
+        );
         dispatch(setCart(newCartData));
       }
-
-      Toast.show({
-        type: 'success',
-        text1: 'Cart Updated',
-        text2: existingProduct ? `${existingProduct.name} quantity updated` : `${product?.name} added to the cart`,
-        position: 'bottom',
-        visibilityTime: 1500,
-        autoHide: true,
-      });
     } catch (error) {
       console.log('Error: ', error);
     }
@@ -109,7 +157,7 @@ const ProductCard = ({ product }: props) => {
       {product.discount ? (
         <View style={styles.discountBadge}>
           <Text varient="semiBold" fontSize={14} style={styles.offerText}>
-            {product.discount} % OFF
+            {Math.floor(product.discount)} % OFF
           </Text>
         </View>
       ) : (
@@ -142,7 +190,7 @@ const ProductCard = ({ product }: props) => {
         {product?.unit}
       </Text>
 
-      <View style={styles.priceAndAddBtnContainer}>
+      <View style={styles.priceAndAddContainer}>
         <View>
           <Text style={styles.crossPrice}>
             {product?.amountSaving ? `₹${product.originalPrice}` : null}
@@ -153,13 +201,39 @@ const ProductCard = ({ product }: props) => {
               : `₹${product.price}`}
           </Text>
         </View>
-        <TouchableOpacity
-          style={styles.addBtn}
-          onPress={() => handlePressAddToCart(product)}
-          activeOpacity={0.8}
-        >
-          <PlusIcon name={'plus'} size={20} color={colors.primary} />
-        </TouchableOpacity>
+        {existingProduct ? (
+          <View style={styles.counterRow}>
+            <View style={styles.counter}>
+              <TouchableOpacity
+                style={[styles.counterBtn, styles.counterBtnLeft]}
+                onPress={handleDecrement}
+                activeOpacity={0.8}
+              >
+                <MinusIcon name="minus" size={14} color={colors.primaryCtaText} />
+              </TouchableOpacity>
+              <View style={styles.counterValue}>
+                <Text style={styles.counterValueText} varient="semiBold">
+                  {existingProduct.quantity}
+                </Text>
+              </View>
+              <TouchableOpacity
+                style={[styles.counterBtn, styles.counterBtnRight]}
+                onPress={handleIncrement}
+                activeOpacity={0.8}
+              >
+                <PlusIcon name="plus" size={14} color={colors.primaryCtaText} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        ) : (
+          <TouchableOpacity
+            style={styles.addBtn}
+            onPress={handleIncrement}
+            activeOpacity={0.8}
+          >
+            <PlusIcon name="plus" size={20} color={colors.primary} />
+          </TouchableOpacity>
+        )}
       </View>
     </TouchableOpacity>
   );
